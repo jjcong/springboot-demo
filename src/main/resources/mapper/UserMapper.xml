@@ -33,15 +33,24 @@
 
     <!-- 增加用户 -->
     <insert id="addUser" parameterType="com.jincong.springboot.domain.User">
-        <selectKey resultType="java.lang.Integer" order="AFTER" keyProperty="id">
-            SELECT LAST_INSERT_ID();
-        </selectKey>
+
         INSERT INTO
         t_user
         (user_id, user_name, password, create_time)
         values
         (#{userId}, #{userName}, #{password}, #{createTime})
-
     </insert>
+
+    <!-- 批量删除用户 -->
+    <delete id="delBatchUser" parameterType="int">
+
+        DELETE from t_user where id in
+         <foreach collection="array" item="id" index="no" open="(" separator="," close=")">
+            #{id}
+         </foreach>
+
+    </delete>
+
+
 
 </mapper>

@@ -1,7 +1,7 @@
 package com.jincong.springboot.service;
 
-import com.jincong.springboot.mapper.UserMapper;
 import com.jincong.springboot.domain.User;
+import com.jincong.springboot.mapper.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -29,7 +29,11 @@ public class IUserServiceImpl implements IUserService {
     @Override
     public int addUser(User user) {
 
-        int index = userMapper.addUser(user);
-        return index;
+        return userMapper.addUser(user);
+    }
+
+    @Override
+    public int delBatchUser(int[] ids) {
+        return userMapper.delBatchUser(ids);
     }
 }

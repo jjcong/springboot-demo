@@ -12,4 +12,6 @@ public interface IUserService {
     List<User> findUserByUserName(Map map);
 
     int addUser(User user);
+
+    int delBatchUser(int[] ids);
 }

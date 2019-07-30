@@ -10,7 +10,13 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-
+/**
+ * 接口Controller
+ *
+ * @author  j_cong
+ * @date    2019/07/28
+ * @version V1.0
+ */
 @RestController
 @RequestMapping("/user")
 public class HelloController {
@@ -24,7 +30,7 @@ public class HelloController {
         return userService.findAllUser();
     }
 
-    @RequestMapping("/findUserByUserName")
+    @RequestMapping(value = "/findUserByUserName")
     public List<User> findAllUser(@RequestParam Map<String, String> request) {
 
         return userService.findUserByUserName(request);
@@ -32,15 +38,26 @@ public class HelloController {
 
     @RequestMapping("/addUser")
     public boolean addUser(@RequestParam Map<String, String>  request) {
-
         User newUser = new User();
-        newUser.setUserId(Integer.valueOf(request.get("userId")));
-        newUser.setUserName(request.get("userName"));
+        newUser.setUserId(Integer.parseInt(request.get("userId")));
+        newUser.setUserName(request.get("userName").trim());
         newUser.setPassword(request.get("password").replaceAll("-", ""));
-        Date curDate = new Date();
-        newUser.setCreateTime(curDate);
+        newUser.setCreateTime(new Date());
 
         int result = userService.addUser(newUser);
+
+        return result > 0;
+    }
+
+    @RequestMapping(value = "/delBatchUser")
+    public boolean delBatchUser(@RequestParam String  ids) {
+
+        String[] idList = ids.split(",");
+        int[] arr = new int[idList.length];
+        for (int i = 0; i < idList.length; i++) {
+            arr[i] = Integer.parseInt(idList[i]);
+        }
+        int result = userService.delBatchUser(arr);
 
         return result > 0;
     }
