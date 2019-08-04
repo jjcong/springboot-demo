@@ -54,7 +54,6 @@ public class HelloController {
     public boolean delBatchUser(@RequestParam String  ids) {
         if (ids == null || "".equalsIgnoreCase(ids)) {
 
-
             return false;
         }
 
