@@ -27,7 +27,6 @@ public class HelloController {
 
     @RequestMapping(value = "/findAllUser", method = RequestMethod.GET)
     public List<User> findAllUser() {
-
         return userService.findAllUser();
     }
 
