@@ -4,6 +4,7 @@ import com.jincong.springboot.domain.User;
 import com.jincong.springboot.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -24,7 +25,7 @@ public class HelloController {
     @Autowired
     IUserService userService;
 
-    @RequestMapping("/findAllUser")
+    @RequestMapping(value = "/findAllUser", method = RequestMethod.GET)
     public List<User> findAllUser() {
 
         return userService.findAllUser();
@@ -51,6 +52,9 @@ public class HelloController {
 
     @RequestMapping(value = "/delBatchUser")
     public boolean delBatchUser(@RequestParam String  ids) {
+        if (ids == null || "".equalsIgnoreCase(ids)) {
+            return false;
+        }
 
         String[] idList = ids.split(",");
         int[] arr = new int[idList.length];
