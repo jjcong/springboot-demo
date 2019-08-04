@@ -53,7 +53,6 @@ public class HelloController {
     @RequestMapping(value = "/delBatchUser")
     public boolean delBatchUser(@RequestParam String  ids) {
         if (ids == null || "".equalsIgnoreCase(ids)) {
-
             return false;
         }
 
