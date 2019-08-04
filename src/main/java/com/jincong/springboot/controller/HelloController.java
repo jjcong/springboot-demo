@@ -39,6 +39,7 @@ public class HelloController {
 
     @RequestMapping("/addUser")
     public boolean addUser(@RequestParam Map<String, String>  request) {
+
         User newUser = new User();
         newUser.setUserId(Integer.parseInt(request.get("userId")));
         newUser.setUserName(request.get("userName").trim());
