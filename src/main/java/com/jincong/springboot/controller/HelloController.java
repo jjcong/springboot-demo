@@ -69,4 +69,15 @@ public class HelloController {
     }
 
 
+    @RequestMapping("/updateUser")
+    public boolean updateUser(@RequestBody User user) {
+
+        String userName = user.getUserName();
+        List<User> userList = userService.findUserByUserName(userName);
+        int result = userService.updateUser(userList.get(0));
+
+        return result > 0;
+    }
+
+
 }

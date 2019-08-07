@@ -13,4 +13,6 @@ public interface IUserService {
     int addUser(User user);
 
     int delBatchUser(int[] ids);
+
+    int updateUser(User user);
 }

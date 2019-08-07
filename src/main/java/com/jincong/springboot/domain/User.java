@@ -2,10 +2,7 @@ package com.jincong.springboot.domain;
 
 import lombok.Data;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.Date;
 
 @Data
@@ -17,9 +14,10 @@ public class User {
     // @GeneratedValue中generator配置为"JDBC",在数据插入完毕之后,会自动将主键id填充到实体类中.类似普通mapper.xml中配置的selectKey标签
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY,generator = "JDBC")
-    private int id;
+    private Integer id;
 
-    private int userId;
+    @Column(name = "user_id")
+    private Integer userId;
 
     private String userName;
 

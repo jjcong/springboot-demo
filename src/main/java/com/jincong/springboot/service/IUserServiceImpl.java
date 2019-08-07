@@ -8,7 +8,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StopWatch;
 import tk.mybatis.mapper.entity.Example;
 
+import java.util.Date;
 import java.util.List;
+import java.util.Random;
+import java.util.UUID;
 
 @Service("userService")
 public class IUserServiceImpl implements IUserService {
@@ -24,8 +27,11 @@ public class IUserServiceImpl implements IUserService {
 
         StopWatch stopWatch = new StopWatch("查询用户计时统计");
         stopWatch.start("查询用户");
+        User user = new User();
 
-        List<User> res = userMapper.findAllUser();
+        List<User> res = newUserMapper.select(user);
+
+//        List<User> res = userMapper.findAllUser();
         stopWatch.stop();
 
         System.out.println(stopWatch.prettyPrint());
@@ -39,20 +45,40 @@ public class IUserServiceImpl implements IUserService {
 
         Example example = new Example(User.class);
         Example.Criteria criteria = example.createCriteria();
-        criteria.andEqualTo(userName);
+        criteria.andLike("userName","%" + userName + "%");
 
         return newUserMapper.selectByExample(example);
-//        return userMapper.findUserByUserName(map);
     }
 
     @Override
-    public int addUser(User user) {
+    public int addUser(User user1) {
+        User user = new User();
 
-        return userMapper.addUser(user);
+        Random ra =new Random();
+        user.setUserId(ra.nextInt(10) + 1);
+
+        user.setUserName("赵亮");
+        user.setPassword(UUID.randomUUID().toString());
+        user.setCreateTime(new Date());
+        user.setLastUpdateTime(new Date());
+
+        return newUserMapper.insert(user);
+
+//        return userMapper.addUser(user);
     }
 
     @Override
     public int delBatchUser(int[] ids) {
+
         return userMapper.delBatchUser(ids);
+    }
+
+    @Override
+    public int updateUser(User user) {
+
+        user.setUserName("宋大宝");
+        user.setLastUpdateTime(new Date());
+
+        return newUserMapper.updateByPrimaryKeySelective(user);
     }
 }
