@@ -2,18 +2,22 @@ package com.jincong.springboot.service;
 
 import com.jincong.springboot.domain.User;
 import com.jincong.springboot.mapper.UserMapper;
+import com.jincong.springboot.mapper.UserMapper1;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StopWatch;
+import tk.mybatis.mapper.entity.Example;
 
 import java.util.List;
-import java.util.Map;
 
 @Service("userService")
 public class IUserServiceImpl implements IUserService {
 
    @Autowired
    private UserMapper userMapper;
+
+   @Autowired
+   private UserMapper1 newUserMapper;
 
     @Override
     public List<User> findAllUser() {
@@ -31,8 +35,14 @@ public class IUserServiceImpl implements IUserService {
     }
 
     @Override
-    public List<User> findUserByUserName(Map map) {
-        return userMapper.findUserByUserName(map);
+    public List<User> findUserByUserName(String userName) {
+
+        Example example = new Example(User.class);
+        Example.Criteria criteria = example.createCriteria();
+        criteria.andEqualTo(userName);
+
+        return newUserMapper.selectByExample(example);
+//        return userMapper.findUserByUserName(map);
     }
 
     @Override

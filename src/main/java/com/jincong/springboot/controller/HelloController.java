@@ -1,12 +1,10 @@
 package com.jincong.springboot.controller;
 
+import com.jincong.springboot.VO.QueryUserVO;
 import com.jincong.springboot.domain.User;
 import com.jincong.springboot.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
 import java.util.List;
@@ -29,11 +27,15 @@ public class HelloController {
     public List<User> findAllUser() {
         return userService.findAllUser();
     }
+    @PostMapping(value = "/findUserByUserName" )
+    public List<User> findAllUser(@RequestBody QueryUserVO queryUserVO) {
+        String userName = null;
 
-    @RequestMapping(value = "/findUserByUserName")
-    public List<User> findAllUser(@RequestParam Map<String, String> request) {
+        if (queryUserVO.getUserName() != null) {
+            userName = queryUserVO.getUserName();
+        }
 
-        return userService.findUserByUserName(request);
+        return userService.findUserByUserName(userName);
     }
 
     @RequestMapping("/addUser")
