@@ -20,6 +20,7 @@ import java.util.Map;
 @RequestMapping("/user")
 public class HelloController {
 
+    // 测试分支合并功能
     @Autowired
     IUserService userService;
 
