@@ -65,6 +65,11 @@ public class HelloController {
         }
         int result = userService.delBatchUser(arr);
 
+
+
+
+
+
         return result > 0;
     }
 
