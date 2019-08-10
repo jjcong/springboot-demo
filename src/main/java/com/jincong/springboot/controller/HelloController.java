@@ -3,7 +3,9 @@ package com.jincong.springboot.controller;
 import com.jincong.springboot.VO.QueryUserVO;
 import com.jincong.springboot.domain.User;
 import com.jincong.springboot.service.IUserService;
+import com.jincong.springboot.service.RedisTemplateService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
@@ -24,11 +26,23 @@ public class HelloController {
     @Autowired
     IUserService userService;
 
+    @Autowired
+    StringRedisTemplate stringRedisTemplate;
+    @Autowired
+    RedisTemplateService redisTemplateService;
+
     @RequestMapping(value = "/findAllUser", method = RequestMethod.GET)
     public List<User> findAllUser() {
+
+        // 保存字符串
+        stringRedisTemplate.opsForValue().set("springboot", "111");
+
+        String res = stringRedisTemplate.opsForValue().get("springboot");
+        System.out.println(res);
+
         return userService.findAllUser();
     }
-    @PostMapping(value = "/findUserByUserName" )
+    @RequestMapping(value = "/findUserByUserName", method = RequestMethod.POST )
     public List<User> findAllUser(@RequestBody QueryUserVO queryUserVO) {
         String userName = null;
 
@@ -66,11 +80,6 @@ public class HelloController {
         }
         int result = userService.delBatchUser(arr);
 
-
-
-
-
-
         return result > 0;
     }
 
@@ -84,6 +93,23 @@ public class HelloController {
 
         return result > 0;
     }
+
+    @RequestMapping("/redisTest")
+    public void testRedis() {
+        User user = new User();
+        user.setId(1);
+        user.setUserName("张无忌");
+        user.setPassword("12345678");
+        user.setCreateTime(new Date());
+        user.setLastUpdateTime(new Date());
+        user.setRemark("测试Redis格式化");
+
+        redisTemplateService.set("redis_user_1", user);
+        User us = redisTemplateService.get("redis_user_1", User.class);
+        System.out.println(us);
+
+    }
+
 
 
 }
