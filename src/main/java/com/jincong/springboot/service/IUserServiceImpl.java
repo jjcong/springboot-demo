@@ -1,5 +1,6 @@
 package com.jincong.springboot.service;
 
+import cn.hutool.core.util.RandomUtil;
 import com.jincong.springboot.domain.User;
 import com.jincong.springboot.mapper.UserMapper;
 import com.jincong.springboot.mapper.UserMapper1;
@@ -11,7 +12,6 @@ import tk.mybatis.mapper.entity.Example;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
-import java.util.UUID;
 
 @Service("userService")
 public class IUserServiceImpl implements IUserService {
@@ -56,15 +56,13 @@ public class IUserServiceImpl implements IUserService {
 
         Random ra =new Random();
         user.setUserId(ra.nextInt(10) + 1);
-
-        user.setUserName("赵亮");
-        user.setPassword(UUID.randomUUID().toString());
+        user.setUserName(RandomUtil.randomString(6));
+        user.setPassword(RandomUtil.randomString(8));
         user.setCreateTime(new Date());
         user.setLastUpdateTime(new Date());
 
         return newUserMapper.insert(user);
 
-//        return userMapper.addUser(user);
     }
 
     @Override

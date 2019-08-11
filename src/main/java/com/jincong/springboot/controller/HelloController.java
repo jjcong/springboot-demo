@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
+
 /**
  * 接口Controller
  *
@@ -34,7 +36,15 @@ public class HelloController {
 
     @RequestMapping(value = "/findAllUser", method = RequestMethod.GET)
     public List<User> findAllUser() {
-        return userService.findAllUser();
+        List<User> userList = userService.findAllUser();
+        //查询指定姓名的用户
+        List<User> resultList = userList.stream().filter(user -> "354张无忌".equalsIgnoreCase(user.getUserName()))
+                .collect(Collectors.toList());
+
+        //获取所有用户的姓名
+        List<String> userNameList = userList.stream().map(User::getUserName).distinct().collect(Collectors.toList());
+        System.out.println(userNameList);
+        return resultList;
     }
     @RequestMapping(value = "/findUserByUserName", method = RequestMethod.POST )
     public List<User> findAllUser(@RequestBody QueryUserVO queryUserVO) {
@@ -51,11 +61,6 @@ public class HelloController {
     public boolean addUser(@RequestParam Map<String, String>  request) {
 
         User newUser = new User();
-        newUser.setUserId(Integer.parseInt(request.get("userId")));
-        newUser.setUserName(request.get("userName").trim());
-        newUser.setPassword(request.get("password").replaceAll("-", ""));
-        newUser.setCreateTime(new Date());
-
         int result = userService.addUser(newUser);
 
         return result > 0;

@@ -2,7 +2,7 @@ package com.jincong.springboot.test;
 
 import org.junit.Test;
 /**
- * Junit4 d单元测试
+ * Junit4 单元测试
  *
  * @author  j_cong
  * @date    2019/08/11
