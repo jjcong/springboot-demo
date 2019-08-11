@@ -1,4 +1,4 @@
-package com.jincong.springboot.VO;
+package com.jincong.springboot.vo;
 
 import lombok.Data;
 

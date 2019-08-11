@@ -1,11 +1,12 @@
 package com.jincong.springboot.controller;
 
-import com.jincong.springboot.VO.QueryUserVO;
+import com.jincong.springboot.vo.QueryUserVO;
 import com.jincong.springboot.domain.User;
 import com.jincong.springboot.service.IUserService;
 import com.jincong.springboot.service.RedisTemplateService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.util.StopWatch;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
@@ -33,13 +34,6 @@ public class HelloController {
 
     @RequestMapping(value = "/findAllUser", method = RequestMethod.GET)
     public List<User> findAllUser() {
-
-        // 保存字符串
-        stringRedisTemplate.opsForValue().set("springboot", "111");
-
-        String res = stringRedisTemplate.opsForValue().get("springboot");
-        System.out.println(res);
-
         return userService.findAllUser();
     }
     @RequestMapping(value = "/findUserByUserName", method = RequestMethod.POST )
@@ -105,7 +99,12 @@ public class HelloController {
         user.setRemark("测试Redis格式化");
 
         redisTemplateService.set("redis_user_1", user);
+
+        StopWatch stopWatch = new StopWatch("Redis");
+        stopWatch.start("testRedis");
         User us = redisTemplateService.get("redis_user_1", User.class);
+        stopWatch.stop();
+        System.out.println(stopWatch.prettyPrint());
         System.out.println(us);
 
     }
