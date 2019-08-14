@@ -1,9 +1,9 @@
 package com.jincong.springboot.controller;
 
-import com.jincong.springboot.vo.QueryUserVO;
 import com.jincong.springboot.domain.User;
 import com.jincong.springboot.service.IUserService;
 import com.jincong.springboot.service.RedisTemplateService;
+import com.jincong.springboot.vo.QueryUserVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.util.StopWatch;
@@ -103,7 +103,7 @@ public class HelloController {
         user.setLastUpdateTime(new Date());
         user.setRemark("测试Redis格式化");
 
-        redisTemplateService.set("redis_user_1", user);
+        redisTemplateService.set("redis:user:1", user);
 
         StopWatch stopWatch = new StopWatch("Redis");
         stopWatch.start("testRedis");
