@@ -44,7 +44,7 @@ public class HelloController {
         //获取所有用户的姓名
         List<String> userNameList = userList.stream().map(User::getUserName).distinct().collect(Collectors.toList());
         System.out.println(userNameList);
-        return resultList;
+        return userList;
     }
     @RequestMapping(value = "/findUserByUserName", method = RequestMethod.POST )
     public List<User> findAllUser(@RequestBody QueryUserVO queryUserVO) {
