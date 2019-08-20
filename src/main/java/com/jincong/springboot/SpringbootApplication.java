@@ -8,6 +8,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @author j_cong
  */
 @SpringBootApplication
+// SpringBootApplication 注释相当于@Configuration @ComponentScan, @SpiingBootConfigration三个注解
 @MapperScan("com.jincong.springboot.mapper")
 public class SpringbootApplication {
 
