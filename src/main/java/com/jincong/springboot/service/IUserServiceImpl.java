@@ -13,7 +13,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
-@Service("userService")
+@Service("userService1")
 public class IUserServiceImpl implements IUserService {
 
    @Autowired

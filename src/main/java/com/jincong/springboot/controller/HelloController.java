@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
@@ -57,16 +56,19 @@ public class HelloController {
         return userService.findUserByUserName(userName);
     }
 
-    @RequestMapping("/addUser")
-    public boolean addUser(@RequestParam Map<String, String>  request) {
+    @PostMapping("/addUser")
+    public boolean addUser(@RequestBody QueryUserVO userVO) {
 
         User newUser = new User();
+        newUser.setUserName(userVO.getUserName());
+        newUser.setPassword(userVO.getPassword());
+        newUser.setRemark(userVO.getRemark());
         int result = userService.addUser(newUser);
 
         return result > 0;
     }
 
-    @RequestMapping(value = "/delBatchUser")
+    @PostMapping(value = "/delBatchUser")
     public boolean delBatchUser(@RequestParam String  ids) {
         if (ids == null || "".equalsIgnoreCase(ids)) {
             return false;
@@ -83,7 +85,7 @@ public class HelloController {
     }
 
 
-    @RequestMapping("/updateUser")
+    @PostMapping("/updateUser")
     public boolean updateUser(@RequestBody User user) {
 
         String userName = user.getUserName();
