@@ -24,7 +24,6 @@ import java.util.stream.Collectors;
 @RequestMapping("/user")
 public class HelloController {
 
-    // 测试分支合并功能
     @Autowired
     IUserService userService;
 
@@ -46,11 +45,10 @@ public class HelloController {
         return userList;
     }
     @RequestMapping(value = "/findUserByUserName", method = RequestMethod.POST )
-    public List<User> findAllUser(@RequestBody QueryUserVO queryUserVO) {
-        String userName = null;
+    public List<User> findUserByUserName(@RequestParam String userName) {
 
-        if (queryUserVO.getUserName() != null) {
-            userName = queryUserVO.getUserName();
+        if (userName == null) {
+            return null;
         }
 
         return userService.findUserByUserName(userName);

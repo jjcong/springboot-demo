@@ -4,6 +4,9 @@ import com.jincong.springboot.domain.User;
 
 import java.util.List;
 
+/**
+ * @author j_cong
+ */
 public interface IUserService {
 
     List<User> findAllUser();
