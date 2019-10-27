@@ -40,7 +40,7 @@ public class IUserServiceImpl implements IUserService {
     }
 
     @Override
-    public List<User> findUserByUserName(String userName) {
+    public List<User> finduserbyuserName(String userName) {
 
         Example example = new Example(User.class);
         Example.Criteria criteria = example.createCriteria();

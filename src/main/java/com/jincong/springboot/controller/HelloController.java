@@ -10,10 +10,10 @@ import org.springframework.util.StopWatch;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
@@ -38,15 +38,10 @@ public class HelloController {
     @RequestMapping(value = "/findAllUser", method = RequestMethod.GET)
     public List<User> findAllUser() {
 
-        List<String> testList = new ArrayList<>(1000);
-        for (int i = 0; i < 1000; i++) {
-            System.out.println(i);
-            testList.add("ele-"+ i);
-        }
-        for (String ele : testList) {
-            System.out.println(ele);
-        }
+
         List<User> userList = userService.findAllUser();
+
+        Map<String, List<User>> userMap = userList.stream().collect(Collectors.groupingBy(User::getSex));
         //查询指定姓名的用户
         List<User> resultList = userList.stream().filter(user -> "354张无忌".equalsIgnoreCase(user.getUserName()))
                 .collect(Collectors.toList());
@@ -58,7 +53,7 @@ public class HelloController {
     }
     @GetMapping(value = "/findUserByUserName")
     public List<User> findUserByUserName(@RequestParam String userName) {
-        return userService.findUserByUserName(userName);
+        return userService.finduserbyuserName(userName);
     }
 
     @PostMapping("/addUser")
@@ -92,7 +87,7 @@ public class HelloController {
     public boolean updateUser(@RequestBody User user) {
 
         String userName = user.getUserName();
-        List<User> userList = userService.findUserByUserName(userName);
+        List<User> userList = userService.finduserbyuserName(userName);
         int result = userService.updateUser(userList.get(0));
 
         return result > 0;

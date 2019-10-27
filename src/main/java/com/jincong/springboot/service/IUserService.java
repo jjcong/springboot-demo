@@ -11,7 +11,7 @@ public interface IUserService {
 
     List<User> findAllUser();
 
-    List<User> findUserByUserName(String userName);
+    List<User> finduserbyuserName(String userName);
 
     int addUser(User user);
 

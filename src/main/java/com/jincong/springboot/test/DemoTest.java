@@ -28,7 +28,6 @@ public class DemoTest {
         testList.add("b");
         testList.add("c");
         testList.add("d");
-        System.out.println();
 
         testList.forEach(System.out::println);
 
@@ -36,12 +35,10 @@ public class DemoTest {
         testMap.put(1, "a");
         testMap.put(2, "b");
         testMap.put(3, "c");
-        testMap.put(4, "c");
+        testMap.put(4, "d");
 
         for (Map.Entry entry : testMap.entrySet()) {
             System.out.println(entry.getKey() + "=" + entry.getValue());
         }
-
-
     }
 }
