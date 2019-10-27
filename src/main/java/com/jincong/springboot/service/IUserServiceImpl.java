@@ -54,14 +54,26 @@ public class IUserServiceImpl implements IUserService {
     public int addUser(User user1) {
         User user = new User();
 
-        Random ra =new Random();
-        user.setUserId(ra.nextInt(10) + 1);
-        user.setUserName(RandomUtil.randomString(6));
-        user.setPassword(RandomUtil.randomString(8));
-        user.setCreateTime(new Date());
-        user.setLastUpdateTime(new Date());
+        StopWatch stopWatch = new StopWatch("测试插入10000条数据");
+        stopWatch.start("任务开始");
 
-        return newUserMapper.insert(user);
+        for (int i = 0; i < 10000; i++) {
+            Random ra =new Random();
+            user.setUserId(ra.nextInt(10) + 1);
+            user.setUserName(RandomUtil.randomString(6));
+            user.setPassword(RandomUtil.randomString(8));
+            user.setCreateTime(new Date());
+            user.setLastUpdateTime(new Date());
+
+            newUserMapper.insert(user);
+
+        }
+
+        stopWatch.stop();
+        stopWatch.prettyPrint();
+
+
+        return 1;
 
     }
 
