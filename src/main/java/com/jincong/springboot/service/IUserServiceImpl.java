@@ -1,6 +1,5 @@
 package com.jincong.springboot.service;
 
-import cn.hutool.core.util.RandomUtil;
 import com.jincong.springboot.domain.User;
 import com.jincong.springboot.mapper.UserMapper;
 import com.jincong.springboot.mapper.UserMapper1;
@@ -9,9 +8,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StopWatch;
 import tk.mybatis.mapper.entity.Example;
 
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
-import java.util.Random;
 
 @Service("userService1")
 public class IUserServiceImpl implements IUserService {
@@ -52,8 +51,10 @@ public class IUserServiceImpl implements IUserService {
 
     @Override
     public int addUser(User user1) {
-        User user = new User();
 
+
+
+    /*    User user = new User();
         StopWatch stopWatch = new StopWatch("测试插入10000条数据");
         stopWatch.start("任务开始");
 
@@ -65,24 +66,22 @@ public class IUserServiceImpl implements IUserService {
             user.setCreateTime(new Date());
             user.setLastUpdateTime(new Date());
 
-            newUserMapper.insert(user);
-
-        }
-
-        stopWatch.stop();
-        stopWatch.prettyPrint();
+            newUserMapper.insert(user);*/
 
 
-        return 1;
+        return newUserMapper.insert(user1);
 
     }
 
     @Override
     public int delBatchUser(int[] ids) {
+        Example example = new Example(User.class);
+        Example.Criteria criteria = example.createCriteria();
+
+        criteria.andIn("id", Collections.singletonList(ids));
 
         return userMapper.delBatchUser(ids);
     }
-
     @Override
     public int updateUser(User user) {
 

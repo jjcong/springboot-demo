@@ -7,8 +7,11 @@ import com.jincong.springboot.vo.QueryUserVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.util.StopWatch;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -34,6 +37,15 @@ public class HelloController {
 
     @RequestMapping(value = "/findAllUser", method = RequestMethod.GET)
     public List<User> findAllUser() {
+
+        List<String> testList = new ArrayList<>(1000);
+        for (int i = 0; i < 1000; i++) {
+            System.out.println(i);
+            testList.add("ele-"+ i);
+        }
+        for (String ele : testList) {
+            System.out.println(ele);
+        }
         List<User> userList = userService.findAllUser();
         //查询指定姓名的用户
         List<User> resultList = userList.stream().filter(user -> "354张无忌".equalsIgnoreCase(user.getUserName()))
@@ -44,13 +56,8 @@ public class HelloController {
         System.out.println(userNameList);
         return userList;
     }
-    @RequestMapping(value = "/findUserByUserName", method = RequestMethod.POST )
+    @GetMapping(value = "/findUserByUserName")
     public List<User> findUserByUserName(@RequestParam String userName) {
-
-        if (userName == null) {
-            return null;
-        }
-
         return userService.findUserByUserName(userName);
     }
 
@@ -61,22 +68,20 @@ public class HelloController {
         newUser.setUserName(userVO.getUserName());
         newUser.setPassword(userVO.getPassword());
         newUser.setRemark(userVO.getRemark());
-        int result = userService.addUser(newUser);
+        newUser.setCreateTime(new Date());
+        newUser.setLastUpdateTime(new Date());
 
-        return result > 0;
+        return userService.addUser(newUser) > 0;
     }
 
-    @PostMapping(value = "/delBatchUser")
+    @GetMapping(value = "/delBatchUser")
     public boolean delBatchUser(@RequestParam String  ids) {
-        if (ids == null || "".equalsIgnoreCase(ids)) {
+        if (StringUtils.isEmpty(ids)) {
             return false;
         }
+        String[] idArr = ids.split(",");
+        int[] arr = Arrays.stream(idArr).mapToInt(Integer::valueOf).toArray();
 
-        String[] idList = ids.split(",");
-        int[] arr = new int[idList.length];
-        for (int i = 0; i < idList.length; i++) {
-            arr[i] = Integer.parseInt(idList[i]);
-        }
         int result = userService.delBatchUser(arr);
 
         return result > 0;
