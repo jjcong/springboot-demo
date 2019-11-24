@@ -21,12 +21,14 @@ public class IUserServiceImpl implements IUserService {
    @Autowired
    private UserMapper1 newUserMapper;
 
+
     @Override
     public List<User> findAllUser() {
 
         StopWatch stopWatch = new StopWatch("查询用户计时统计");
         stopWatch.start("查询用户");
         User user = new User();
+
 
         List<User> res = newUserMapper.select(user);
 

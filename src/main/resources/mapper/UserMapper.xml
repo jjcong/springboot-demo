@@ -8,6 +8,7 @@
     <select id="findAllUser" resultType="com.jincong.springboot.domain.User">
         select
         *
+
         from
         t_user
     </select>
