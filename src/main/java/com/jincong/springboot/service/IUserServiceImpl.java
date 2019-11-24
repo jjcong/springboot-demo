@@ -75,6 +75,7 @@ public class IUserServiceImpl implements IUserService {
 
     @Override
     public int delBatchUser(int[] ids) {
+
         Example example = new Example(User.class);
         Example.Criteria criteria = example.createCriteria();
 

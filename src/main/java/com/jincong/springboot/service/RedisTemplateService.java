@@ -1,10 +1,6 @@
 package com.jincong.springboot.service;
 
-import com.alibaba.fastjson.JSON;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 
 /**
  * redis服务公共放方法
@@ -15,6 +11,7 @@ import org.springframework.util.StringUtils;
  */
 @Service
 public class RedisTemplateService {
+   /* private static final DateFormat JSON = ;
     @Autowired
     StringRedisTemplate stringRedisTemplate;
 
@@ -64,13 +61,13 @@ public class RedisTemplateService {
     }
 
 
-    /**
+    *//**
      * Bean转化为String
      *
      * @param value
      * @param <T>
      * @return
-     */
+     *//*
     private <T> String beanToString(T value) {
 
         if (value == null) {
@@ -87,5 +84,5 @@ public class RedisTemplateService {
             return JSON.toJSONString(value);
         }
     }
-
+*/
 }

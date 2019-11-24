@@ -6,7 +6,6 @@ import com.jincong.springboot.service.RedisTemplateService;
 import com.jincong.springboot.vo.QueryUserVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
-import org.springframework.util.StopWatch;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
@@ -95,22 +94,22 @@ public class HelloController {
 
     @RequestMapping("/redisTest")
     public void testRedis() {
-        User user = new User();
-        user.setId(1);
-        user.setUserName("张无忌");
-        user.setPassword("12345678");
-        user.setCreateTime(new Date());
-        user.setLastUpdateTime(new Date());
-        user.setRemark("测试Redis格式化");
-
-        redisTemplateService.set("redis:user:1", user);
-
-        StopWatch stopWatch = new StopWatch("Redis");
-        stopWatch.start("testRedis");
-        User us = redisTemplateService.get("redis_user_1", User.class);
-        stopWatch.stop();
-        System.out.println(stopWatch.prettyPrint());
-        System.out.println(us);
+//        User user = new User();
+//        user.setId(1);
+//        user.setUserName("张无忌");
+//        user.setPassword("12345678");
+//        user.setCreateTime(new Date());
+//        user.setLastUpdateTime(new Date());
+//        user.setRemark("测试Redis格式化");
+//
+//        redisTemplateService.set("redis:user:1", user);
+//
+//        StopWatch stopWatch = new StopWatch("Redis");
+//        stopWatch.start("testRedis");
+////        User us = redisTemplateService.get("redis_user_1", User.class);
+//        stopWatch.stop();
+//        System.out.println(stopWatch.prettyPrint());
+//        System.out.println(us);
 
     }
 

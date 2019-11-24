@@ -50,7 +50,4 @@
          </foreach>
 
     </delete>
-
-
-
 </mapper>

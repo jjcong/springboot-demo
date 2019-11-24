@@ -9,6 +9,12 @@ public class TUser {
 
     private String userName;
 
+    private String myPhone;
+
+    private String test1;
+
+    private String sex;
+
     private String password;
 
     private String remark;
@@ -39,6 +45,30 @@ public class TUser {
 
     public void setUserName(String userName) {
         this.userName = userName == null ? null : userName.trim();
+    }
+
+    public String getMyPhone() {
+        return myPhone;
+    }
+
+    public void setMyPhone(String myPhone) {
+        this.myPhone = myPhone == null ? null : myPhone.trim();
+    }
+
+    public String getTest1() {
+        return test1;
+    }
+
+    public void setTest1(String test1) {
+        this.test1 = test1 == null ? null : test1.trim();
+    }
+
+    public String getSex() {
+        return sex;
+    }
+
+    public void setSex(String sex) {
+        this.sex = sex == null ? null : sex.trim();
     }
 
     public String getPassword() {
