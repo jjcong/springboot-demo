@@ -9,10 +9,7 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -47,6 +44,7 @@ public class HelloController {
 
         //获取所有用户的姓名
         List<String> userNameList = userList.stream().map(User::getUserName).distinct().collect(Collectors.toList());
+        Date minDate = userList.stream().min(Comparator.comparing(User::getCreateTime)).orElse(null).getCreateTime();
         System.out.println(userNameList);
         return userList;
     }

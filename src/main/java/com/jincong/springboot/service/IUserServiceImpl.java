@@ -9,7 +9,6 @@ import org.springframework.util.StopWatch;
 import tk.mybatis.mapper.entity.Example;
 
 import java.util.Collections;
-import java.util.Date;
 import java.util.List;
 
 @Service("userService1")
@@ -79,7 +78,11 @@ public class IUserServiceImpl implements IUserService {
     public int delBatchUser(int[] ids) {
 
         Example example = new Example(User.class);
-        Example.Criteria criteria = example.createCriteria();
+        Example.Criteria criteria = example.createCriteria().andEqualTo("id", 1);
+        User user = new User();
+        user.setUserName("段天涯");
+
+        newUserMapper.updateByExample(user, example);
 
         criteria.andIn("id", Collections.singletonList(ids));
 
@@ -87,10 +90,13 @@ public class IUserServiceImpl implements IUserService {
     }
     @Override
     public int updateUser(User user) {
+        User user1 = new User();
+        Example example = new Example(User.class);
+        Example.Criteria criteria = example.createCriteria().andEqualTo("id", 5);
+        user1.setUserName("段天涯");
+        newUserMapper.updateByExampleSelective(user1, example);
 
-        user.setUserName("宋大宝");
-        user.setLastUpdateTime(new Date());
 
-        return newUserMapper.updateByPrimaryKeySelective(user);
+        return newUserMapper.updateByPrimaryKeySelective(user1);
     }
 }
