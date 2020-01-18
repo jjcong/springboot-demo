@@ -1,6 +1,7 @@
 package com.jincong.springboot.test;
 
 import org.junit.Test;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import java.util.*;
 
@@ -51,5 +52,13 @@ public class DemoTest {
         Arrays.stream(arr).forEach(System.out::println);
 
         System.out.println(Arrays.toString(arr));
+    }
+    @Test
+    public void testConfigBean() {
+        AnnotationConfigApplicationContext ctx = new AnnotationConfigApplicationContext(ConfigBeanTest.class);
+        String[] beanDefinitionNames = ctx.getBeanDefinitionNames();
+
+        Arrays.stream(beanDefinitionNames).forEach(System.out::println);
+
     }
 }
