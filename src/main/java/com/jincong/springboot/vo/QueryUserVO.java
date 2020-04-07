@@ -1,6 +1,7 @@
 package com.jincong.springboot.vo;
 
 import lombok.Data;
+import lombok.ToString;
 
 /**
  * 用户查询VO
@@ -10,6 +11,7 @@ import lombok.Data;
  * @version V1.0
  */
 @Data
+@ToString
 public class QueryUserVO {
     /**
      * 用户名称

@@ -13,10 +13,10 @@ import java.util.Date;
  * @version V1.0
  */
 @Configuration
-public class ConfigBeanTest {
+public class CurrentDateConfigBean {
 //    相当于<bean id="currentDate" class="java.util.Date"/>
     @Bean
-    public Date getCurrentDate() {
+    public Date currentDog() {
         return new Date();
     }
 }

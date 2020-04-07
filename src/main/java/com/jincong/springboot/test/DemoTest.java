@@ -2,6 +2,8 @@ package com.jincong.springboot.test;
 
 import org.junit.Test;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 
 import java.util.*;
 
@@ -55,10 +57,42 @@ public class DemoTest {
     }
     @Test
     public void testConfigBean() {
-        AnnotationConfigApplicationContext ctx = new AnnotationConfigApplicationContext(ConfigBeanTest.class);
+
+        AnnotationConfigApplicationContext ctx = new AnnotationConfigApplicationContext(DogConfigrationBean.class);
         String[] beanDefinitionNames = ctx.getBeanDefinitionNames();
+
+        System.out.println(Arrays.asList(beanDefinitionNames));
 
         Arrays.stream(beanDefinitionNames).forEach(System.out::println);
 
     }
+
+    @Test
+    public void testMultiValueMap(Object key) {
+
+        // 可代替Map<String, List<String>>
+
+        MultiValueMap<String, String> valueMap = new LinkedMultiValueMap<>(16);
+        valueMap.add("1","1");
+        valueMap.add("1","2");
+        valueMap.add("1","3");
+        valueMap.add("1","4");
+        valueMap.add("1","5");
+        valueMap.add("2","1");
+        valueMap.add("2","2");
+        valueMap.add("3","1");
+
+        delKey(valueMap);
+
+        // {1=[1, 2, 3, 4, 5], 2=[1, 2], 3=[1]}
+        System.out.println(valueMap);
+
+    }
+
+    public void delKey(MultiValueMap<String, String> valueMap) {
+        valueMap.remove("1");
+    }
+
+
+
 }
