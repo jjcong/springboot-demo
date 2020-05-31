@@ -1,13 +1,13 @@
 package com.jincong.springboot;
-
+import org.junit.Test;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.testng.annotations.Test;
 
-@SpringBootTest
+@SpringBootTest(classes = SpringbootApplication.class)
 class SpringbootApplicationTests {
 
     @Test
     void contextLoads() {
+        System.out.println("Hello World!");
     }
 
 }

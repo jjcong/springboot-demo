@@ -4,6 +4,26 @@
 
 <mapper namespace="com.jincong.springboot.mapper.UserMapper">
 
+    <resultMap id="UserResult" type="com.jincong.springboot.vo.UserVO">
+        <id property="id" column="id" />
+        <result property="userCode" column="user_code" jdbcType="VARCHAR"/>
+        <result property="userName" column="user_name" jdbcType="VARCHAR"/>
+        <result property="phone" column="phone" jdbcType="VARCHAR"/>
+        <result property="sex" column="sex" jdbcType="INTEGER"/>
+        <result property="password" column="password" jdbcType="VARCHAR"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="lastUpdateTime" column="last_update_time" jdbcType="TIMESTAMP"/>
+        <association property="roleList"  resultMap="RoleResult" />
+    </resultMap>
+
+
+    <resultMap id="RoleResult" type="com.jincong.springboot.vo.RoleVO">
+        <id property="id" column="roleId" />
+        <result property="roleId" column="role_id" jdbcType="INTEGER"/>
+        <result property="roleName" column="role_name" jdbcType="VARCHAR"/>
+        <result property="remark" column="remark" jdbcType="VARCHAR"/>
+<!--        <association property="userVO"  jdbcType="com.jincong.springboot.vo.UserVO" resultMap="UserResult" />-->
+    </resultMap>
     <!-- 查询用户列表 -->
     <select id="findAllUser" resultType="com.jincong.springboot.domain.User">
         select
@@ -11,18 +31,39 @@
 
         from
         t_user
+
+    </select>
+
+    <select id="findUserByUserCode" resultMap="UserResult">
+        select
+            u.id,
+            u.user_code,
+            u.user_name,
+            u.password,
+            u.create_time,
+            u.last_update_time,
+            r.id roleId,
+            r.role_id,
+            r.role_name
+
+        from
+            t_user u
+        left join t_role r on u.user_code = r.user_code
+        <where>
+            u.user_code= #{userCode}
+        </where>
     </select>
 
     <!-- 根据用户名查询用户 -->
     <select id="findUserByUserName" resultType="com.jincong.springboot.domain.User"
-        parameterType="java.util.Map">
+            parameterType="java.util.Map">
         select
-            *
+        *
         from
-            t_user u
+        t_user u
         <where>
             <if test="userId != null and userId != ''">
-                 u.user_id LIKE CONCAT('%', #{userId}, '%')
+                u.user_code LIKE CONCAT('%', #{userId}, '%')
             </if>
             <if test="userName != null and userName != ''">
                 and u.user_name LIKE CONCAT('%', #{userName}, '%')
@@ -37,7 +78,7 @@
 
         INSERT INTO
         t_user
-        (user_id, user_name, password, create_time)
+        (user_code, user_name, password, create_time)
         values
         (#{userId}, #{userName}, #{password}, #{createTime})
     </insert>
@@ -46,9 +87,9 @@
     <delete id="delBatchUser" parameterType="int">
 
         DELETE from t_user where id in
-         <foreach collection="array" item="id" index="no" open="(" separator="," close=")">
+        <foreach collection="array" item="id" index="no" open="(" separator="," close=")">
             #{id}
-         </foreach>
+        </foreach>
 
     </delete>
 </mapper>

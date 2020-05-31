@@ -6,9 +6,9 @@ import org.slf4j.LoggerFactory;
 /**
  * 切片
  *
- * @author  j_cong
- * @date    2020/01/22
+ * @author j_cong
  * @version V1.0
+ * @date 2020/01/22
  */
 //@EnableAspectJAutoProxy
 //@Component

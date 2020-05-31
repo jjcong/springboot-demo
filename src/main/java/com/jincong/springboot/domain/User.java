@@ -1,5 +1,7 @@
 package com.jincong.springboot.domain;
 
+import com.alibaba.fastjson.annotation.JSONField;
+import com.jincong.springboot.config.SexEnum;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -13,21 +15,23 @@ public class User {
     // @GeneratedValue中strategy表示使用数据库自带的主键生成策略.
     // @GeneratedValue中generator配置为"JDBC",在数据插入完毕之后,会自动将主键id填充到实体类中.类似普通mapper.xml中配置的selectKey标签
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY,generator = "JDBC")
+    @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "JDBC")
     private Integer id;
 
-    @Column(name = "user_id")
-    private Integer userId;
+    @Column(name = "user_code")
+    private String userCode;
 
     private String userName;
 
     private String password;
 
-    private String sex;
+    private SexEnum sex;
 
     private String remark;
 
+    @JSONField(format = "yyyy-MM-dd HH:mm:ss")
     private Date createTime;
 
+    @JSONField(format = "yyyy-MM-dd HH:mm:ss")
     private Date lastUpdateTime;
 }

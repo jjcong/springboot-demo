@@ -2,8 +2,9 @@ package com.jincong.springboot.mapper;
 
 import com.jincong.springboot.pojo.TUser;
 import com.jincong.springboot.pojo.TUserExample;
-import java.util.List;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 public interface TUserMapper {
     int countByExample(TUserExample example);

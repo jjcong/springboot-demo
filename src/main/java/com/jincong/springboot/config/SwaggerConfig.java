@@ -13,9 +13,9 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 /**
  * Swagger配置类
  *
- * @author  j_cong
- * @date    2020/04/05
+ * @author j_cong
  * @version V1.0
+ * @date 2020/04/05
  */
 @Configuration
 @EnableSwagger2
@@ -37,6 +37,7 @@ public class SwaggerConfig {
 
     /**
      * 构建Api文档的详细信息
+     *
      * @return apiinfo
      */
     private ApiInfo apiInfo() {

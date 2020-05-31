@@ -1,6 +1,7 @@
 package com.jincong.springboot.service;
 
 import com.jincong.springboot.domain.User;
+import com.jincong.springboot.vo.UserVO;
 
 import java.util.List;
 import java.util.concurrent.Future;
@@ -13,6 +14,8 @@ public interface IUserService {
     List<User> findAllUser();
 
     List<User> findUserByUserName(String userName);
+
+    UserVO findUserByUserCode(String userCode);
 
     User findUserById(int id);
 

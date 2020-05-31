@@ -12,10 +12,10 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 /**
  * 全局异常处理器
- * 
- * @author  j_cong
- * @date    2020/04/05
+ *
+ * @author j_cong
  * @version V1.0
+ * @date 2020/04/05
  */
 @ControllerAdvice
 @ResponseBody
@@ -26,6 +26,7 @@ public class GlobalExceptionHandler {
 
     /**
      * 参数异常处理器
+     *
      * @param ex
      * @return
      */
@@ -38,6 +39,7 @@ public class GlobalExceptionHandler {
 
     /**
      * 空指针异常处理器
+     *
      * @param ex NullPointerException
      * @return
      */
@@ -51,6 +53,7 @@ public class GlobalExceptionHandler {
 
     /**
      * 系统异常 预期以外异常
+     *
      * @param ex
      * @return
      */

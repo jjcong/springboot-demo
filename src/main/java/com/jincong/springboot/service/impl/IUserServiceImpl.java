@@ -1,8 +1,12 @@
-package com.jincong.springboot.service;
+package com.jincong.springboot.service.impl;
 
+import cn.hutool.core.util.RandomUtil;
+import com.jincong.springboot.config.SexEnum;
 import com.jincong.springboot.domain.User;
 import com.jincong.springboot.handler.MyEvent;
 import com.jincong.springboot.mapper.UserMapper;
+import com.jincong.springboot.service.IUserService;
+import com.jincong.springboot.vo.UserVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.scheduling.annotation.Async;
@@ -15,6 +19,7 @@ import tk.mybatis.mapper.weekend.WeekendCriteria;
 
 import javax.annotation.Resource;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import java.util.concurrent.Future;
 
@@ -55,14 +60,20 @@ public class IUserServiceImpl implements IUserService {
 
         Example example = new Example(User.class);
         Example.Criteria criteria = example.createCriteria();
+
         criteria.andLike("userName", "%" + userName + "%");
 
         return newUserMapper.selectByExample(example);
     }
 
     @Override
-    public User findUserById(int id) {
+    public UserVO findUserByUserCode(String userCode) {
 
+        return userMapper.findUserByUserCode(userCode);
+    }
+
+    @Override
+    public User findUserById(int id) {
         return newUserMapper.selectByPrimaryKey(id);
 
     }
@@ -72,22 +83,19 @@ public class IUserServiceImpl implements IUserService {
 
 
 
-    /*    User user = new User();
+        User user = new User();
         StopWatch stopWatch = new StopWatch("测试插入10000条数据");
         stopWatch.start("任务开始");
 
-        for (int i = 0; i < 10000; i++) {
-            Random ra =new Random();
-            user.setUserId(ra.nextInt(10) + 1);
-            user.setUserName(RandomUtil.randomString(6));
-            user.setPassword(RandomUtil.randomString(8));
-            user.setCreateTime(new Date());
-            user.setLastUpdateTime(new Date());
-
-            newUserMapper.insert(user);*/
+        user.setUserCode("bigger1993");
+        user.setUserName("型男");
+        user.setPassword(RandomUtil.randomString(8));
+        user.setSex(SexEnum.MAN);
+        user.setCreateTime(new Date());
+        user.setLastUpdateTime(new Date());
 
 
-        return newUserMapper.insert(user1);
+        return newUserMapper.insert(user);
 
     }
 
@@ -145,9 +153,9 @@ public class IUserServiceImpl implements IUserService {
         long l1 = System.currentTimeMillis();
         Thread.sleep(2000);
         long l2 = System.currentTimeMillis();
-        System.out.println("任务一用时" + (l2 - l1)+ " ms");
+        System.out.println("任务一用时" + (l2 - l1) + " ms");
 
-        return new AsyncResult<> ("任务一完成");
+        return new AsyncResult<>("任务一完成");
     }
 
     @Override
@@ -169,17 +177,19 @@ public class IUserServiceImpl implements IUserService {
         long l1 = System.currentTimeMillis();
         Thread.sleep(2000);
         long l2 = System.currentTimeMillis();
-        System.out.println("任务三用时" + (l2 - l1)+ " ms");
+        System.out.println("任务三用时" + (l2 - l1) + " ms");
         return new AsyncResult<>("任务三完成");
     }
 
     /**
      * 手动触发事件
+     *
      * @return
      */
     @Override
     public User getUserByListener() {
-        User user = findUserById(7);
+        //User user = findUserById(7);
+        User user = new User();
         MyEvent event = new MyEvent(this, user);
         applicationContext.publishEvent(event);
         return user;

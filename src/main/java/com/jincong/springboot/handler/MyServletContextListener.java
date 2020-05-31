@@ -11,10 +11,10 @@ import javax.servlet.ServletContext;
 
 /**
  * 自定义方法监听器,重写onApplicationEvent
- * 
- * @author  j_cong
- * @date    2020/04/05
+ *
+ * @author j_cong
  * @version V1.0
+ * @date 2020/04/05
  */
 @Component
 public class MyServletContextListener implements ApplicationListener<ContextRefreshedEvent> {

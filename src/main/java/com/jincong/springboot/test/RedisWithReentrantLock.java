@@ -8,9 +8,9 @@ import java.util.Map;
 /**
  * Redis实现可重入锁
  *
- * @author  j_cong
- * @date    2020/01/09
+ * @author j_cong
  * @version V1.0
+ * @date 2020/01/09
  */
 public class RedisWithReentrantLock {
 

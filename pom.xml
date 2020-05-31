@@ -64,12 +64,12 @@
             </exclusions>
         </dependency>
 
-        <dependency>
+       <!-- <dependency>
             <groupId>org.testng</groupId>
             <artifactId>testng</artifactId>
             <version>6.14.2</version>
 
-        </dependency>
+        </dependency>-->
 
 
         <!-- 分页插件 -->
@@ -77,6 +77,12 @@
             <groupId>com.github.pagehelper</groupId>
             <artifactId>pagehelper-spring-boot-starter</artifactId>
             <version>1.2.3</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>mybatis-spring-boot-starter</artifactId>
+                    <groupId>org.mybatis.spring.boot</groupId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <!-- lomback插件 -->
         <dependency>
@@ -121,10 +127,10 @@
                     <groupId>org.junit.vintage</groupId>
                     <artifactId>junit-vintage-engine</artifactId>
                 </exclusion>
-                <exclusion>
+               <!-- <exclusion>
                     <groupId>junit</groupId>
                     <artifactId>junit</artifactId>
-                </exclusion>
+                </exclusion>-->
             </exclusions>
         </dependency>
         <dependency>
@@ -162,7 +168,8 @@
                 <version>1.3.2</version>
                 <configuration>
                     <!--配置文件的位置-->
-                    <configurationFile>E:\local_repository\springboot-demo\src\main\resources\generatorCongfig.xml</configurationFile>
+                    <configurationFile>E:\local_repository\springboot-demo\src\main\resources\generatorCongfig.xml
+                    </configurationFile>
                     <verbose>true</verbose>
                     <overwrite>true</overwrite>
                 </configuration>

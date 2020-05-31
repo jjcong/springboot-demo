@@ -16,9 +16,9 @@ import java.util.List;
 /**
  * FastJson配置类，配置处理结果中的null
  *
- * @author  j_cong
- * @date    2020/04/05
+ * @author j_cong
  * @version V1.0
+ * @date 2020/04/05
  */
 @Configuration
 public class MyFastJsonConfig extends WebMvcConfigurationSupport {
@@ -28,18 +28,18 @@ public class MyFastJsonConfig extends WebMvcConfigurationSupport {
         FastJsonHttpMessageConverter converter = new FastJsonHttpMessageConverter();
         FastJsonConfig config = new FastJsonConfig();
         config.setSerializerFeatures(
-            //    保留Map空字段
-            SerializerFeature.WriteMapNullValue,
-            //将String类型的null转为""
-            SerializerFeature.WriteNullStringAsEmpty,
-            //将Number类型的null转为0
-            SerializerFeature.WriteNullNumberAsZero,
-            //将List类型的null转为[]
-            SerializerFeature.WriteNullListAsEmpty,
-            //将Boolean类型的null转为false
-            SerializerFeature.WriteNullBooleanAsFalse,
-            //避免循环引用
-            SerializerFeature.DisableCircularReferenceDetect
+                //    保留Map空字段
+                SerializerFeature.WriteMapNullValue,
+                //将String类型的null转为""
+                SerializerFeature.WriteNullStringAsEmpty,
+                //将Number类型的null转为0
+                SerializerFeature.WriteNullNumberAsZero,
+                //将List类型的null转为[]
+                SerializerFeature.WriteNullListAsEmpty,
+                //将Boolean类型的null转为false
+                SerializerFeature.WriteNullBooleanAsFalse,
+                //避免循环引用
+                SerializerFeature.DisableCircularReferenceDetect
         );
         converter.setFastJsonConfig(config);
         converter.setDefaultCharset(StandardCharsets.UTF_8);
@@ -52,8 +52,9 @@ public class MyFastJsonConfig extends WebMvcConfigurationSupport {
     }
 
     /**
-     * 解决自定义WebMvcConfigurationSupport后Swagger时效问题
+     * 解决自定义WebMvcConfigurationSupport后Swagger失效问题
      * 发现如果继承了WebMvcConfigurationSupport，则在yml中配置的相关内容会失效。 需要重新指定静态资源
+     *
      * @param registry
      */
     @Override

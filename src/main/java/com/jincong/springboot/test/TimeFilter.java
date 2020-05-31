@@ -8,12 +8,13 @@ import org.springframework.util.StopWatch;
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+
 /**
  * 过滤器
  *
- * @author  j_cong
- * @date    2020/01/21
+ * @author j_cong
  * @version V1.0
+ * @date 2020/01/21
  */
 @Component
 public class TimeFilter implements Filter {
@@ -48,7 +49,7 @@ public class TimeFilter implements Filter {
 
     private String gerUrlFrom(ServletRequest request) {
         if (request instanceof HttpServletRequest) {
-            return ((HttpServletRequest)request).getRequestURI().toString();
+            return ((HttpServletRequest) request).getRequestURI().toString();
         }
         return "";
     }

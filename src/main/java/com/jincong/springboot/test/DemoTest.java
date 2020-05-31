@@ -10,9 +10,9 @@ import java.util.*;
 /**
  * Junit4 单元测试
  *
- * @author  j_cong
- * @date    2019/08/11
+ * @author j_cong
  * @version V1.0
+ * @date 2019/08/11
  */
 public class DemoTest {
 
@@ -55,6 +55,7 @@ public class DemoTest {
 
         System.out.println(Arrays.toString(arr));
     }
+
     @Test
     public void testConfigBean() {
 
@@ -73,14 +74,14 @@ public class DemoTest {
         // 可代替Map<String, List<String>>
 
         MultiValueMap<String, String> valueMap = new LinkedMultiValueMap<>(16);
-        valueMap.add("1","1");
-        valueMap.add("1","2");
-        valueMap.add("1","3");
-        valueMap.add("1","4");
-        valueMap.add("1","5");
-        valueMap.add("2","1");
-        valueMap.add("2","2");
-        valueMap.add("3","1");
+        valueMap.add("1", "1");
+        valueMap.add("1", "2");
+        valueMap.add("1", "3");
+        valueMap.add("1", "4");
+        valueMap.add("1", "5");
+        valueMap.add("2", "1");
+        valueMap.add("2", "2");
+        valueMap.add("3", "1");
 
         delKey(valueMap);
 
@@ -92,7 +93,6 @@ public class DemoTest {
     public void delKey(MultiValueMap<String, String> valueMap) {
         valueMap.remove("1");
     }
-
 
 
 }

@@ -6,9 +6,9 @@ import lombok.ToString;
 /**
  * 用户查询VO
  *
- * @author  j_cong
- * @date    2019/08/21
+ * @author j_cong
  * @version V1.0
+ * @date 2019/08/21
  */
 @Data
 @ToString

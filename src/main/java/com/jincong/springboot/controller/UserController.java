@@ -1,11 +1,11 @@
 package com.jincong.springboot.controller;
 
 import com.jincong.springboot.domain.User;
+import com.jincong.springboot.mapper.UserMapper;
 import com.jincong.springboot.result.BaseResult;
-import com.jincong.springboot.service.IUserService;
-import com.jincong.springboot.service.JobService;
-import com.jincong.springboot.service.RedisTemplateService;
+import com.jincong.springboot.service.*;
 import com.jincong.springboot.vo.QueryUserVO;
+import com.jincong.springboot.vo.UserVO;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.slf4j.Logger;
@@ -49,17 +49,26 @@ public class UserController {
     @Autowired
     JobService jobService;
 
+    @Autowired
+    AccoutService accoutService;
+
+    @Autowired
+    CommonService commonService;
+
+    @Autowired
+    UserMapper userMapper;
+
 
     private static final Logger LOGGER = LoggerFactory.getLogger(UserController.class);
 
-    @ApiOperation(value="全量获取用户列表")
+    @ApiOperation(value = "全量获取用户列表")
     @RequestMapping(value = "/findAllUser", method = RequestMethod.GET)
     public BaseResult findAllUser() {
 
         List<User> userList = userService.findAllUser();
 //        userList = new ArrayList<>();
-        Map<Integer, User> maps = userList.stream()
-                .collect(Collectors.toMap(User::getUserId, Function.identity(), (o1, o2) -> o2));
+        Map<String, User> maps = userList.stream()
+                .collect(Collectors.toMap(User::getUserCode, Function.identity(), (o1, o2) -> o2));
         Map<Integer, User> maps1 = userList.stream()
                 .collect(Collectors.toMap(User::getId, Function.identity(), (o1, o2) -> o1, TreeMap::new));
 
@@ -77,16 +86,26 @@ public class UserController {
         return new BaseResult<>(userList, "获取用户信息成功");
     }
 
-    @ApiOperation(value="根据用户名称获取用户列表")
+    @ApiOperation(value = "根据用户名称获取用户列表")
     @GetMapping(value = "/findUserByUserName")
-    public List<User> findUserByUserName(@RequestParam @ApiParam(value = "用户名称")String userName) {
+    public List<User> findUserByUserName(@RequestParam @ApiParam(value = "用户名称") String userName) {
         return userService.findUserByUserName(userName);
     }
 
 
-    @ApiOperation(value="根据用户Id称获取用户信息")
+
+    @ApiOperation(value = "根据用户名编号获取用户列表")
+    @GetMapping(value = "/findUserByUserCode")
+    public UserVO findUserByUserCode(@RequestParam @ApiParam(value = "用户编码") String userCode) {
+
+        UserVO userVO1 = userMapper.annotationFindUserByUserCode(userCode);
+        System.out.println(userVO1);
+        return userService.findUserByUserCode(userCode);
+    }
+
+    @ApiOperation(value = "根据用户Id称获取用户信息")
     @GetMapping("/findUser/{code}")
-    public BaseResult findUserById(@PathVariable(value = "code") @ApiParam(value = "用户id")Integer id) {
+    public BaseResult findUserById(@PathVariable(value = "code") @ApiParam(value = "用户id") Integer id) {
         //匹配/findUser/{id]的restful风格 url
         //如果希望自动匹配，则必须保证url中的参数名称与Controller方法中的参数保持一致，
         //否则，需要手动设置value保证参数一致
@@ -100,7 +119,6 @@ public class UserController {
         //否则，需要手动设置value保证参数一致
         return new BaseResult<>(userService.findUserById(id));
     }
-
 
 
     @PostMapping("/addUser")
@@ -126,7 +144,7 @@ public class UserController {
         if (StringUtils.isEmpty(ids)) {
             return false;
         }
-        String[] idArr = ids.split(",");
+        String[] idArr = StringUtils.split(ids, ",");
         int[] arr = Arrays.stream(idArr).mapToInt(Integer::valueOf).toArray();
 
         int result = userService.delBatchUser(arr);
@@ -189,10 +207,11 @@ public class UserController {
             System.out.println("方法二返回结果： " + twoResult.get());
             System.out.println("方法三返回结果： " + threeResult.get());
             System.out.println("请求访问异步结束，耗时" + (l2 - l1) + " ms");
-        } catch (InterruptedException | ExecutionException  e) {
+        } catch (InterruptedException | ExecutionException e) {
             e.printStackTrace();
         }
     }
+
     @RequestMapping("/testJob")
     public void testJon() {
         jobService.timerToNow();
@@ -213,12 +232,28 @@ public class UserController {
 
         ServletContext application = request.getServletContext();
 
-        return (User)application.getAttribute("user");
+        return (User) application.getAttribute("user");
     }
 
     @GetMapping("/publish")
     public User publishEvent() {
         return userService.getUserByListener();
+    }
+
+
+
+    @RequestMapping("/testTransaction")
+    public BaseResult testTransaction() {
+
+        int fromUser = 1001;
+        int toUser = 1002;
+        int amount = 10;
+
+        int fromResult = accoutService.transferFrom(fromUser, amount);
+        int toResult = accoutService.transferTo(toUser, amount);
+        boolean result = fromResult > 0 && toResult > 0;
+
+        return new BaseResult<>(result);
     }
 
 }

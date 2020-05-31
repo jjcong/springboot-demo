@@ -1,7 +1,10 @@
 package com.jincong.springboot.mapper;
 
 import com.jincong.springboot.domain.User;
+import com.jincong.springboot.vo.UserVO;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
 import java.util.Map;
@@ -9,12 +12,18 @@ import java.util.Map;
 @Mapper
 public interface UserMapper {
 
-   List<User> findAllUser();
+    List<User> findAllUser();
 
-   List<User> findUserByUserName(Map request);
 
-   int addUser(User user);
+    UserVO findUserByUserCode(@Param("userCode") String userCode);
 
-   int delBatchUser(int[] ids);
+    List<User> findUserByUserName(Map request);
+
+    int addUser(User user);
+
+    int delBatchUser(int[] ids);
+
+    @Select("SELECT * FROM t_user WHERE user_code = #{userCode, jdbcType=VARCHAR}")
+    UserVO annotationFindUserByUserCode(@Param("userCode")String userCode);
 
 }

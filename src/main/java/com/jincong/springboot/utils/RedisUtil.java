@@ -16,7 +16,7 @@ import org.springframework.util.StringUtils;
 @Service
 public class RedisUtil {
     @Autowired
-    private static  StringRedisTemplate stringRedisTemplate;
+    private static StringRedisTemplate stringRedisTemplate;
 
     public static <T> boolean set(String key, T value) {
 

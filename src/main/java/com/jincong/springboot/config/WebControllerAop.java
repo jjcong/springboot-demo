@@ -16,9 +16,9 @@ import java.util.List;
 /**
  * 使用AOP统一处理Web请求日志
  *
- * @author  j_cong
- * @date    2020/03/09
+ * @author j_cong
  * @version V1.0
+ * @date 2020/03/09
  */
 @Aspect
 @Component
@@ -53,7 +53,7 @@ public class WebControllerAop {
         System.out.println("请求URL： " + request.getRequestURI().toString());
         System.out.println("请求方式： " + request.getMethod());
         System.out.println("请求IP： " + request.getRemoteAddr());
-        System.out.println("请求类方法： " +joinPoint.getSignature().getDeclaringTypeName() + "." + joinPoint.getSignature().getName());
+        System.out.println("请求类方法： " + joinPoint.getSignature().getDeclaringTypeName() + "." + joinPoint.getSignature().getName());
 
         System.out.println("前置通知结束——————————————————————");
     }
@@ -61,6 +61,7 @@ public class WebControllerAop {
 
     /**
      * 处理完请求返回内容
+     *
      * @param result
      * @throws Throwable
      */
@@ -78,10 +79,11 @@ public class WebControllerAop {
 
     /**
      * 后置异常通知
+     *
      * @param jp
      */
     @AfterThrowing("webLog()")
-    public void throwss(JoinPoint jp){
+    public void throwss(JoinPoint jp) {
         System.out.println("异常通知开始——————————————————————");
 
         System.out.println("异常通知结束——————————————————————");
@@ -89,10 +91,11 @@ public class WebControllerAop {
 
     /**
      * 后置最终通知,final增强，不管是抛出异常或者正常退出都会执行
+     *
      * @param jp
      */
     @After("webLog()")
-    public void after(JoinPoint jp){
+    public void after(JoinPoint jp) {
         System.out.println("后置通知开始——————————————————————");
 
         System.out.println("后置通知开始——————————————————————");
@@ -101,6 +104,7 @@ public class WebControllerAop {
 
     /**
      * 环绕通知,环绕增强，相当于MethodInterceptor
+     *
      * @param pjp
      * @return
      */
@@ -109,7 +113,7 @@ public class WebControllerAop {
 
         try {
             System.out.println("环绕通知开始——————————————————————");
-            Object o =  pjp.proceed();
+            Object o = pjp.proceed();
 
             System.out.println("环绕通知结束——————————————————————");
             return o;

@@ -5,9 +5,9 @@ import lombok.Data;
 /**
  * 封装结果类
  *
- * @author  j_cong
- * @date    2020/04/05
+ * @author j_cong
  * @version V1.0
+ * @date 2020/04/05
  */
 @Data
 public class BaseResult<T> {
@@ -30,11 +30,12 @@ public class BaseResult<T> {
      */
     public BaseResult() {
         this.code = 200;
-        this.msg ="成功";
+        this.msg = "成功";
     }
 
     /**
      * 若没数据返回，自定义状态码和提示信息
+     *
      * @param code 后台数据
      * @param msg  提示信息
      */
@@ -45,6 +46,7 @@ public class BaseResult<T> {
 
     /**
      * 有数据返回，状态码为0，默认提示成功
+     *
      * @param data 后台返回数据
      */
     public BaseResult(T data) {
@@ -55,6 +57,7 @@ public class BaseResult<T> {
 
     /**
      * 有数据返回，状态码为0， 自定义提示信息
+     *
      * @param data 后台数据
      * @param msg  自定义返回信息
      */

@@ -27,5 +27,28 @@ S : 首先检查主启动类是否添加@Swagger2注解，然后检查是否覆�
       super.addResourceHandlers(registry);
   }
  `
-      
+     
++ #### 问题：@JsonFormat 注解无效
+S: @JsonFormat：这个注解来自jackson包下；
+   @JSONField：这个注解来自fastjson包下；
+   
+    `@JsonFormat(locale = "zh", timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss") 
+    @JSONField(format="yyyy-MM-dd")
+    @ApiModelProperty(value = "出生日期")
+    private Date birthday;`
+
+
++ #### 问题：日志规范 
+
+`    
+日志输出格式：
+		%d表示日期时间，
+		%thread表示线程名，
+		%-5level：级别从左显示5个字符宽度
+		%logger{50} 表示logger名字最长50个字符，否则按照句点分割。 
+		%msg：日志消息，
+		%n是换行符
+    -->
+    %d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n 
+`
 

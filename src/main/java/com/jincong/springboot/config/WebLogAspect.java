@@ -30,9 +30,9 @@ import java.util.Map;
 /**
  * 网页日志切面
  *
- * @author  j_cong
- * @date    2020/03/10
+ * @author j_cong
  * @version V1.0
+ * @date 2020/03/10
  */
 public class WebLogAspect {
 
