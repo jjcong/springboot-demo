@@ -12,7 +12,7 @@ import tk.mybatis.spring.annotation.MapperScan;
  * @author j_cong
  */
 @SpringBootApplication
-// SpringBootApplication 注释相当于@Configuration @ComponentScan, @SpiingBootConfigration三个注解
+// SpringBootApplication 注释相当于@Configuration @ComponentScan, @SpringBootConfiguration三个注解
 @MapperScan("com.jincong.springboot.mapper")
 // 注意，ComponentScan注解指定扫描的包，如果指定的包没有Controller注解，访问无效
 @EnableAsync

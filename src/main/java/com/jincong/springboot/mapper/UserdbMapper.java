@@ -2,9 +2,8 @@ package com.jincong.springboot.mapper;
 
 import com.jincong.springboot.pojo.Userdb;
 import com.jincong.springboot.pojo.UserdbExample;
-import org.apache.ibatis.annotations.Param;
-
 import java.util.List;
+import org.apache.ibatis.annotations.Param;
 
 public interface UserdbMapper {
     int countByExample(UserdbExample example);

@@ -2,9 +2,8 @@ package com.jincong.springboot.mapper;
 
 import com.jincong.springboot.pojo.TStudent;
 import com.jincong.springboot.pojo.TStudentExample;
-import org.apache.ibatis.annotations.Param;
-
 import java.util.List;
+import org.apache.ibatis.annotations.Param;
 
 public interface TStudentMapper {
     int countByExample(TStudentExample example);

@@ -1,23 +1,37 @@
 package com.jincong.springboot.controller;
 
+import cn.hutool.core.collection.CollectionUtil;
+import cn.hutool.core.date.DateTime;
+import com.alibaba.excel.ExcelWriter;
+import com.alibaba.excel.support.ExcelTypeEnum;
+import com.alibaba.excel.write.builder.ExcelWriterBuilder;
+import com.alibaba.excel.write.metadata.WriteSheet;
 import com.jincong.springboot.domain.User;
 import com.jincong.springboot.mapper.UserMapper;
+import com.jincong.springboot.pojo.OrderDTO;
+import com.jincong.springboot.pojo.TOrder;
 import com.jincong.springboot.result.BaseResult;
 import com.jincong.springboot.service.*;
 import com.jincong.springboot.vo.QueryUserVO;
 import com.jincong.springboot.vo.UserVO;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.util.StopWatch;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.math.BigDecimal;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
@@ -35,6 +49,7 @@ import java.util.stream.Collectors;
 // RestController 注解相当于@Controller和@ResponseBody两个注解
 @RestController
 @RequestMapping("/user")
+@Slf4j
 public class UserController {
 
     @Autowired
@@ -57,6 +72,9 @@ public class UserController {
 
     @Autowired
     UserMapper userMapper;
+
+    @Autowired
+    IOrderService orderService;
 
 
     private static final Logger LOGGER = LoggerFactory.getLogger(UserController.class);
@@ -98,8 +116,8 @@ public class UserController {
     @GetMapping(value = "/findUserByUserCode")
     public UserVO findUserByUserCode(@RequestParam @ApiParam(value = "用户编码") String userCode) {
 
-        UserVO userVO1 = userMapper.annotationFindUserByUserCode(userCode);
-        System.out.println(userVO1);
+        //UserVO userVO1 = userMapper.annotationFindUserByUserCode(userCode);
+        //System.out.println(userVO1);
         return userService.findUserByUserCode(userCode);
     }
 
@@ -243,17 +261,89 @@ public class UserController {
 
 
     @RequestMapping("/testTransaction")
-    public BaseResult testTransaction() {
 
-        int fromUser = 1001;
-        int toUser = 1002;
-        int amount = 10;
+    public BaseResult testTransaction() throws Exception {
 
-        int fromResult = accoutService.transferFrom(fromUser, amount);
-        int toResult = accoutService.transferTo(toUser, amount);
-        boolean result = fromResult > 0 && toResult > 0;
+        HttpComponentsClientHttpRequestFactory httpRequestFactory = new HttpComponentsClientHttpRequestFactory();
+        httpRequestFactory.setConnectionRequestTimeout(10*1000);
+        httpRequestFactory.setConnectTimeout(10*1000);
+        httpRequestFactory.setReadTimeout(10*1000);
 
-        return new BaseResult<>(result);
+
+
+/*
+        Class accoutServiceClass = Class.forName("com.jincong.springboot.service.impl.AccoutServiceImpl");
+
+        AccoutServiceImpl reflectServcie = (AccoutServiceImpl) accoutServiceClass.newInstance();*/
+
+
+        return new BaseResult<>(accoutService.transferMoney());
     }
 
+
+    /**
+     * 导出百万数据性能测试
+     * @return
+     */
+    @GetMapping("/export")
+    public BaseResult export(@RequestParam(name = "startTime")  DateTime startTime,
+                             @RequestParam(name = "endTime")  DateTime endTime,  HttpServletResponse response) throws Exception{
+
+
+        long start = System.currentTimeMillis();
+        String fileName = URLEncoder.encode(String.format("%s-(%s).xlsx", "订单支付数据", UUID.randomUUID().toString()),
+                StandardCharsets.UTF_8.toString());
+        response.setContentType("application/force-download");
+        response.setHeader("Content-Disposition", "attachment;filename=" + fileName);
+
+        ExcelWriter writer = new ExcelWriterBuilder()
+                .autoCloseStream(true)
+                .excelType(ExcelTypeEnum.XLS)
+                .file(response.getOutputStream())
+                .build();
+
+
+        WriteSheet writeSheet = new WriteSheet();
+        writeSheet.setSheetName("target");
+
+        long lastBatchMaxId = 0L;
+        int limit = 500;
+
+        for(;;) {
+            List<OrderDTO> orderList = orderService.listOrdersByScrollingPagination(lastBatchMaxId, limit, startTime, endTime);
+            if (CollectionUtil.isEmpty(orderList)) {
+                break;
+            } else {
+                lastBatchMaxId = orderList.stream().map(OrderDTO::getId).max(Long::compareTo).orElse(Long.MAX_VALUE);
+                writer.write(orderList, writeSheet);
+            }
+
+        }
+        log.info("导出数据耗时:{} ms,start:{},end:{}", System.currentTimeMillis() - start, startTime, endTime);
+
+
+        return new BaseResult(true);
+    }
+
+
+    @PostMapping("/addOrder")
+    public boolean addOrder(@RequestBody QueryUserVO userVO) {
+
+        long start = System.currentTimeMillis();
+        int count = 5000000;
+
+        for (int i = 0; i < count; i++) {
+            TOrder order = new TOrder();
+            order.setOrderId(UUID.randomUUID().toString().replace("-", ""));
+            order.setAmount(new BigDecimal(new Random().nextInt(1000)));
+            order.setPaymentTime(new Date());
+            order.setOrderStatus((byte) ((byte) i % 3));
+            orderService.insertOrder(order);
+        }
+
+        log.info("插入耗时:{} ms,start:{},end:{}", System.currentTimeMillis() - start, start);
+
+
+        return true;
+    }
 }

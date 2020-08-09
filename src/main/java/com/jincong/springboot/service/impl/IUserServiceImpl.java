@@ -1,12 +1,15 @@
 package com.jincong.springboot.service.impl;
 
 import cn.hutool.core.util.RandomUtil;
+import com.alibaba.fastjson.JSON;
 import com.jincong.springboot.config.SexEnum;
 import com.jincong.springboot.domain.User;
 import com.jincong.springboot.handler.MyEvent;
+import com.jincong.springboot.mapper.NewUserMapper;
 import com.jincong.springboot.mapper.UserMapper;
 import com.jincong.springboot.service.IUserService;
-import com.jincong.springboot.vo.UserVO;
+import com.jincong.springboot.vo.*;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.scheduling.annotation.Async;
@@ -18,10 +21,9 @@ import tk.mybatis.mapper.weekend.Weekend;
 import tk.mybatis.mapper.weekend.WeekendCriteria;
 
 import javax.annotation.Resource;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 import java.util.concurrent.Future;
+import java.util.stream.Collectors;
 
 @Service("userService1")
 public class IUserServiceImpl implements IUserService {
@@ -30,7 +32,7 @@ public class IUserServiceImpl implements IUserService {
     private UserMapper userMapper;
 
     @Autowired
-    private com.jincong.springboot.mapper.newUserMapper newUserMapper;
+    private NewUserMapper newUserMapper;
 
     @Resource
     private ApplicationContext applicationContext;
@@ -38,6 +40,54 @@ public class IUserServiceImpl implements IUserService {
 
     @Override
     public List<User> findAllUser() {
+
+        CatVO catVO = new CatVO();
+        catVO.setColor("红");
+        catVO.setPrice("100");
+        catVO.setCount("12");
+        CatVO catVO1 = new CatVO();
+        catVO1.setColor("黄");
+        catVO1.setPrice("200");
+        catVO1.setCount("22");
+
+        List<CatVO> catVOS = new ArrayList<>();
+        catVOS.add(catVO);
+        catVOS.add(catVO1);
+
+        HouseVO houseVO = new HouseVO();
+        houseVO.setName("HouseVo");
+        houseVO.setAge(18);
+        houseVO.setCats(catVOS);
+
+        List<HouseVO> houseVOList = new ArrayList<>();
+        houseVOList.add(houseVO);
+        HouseDTO houseDTO = new HouseDTO();
+
+        BeanUtils.copyProperties(houseVO, houseDTO);
+
+        HouseDTO dto = JSON.parseObject(JSON.toJSONString(houseVO), HouseDTO.class);
+
+        String hounseStr = JSON.toJSONString(houseVOList);
+        List<HouseDTO> houseDTOList = JSON.parseArray(hounseStr, HouseDTO.class);
+        List<CatDTO> catDTO = houseDTOList.get(0).getCats();
+
+        for (CatDTO cat: catDTO) {
+            System.out.println(cat);
+        }
+        System.out.println(catDTO);
+        System.out.println(houseDTO);
+
+        List<String> list1 = Arrays.asList("语文", "数学", "英语", "物理");
+        List<String> list2 = Arrays.asList("苹果", "香蕉", "菠萝", "橘子");
+        List<String> list3 = Arrays.asList("游泳", "散步", "骑行", "登高");
+
+        List<List<String>> stringList = new ArrayList<>();
+        stringList.add(list1);
+        stringList.add(list2);
+        stringList.add(list3);
+
+
+        List<String> result =stringList.stream().flatMap(Collection::stream).collect(Collectors.toList());
 
         StopWatch stopWatch = new StopWatch("查询用户计时统计");
         stopWatch.start("查询用户");

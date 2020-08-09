@@ -13,4 +13,6 @@ public interface AccoutService {
 
     int transferTo(int userId, int money);
 
+    boolean transferMoney();
+
 }

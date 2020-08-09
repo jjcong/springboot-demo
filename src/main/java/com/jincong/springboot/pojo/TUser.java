@@ -5,13 +5,11 @@ import java.util.Date;
 public class TUser {
     private Integer id;
 
-    private Integer userId;
+    private String userCode;
 
     private String userName;
 
-    private String myPhone;
-
-    private String test1;
+    private String phone;
 
     private String sex;
 
@@ -31,12 +29,12 @@ public class TUser {
         this.id = id;
     }
 
-    public Integer getUserId() {
-        return userId;
+    public String getUserCode() {
+        return userCode;
     }
 
-    public void setUserId(Integer userId) {
-        this.userId = userId;
+    public void setUserCode(String userCode) {
+        this.userCode = userCode == null ? null : userCode.trim();
     }
 
     public String getUserName() {
@@ -47,20 +45,12 @@ public class TUser {
         this.userName = userName == null ? null : userName.trim();
     }
 
-    public String getMyPhone() {
-        return myPhone;
+    public String getPhone() {
+        return phone;
     }
 
-    public void setMyPhone(String myPhone) {
-        this.myPhone = myPhone == null ? null : myPhone.trim();
-    }
-
-    public String getTest1() {
-        return test1;
-    }
-
-    public void setTest1(String test1) {
-        this.test1 = test1 == null ? null : test1.trim();
+    public void setPhone(String phone) {
+        this.phone = phone == null ? null : phone.trim();
     }
 
     public String getSex() {

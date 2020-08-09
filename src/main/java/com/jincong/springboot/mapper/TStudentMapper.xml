@@ -1,11 +1,171 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.jincong.springboot.mapper.TStudentMapper">
+  <resultMap id="BaseResultMap" type="com.jincong.springboot.pojo.TStudent">
+    <result column="sid" jdbcType="INTEGER" property="sid" />
+    <result column="student_name" jdbcType="VARCHAR" property="studentName" />
+    <result column="sex" jdbcType="VARCHAR" property="sex" />
+    <result column="student_class" jdbcType="VARCHAR" property="studentClass" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    sid, student_name, sex, student_class
+  </sql>
+  <select id="selectByExample" parameterType="com.jincong.springboot.pojo.TStudentExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from t_student
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <delete id="deleteByExample" parameterType="com.jincong.springboot.pojo.TStudentExample">
+    delete from t_student
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.jincong.springboot.pojo.TStudent">
+    insert into t_student (sid, student_name, sex, 
+      student_class)
+    values (#{sid,jdbcType=INTEGER}, #{studentName,jdbcType=VARCHAR}, #{sex,jdbcType=VARCHAR}, 
+      #{studentClass,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.jincong.springboot.pojo.TStudent">
+    insert into t_student
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="sid != null">
+        sid,
+      </if>
+      <if test="studentName != null">
+        student_name,
+      </if>
+      <if test="sex != null">
+        sex,
+      </if>
+      <if test="studentClass != null">
+        student_class,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="sid != null">
+        #{sid,jdbcType=INTEGER},
+      </if>
+      <if test="studentName != null">
+        #{studentName,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null">
+        #{sex,jdbcType=VARCHAR},
+      </if>
+      <if test="studentClass != null">
+        #{studentClass,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.jincong.springboot.pojo.TStudentExample" resultType="java.lang.Integer">
+    select count(*) from t_student
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update t_student
+    <set>
+      <if test="record.sid != null">
+        sid = #{record.sid,jdbcType=INTEGER},
+      </if>
+      <if test="record.studentName != null">
+        student_name = #{record.studentName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sex != null">
+        sex = #{record.sex,jdbcType=VARCHAR},
+      </if>
+      <if test="record.studentClass != null">
+        student_class = #{record.studentClass,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update t_student
+    set sid = #{record.sid,jdbcType=INTEGER},
+      student_name = #{record.studentName,jdbcType=VARCHAR},
+      sex = #{record.sex,jdbcType=VARCHAR},
+      student_class = #{record.studentClass,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
     <resultMap id="BaseResultMap" type="com.jincong.springboot.pojo.TStudent">
-        <result column="sid" jdbcType="INTEGER" property="sid"/>
-        <result column="student_name" jdbcType="VARCHAR" property="studentName"/>
-        <result column="sex" jdbcType="VARCHAR" property="sex"/>
-        <result column="student_class" jdbcType="VARCHAR" property="studentClass"/>
+        <result column="sid" jdbcType="INTEGER" property="sid" />
+        <result column="student_name" jdbcType="VARCHAR" property="studentName" />
+        <result column="sex" jdbcType="VARCHAR" property="sex" />
+        <result column="student_class" jdbcType="VARCHAR" property="studentClass" />
     </resultMap>
     <sql id="Example_Where_Clause">
         <where>
@@ -25,8 +185,7 @@
                                 </when>
                                 <when test="criterion.listValue">
                                     and ${criterion.condition}
-                                    <foreach close=")" collection="criterion.value" item="listItem" open="("
-                                             separator=",">
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
                                         #{listItem}
                                     </foreach>
                                 </when>
@@ -55,8 +214,7 @@
                                 </when>
                                 <when test="criterion.listValue">
                                     and ${criterion.condition}
-                                    <foreach close=")" collection="criterion.value" item="listItem" open="("
-                                             separator=",">
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
                                         #{listItem}
                                     </foreach>
                                 </when>
@@ -75,10 +233,10 @@
         <if test="distinct">
             distinct
         </if>
-        <include refid="Base_Column_List"/>
+        <include refid="Base_Column_List" />
         from t_student
         <if test="_parameter != null">
-            <include refid="Example_Where_Clause"/>
+            <include refid="Example_Where_Clause" />
         </if>
         <if test="orderByClause != null">
             order by ${orderByClause}
@@ -87,7 +245,7 @@
     <delete id="deleteByExample" parameterType="com.jincong.springboot.pojo.TStudentExample">
         delete from t_student
         <if test="_parameter != null">
-            <include refid="Example_Where_Clause"/>
+            <include refid="Example_Where_Clause" />
         </if>
     </delete>
     <insert id="insert" parameterType="com.jincong.springboot.pojo.TStudent">
@@ -127,11 +285,10 @@
             </if>
         </trim>
     </insert>
-    <select id="countByExample" parameterType="com.jincong.springboot.pojo.TStudentExample"
-            resultType="java.lang.Integer">
+    <select id="countByExample" parameterType="com.jincong.springboot.pojo.TStudentExample" resultType="java.lang.Integer">
         select count(*) from t_student
         <if test="_parameter != null">
-            <include refid="Example_Where_Clause"/>
+            <include refid="Example_Where_Clause" />
         </if>
     </select>
     <update id="updateByExampleSelective" parameterType="map">
@@ -151,7 +308,7 @@
             </if>
         </set>
         <if test="_parameter != null">
-            <include refid="Update_By_Example_Where_Clause"/>
+            <include refid="Update_By_Example_Where_Clause" />
         </if>
     </update>
     <update id="updateByExample" parameterType="map">
@@ -161,14 +318,14 @@
         sex = #{record.sex,jdbcType=VARCHAR},
         student_class = #{record.studentClass,jdbcType=VARCHAR}
         <if test="_parameter != null">
-            <include refid="Update_By_Example_Where_Clause"/>
+            <include refid="Update_By_Example_Where_Clause" />
         </if>
     </update>
     <resultMap id="BaseResultMap" type="com.jincong.springboot.pojo.TStudent">
-        <result column="sid" jdbcType="INTEGER" property="sid"/>
-        <result column="student_name" jdbcType="VARCHAR" property="studentName"/>
-        <result column="sex" jdbcType="VARCHAR" property="sex"/>
-        <result column="student_class" jdbcType="VARCHAR" property="studentClass"/>
+        <result column="sid" jdbcType="INTEGER" property="sid" />
+        <result column="student_name" jdbcType="VARCHAR" property="studentName" />
+        <result column="sex" jdbcType="VARCHAR" property="sex" />
+        <result column="student_class" jdbcType="VARCHAR" property="studentClass" />
     </resultMap>
     <sql id="Example_Where_Clause">
         <where>
@@ -188,8 +345,7 @@
                                 </when>
                                 <when test="criterion.listValue">
                                     and ${criterion.condition}
-                                    <foreach close=")" collection="criterion.value" item="listItem" open="("
-                                             separator=",">
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
                                         #{listItem}
                                     </foreach>
                                 </when>
@@ -218,8 +374,7 @@
                                 </when>
                                 <when test="criterion.listValue">
                                     and ${criterion.condition}
-                                    <foreach close=")" collection="criterion.value" item="listItem" open="("
-                                             separator=",">
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
                                         #{listItem}
                                     </foreach>
                                 </when>
@@ -238,10 +393,10 @@
         <if test="distinct">
             distinct
         </if>
-        <include refid="Base_Column_List"/>
+        <include refid="Base_Column_List" />
         from t_student
         <if test="_parameter != null">
-            <include refid="Example_Where_Clause"/>
+            <include refid="Example_Where_Clause" />
         </if>
         <if test="orderByClause != null">
             order by ${orderByClause}
@@ -250,7 +405,7 @@
     <delete id="deleteByExample" parameterType="com.jincong.springboot.pojo.TStudentExample">
         delete from t_student
         <if test="_parameter != null">
-            <include refid="Example_Where_Clause"/>
+            <include refid="Example_Where_Clause" />
         </if>
     </delete>
     <insert id="insert" parameterType="com.jincong.springboot.pojo.TStudent">
@@ -290,11 +445,10 @@
             </if>
         </trim>
     </insert>
-    <select id="countByExample" parameterType="com.jincong.springboot.pojo.TStudentExample"
-            resultType="java.lang.Integer">
+    <select id="countByExample" parameterType="com.jincong.springboot.pojo.TStudentExample" resultType="java.lang.Integer">
         select count(*) from t_student
         <if test="_parameter != null">
-            <include refid="Example_Where_Clause"/>
+            <include refid="Example_Where_Clause" />
         </if>
     </select>
     <update id="updateByExampleSelective" parameterType="map">
@@ -314,7 +468,7 @@
             </if>
         </set>
         <if test="_parameter != null">
-            <include refid="Update_By_Example_Where_Clause"/>
+            <include refid="Update_By_Example_Where_Clause" />
         </if>
     </update>
     <update id="updateByExample" parameterType="map">
@@ -324,14 +478,14 @@
         sex = #{record.sex,jdbcType=VARCHAR},
         student_class = #{record.studentClass,jdbcType=VARCHAR}
         <if test="_parameter != null">
-            <include refid="Update_By_Example_Where_Clause"/>
+            <include refid="Update_By_Example_Where_Clause" />
         </if>
     </update>
     <resultMap id="BaseResultMap" type="com.jincong.springboot.pojo.TStudent">
-        <result column="sid" jdbcType="INTEGER" property="sid"/>
-        <result column="student_name" jdbcType="VARCHAR" property="studentName"/>
-        <result column="sex" jdbcType="VARCHAR" property="sex"/>
-        <result column="student_class" jdbcType="VARCHAR" property="studentClass"/>
+        <result column="sid" jdbcType="INTEGER" property="sid" />
+        <result column="student_name" jdbcType="VARCHAR" property="studentName" />
+        <result column="sex" jdbcType="VARCHAR" property="sex" />
+        <result column="student_class" jdbcType="VARCHAR" property="studentClass" />
     </resultMap>
     <sql id="Example_Where_Clause">
         <where>
@@ -351,8 +505,7 @@
                                 </when>
                                 <when test="criterion.listValue">
                                     and ${criterion.condition}
-                                    <foreach close=")" collection="criterion.value" item="listItem" open="("
-                                             separator=",">
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
                                         #{listItem}
                                     </foreach>
                                 </when>
@@ -381,8 +534,7 @@
                                 </when>
                                 <when test="criterion.listValue">
                                     and ${criterion.condition}
-                                    <foreach close=")" collection="criterion.value" item="listItem" open="("
-                                             separator=",">
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
                                         #{listItem}
                                     </foreach>
                                 </when>
@@ -401,10 +553,10 @@
         <if test="distinct">
             distinct
         </if>
-        <include refid="Base_Column_List"/>
+        <include refid="Base_Column_List" />
         from t_student
         <if test="_parameter != null">
-            <include refid="Example_Where_Clause"/>
+            <include refid="Example_Where_Clause" />
         </if>
         <if test="orderByClause != null">
             order by ${orderByClause}
@@ -413,7 +565,7 @@
     <delete id="deleteByExample" parameterType="com.jincong.springboot.pojo.TStudentExample">
         delete from t_student
         <if test="_parameter != null">
-            <include refid="Example_Where_Clause"/>
+            <include refid="Example_Where_Clause" />
         </if>
     </delete>
     <insert id="insert" parameterType="com.jincong.springboot.pojo.TStudent">
@@ -453,11 +605,10 @@
             </if>
         </trim>
     </insert>
-    <select id="countByExample" parameterType="com.jincong.springboot.pojo.TStudentExample"
-            resultType="java.lang.Integer">
+    <select id="countByExample" parameterType="com.jincong.springboot.pojo.TStudentExample" resultType="java.lang.Integer">
         select count(*) from t_student
         <if test="_parameter != null">
-            <include refid="Example_Where_Clause"/>
+            <include refid="Example_Where_Clause" />
         </if>
     </select>
     <update id="updateByExampleSelective" parameterType="map">
@@ -477,7 +628,7 @@
             </if>
         </set>
         <if test="_parameter != null">
-            <include refid="Update_By_Example_Where_Clause"/>
+            <include refid="Update_By_Example_Where_Clause" />
         </if>
     </update>
     <update id="updateByExample" parameterType="map">
@@ -487,14 +638,14 @@
         sex = #{record.sex,jdbcType=VARCHAR},
         student_class = #{record.studentClass,jdbcType=VARCHAR}
         <if test="_parameter != null">
-            <include refid="Update_By_Example_Where_Clause"/>
+            <include refid="Update_By_Example_Where_Clause" />
         </if>
     </update>
     <resultMap id="BaseResultMap" type="com.jincong.springboot.pojo.TStudent">
-        <result column="sid" jdbcType="INTEGER" property="sid"/>
-        <result column="student_name" jdbcType="VARCHAR" property="studentName"/>
-        <result column="sex" jdbcType="VARCHAR" property="sex"/>
-        <result column="student_class" jdbcType="VARCHAR" property="studentClass"/>
+        <result column="sid" jdbcType="INTEGER" property="sid" />
+        <result column="student_name" jdbcType="VARCHAR" property="studentName" />
+        <result column="sex" jdbcType="VARCHAR" property="sex" />
+        <result column="student_class" jdbcType="VARCHAR" property="studentClass" />
     </resultMap>
     <sql id="Example_Where_Clause">
         <where>
@@ -514,8 +665,7 @@
                                 </when>
                                 <when test="criterion.listValue">
                                     and ${criterion.condition}
-                                    <foreach close=")" collection="criterion.value" item="listItem" open="("
-                                             separator=",">
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
                                         #{listItem}
                                     </foreach>
                                 </when>
@@ -544,8 +694,7 @@
                                 </when>
                                 <when test="criterion.listValue">
                                     and ${criterion.condition}
-                                    <foreach close=")" collection="criterion.value" item="listItem" open="("
-                                             separator=",">
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
                                         #{listItem}
                                     </foreach>
                                 </when>
@@ -564,10 +713,10 @@
         <if test="distinct">
             distinct
         </if>
-        <include refid="Base_Column_List"/>
+        <include refid="Base_Column_List" />
         from t_student
         <if test="_parameter != null">
-            <include refid="Example_Where_Clause"/>
+            <include refid="Example_Where_Clause" />
         </if>
         <if test="orderByClause != null">
             order by ${orderByClause}
@@ -576,7 +725,7 @@
     <delete id="deleteByExample" parameterType="com.jincong.springboot.pojo.TStudentExample">
         delete from t_student
         <if test="_parameter != null">
-            <include refid="Example_Where_Clause"/>
+            <include refid="Example_Where_Clause" />
         </if>
     </delete>
     <insert id="insert" parameterType="com.jincong.springboot.pojo.TStudent">
@@ -616,11 +765,10 @@
             </if>
         </trim>
     </insert>
-    <select id="countByExample" parameterType="com.jincong.springboot.pojo.TStudentExample"
-            resultType="java.lang.Integer">
+    <select id="countByExample" parameterType="com.jincong.springboot.pojo.TStudentExample" resultType="java.lang.Integer">
         select count(*) from t_student
         <if test="_parameter != null">
-            <include refid="Example_Where_Clause"/>
+            <include refid="Example_Where_Clause" />
         </if>
     </select>
     <update id="updateByExampleSelective" parameterType="map">
@@ -640,7 +788,7 @@
             </if>
         </set>
         <if test="_parameter != null">
-            <include refid="Update_By_Example_Where_Clause"/>
+            <include refid="Update_By_Example_Where_Clause" />
         </if>
     </update>
     <update id="updateByExample" parameterType="map">
@@ -650,14 +798,14 @@
         sex = #{record.sex,jdbcType=VARCHAR},
         student_class = #{record.studentClass,jdbcType=VARCHAR}
         <if test="_parameter != null">
-            <include refid="Update_By_Example_Where_Clause"/>
+            <include refid="Update_By_Example_Where_Clause" />
         </if>
     </update>
     <resultMap id="BaseResultMap" type="com.jincong.springboot.pojo.TStudent">
-        <result column="sid" jdbcType="INTEGER" property="sid"/>
-        <result column="student_name" jdbcType="VARCHAR" property="studentName"/>
-        <result column="sex" jdbcType="VARCHAR" property="sex"/>
-        <result column="student_class" jdbcType="VARCHAR" property="studentClass"/>
+        <result column="sid" jdbcType="INTEGER" property="sid" />
+        <result column="student_name" jdbcType="VARCHAR" property="studentName" />
+        <result column="sex" jdbcType="VARCHAR" property="sex" />
+        <result column="student_class" jdbcType="VARCHAR" property="studentClass" />
     </resultMap>
     <sql id="Example_Where_Clause">
         <where>
@@ -677,8 +825,7 @@
                                 </when>
                                 <when test="criterion.listValue">
                                     and ${criterion.condition}
-                                    <foreach close=")" collection="criterion.value" item="listItem" open="("
-                                             separator=",">
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
                                         #{listItem}
                                     </foreach>
                                 </when>
@@ -707,8 +854,7 @@
                                 </when>
                                 <when test="criterion.listValue">
                                     and ${criterion.condition}
-                                    <foreach close=")" collection="criterion.value" item="listItem" open="("
-                                             separator=",">
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
                                         #{listItem}
                                     </foreach>
                                 </when>
@@ -727,10 +873,10 @@
         <if test="distinct">
             distinct
         </if>
-        <include refid="Base_Column_List"/>
+        <include refid="Base_Column_List" />
         from t_student
         <if test="_parameter != null">
-            <include refid="Example_Where_Clause"/>
+            <include refid="Example_Where_Clause" />
         </if>
         <if test="orderByClause != null">
             order by ${orderByClause}
@@ -739,7 +885,7 @@
     <delete id="deleteByExample" parameterType="com.jincong.springboot.pojo.TStudentExample">
         delete from t_student
         <if test="_parameter != null">
-            <include refid="Example_Where_Clause"/>
+            <include refid="Example_Where_Clause" />
         </if>
     </delete>
     <insert id="insert" parameterType="com.jincong.springboot.pojo.TStudent">
@@ -779,11 +925,10 @@
             </if>
         </trim>
     </insert>
-    <select id="countByExample" parameterType="com.jincong.springboot.pojo.TStudentExample"
-            resultType="java.lang.Integer">
+    <select id="countByExample" parameterType="com.jincong.springboot.pojo.TStudentExample" resultType="java.lang.Integer">
         select count(*) from t_student
         <if test="_parameter != null">
-            <include refid="Example_Where_Clause"/>
+            <include refid="Example_Where_Clause" />
         </if>
     </select>
     <update id="updateByExampleSelective" parameterType="map">
@@ -803,7 +948,7 @@
             </if>
         </set>
         <if test="_parameter != null">
-            <include refid="Update_By_Example_Where_Clause"/>
+            <include refid="Update_By_Example_Where_Clause" />
         </if>
     </update>
     <update id="updateByExample" parameterType="map">
@@ -813,14 +958,14 @@
         sex = #{record.sex,jdbcType=VARCHAR},
         student_class = #{record.studentClass,jdbcType=VARCHAR}
         <if test="_parameter != null">
-            <include refid="Update_By_Example_Where_Clause"/>
+            <include refid="Update_By_Example_Where_Clause" />
         </if>
     </update>
     <resultMap id="BaseResultMap" type="com.jincong.springboot.pojo.TStudent">
-        <result column="sid" jdbcType="INTEGER" property="sid"/>
-        <result column="student_name" jdbcType="VARCHAR" property="studentName"/>
-        <result column="sex" jdbcType="VARCHAR" property="sex"/>
-        <result column="student_class" jdbcType="VARCHAR" property="studentClass"/>
+        <result column="sid" jdbcType="INTEGER" property="sid" />
+        <result column="student_name" jdbcType="VARCHAR" property="studentName" />
+        <result column="sex" jdbcType="VARCHAR" property="sex" />
+        <result column="student_class" jdbcType="VARCHAR" property="studentClass" />
     </resultMap>
     <sql id="Example_Where_Clause">
         <where>
@@ -840,8 +985,7 @@
                                 </when>
                                 <when test="criterion.listValue">
                                     and ${criterion.condition}
-                                    <foreach close=")" collection="criterion.value" item="listItem" open="("
-                                             separator=",">
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
                                         #{listItem}
                                     </foreach>
                                 </when>
@@ -870,8 +1014,7 @@
                                 </when>
                                 <when test="criterion.listValue">
                                     and ${criterion.condition}
-                                    <foreach close=")" collection="criterion.value" item="listItem" open="("
-                                             separator=",">
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
                                         #{listItem}
                                     </foreach>
                                 </when>
@@ -890,10 +1033,10 @@
         <if test="distinct">
             distinct
         </if>
-        <include refid="Base_Column_List"/>
+        <include refid="Base_Column_List" />
         from t_student
         <if test="_parameter != null">
-            <include refid="Example_Where_Clause"/>
+            <include refid="Example_Where_Clause" />
         </if>
         <if test="orderByClause != null">
             order by ${orderByClause}
@@ -902,7 +1045,7 @@
     <delete id="deleteByExample" parameterType="com.jincong.springboot.pojo.TStudentExample">
         delete from t_student
         <if test="_parameter != null">
-            <include refid="Example_Where_Clause"/>
+            <include refid="Example_Where_Clause" />
         </if>
     </delete>
     <insert id="insert" parameterType="com.jincong.springboot.pojo.TStudent">
@@ -942,11 +1085,10 @@
             </if>
         </trim>
     </insert>
-    <select id="countByExample" parameterType="com.jincong.springboot.pojo.TStudentExample"
-            resultType="java.lang.Integer">
+    <select id="countByExample" parameterType="com.jincong.springboot.pojo.TStudentExample" resultType="java.lang.Integer">
         select count(*) from t_student
         <if test="_parameter != null">
-            <include refid="Example_Where_Clause"/>
+            <include refid="Example_Where_Clause" />
         </if>
     </select>
     <update id="updateByExampleSelective" parameterType="map">
@@ -966,7 +1108,7 @@
             </if>
         </set>
         <if test="_parameter != null">
-            <include refid="Update_By_Example_Where_Clause"/>
+            <include refid="Update_By_Example_Where_Clause" />
         </if>
     </update>
     <update id="updateByExample" parameterType="map">
@@ -976,14 +1118,14 @@
         sex = #{record.sex,jdbcType=VARCHAR},
         student_class = #{record.studentClass,jdbcType=VARCHAR}
         <if test="_parameter != null">
-            <include refid="Update_By_Example_Where_Clause"/>
+            <include refid="Update_By_Example_Where_Clause" />
         </if>
     </update>
     <resultMap id="BaseResultMap" type="com.jincong.springboot.pojo.TStudent">
-        <result column="sid" jdbcType="INTEGER" property="sid"/>
-        <result column="student_name" jdbcType="VARCHAR" property="studentName"/>
-        <result column="sex" jdbcType="VARCHAR" property="sex"/>
-        <result column="student_class" jdbcType="VARCHAR" property="studentClass"/>
+        <result column="sid" jdbcType="INTEGER" property="sid" />
+        <result column="student_name" jdbcType="VARCHAR" property="studentName" />
+        <result column="sex" jdbcType="VARCHAR" property="sex" />
+        <result column="student_class" jdbcType="VARCHAR" property="studentClass" />
     </resultMap>
     <sql id="Example_Where_Clause">
         <where>
@@ -1003,8 +1145,7 @@
                                 </when>
                                 <when test="criterion.listValue">
                                     and ${criterion.condition}
-                                    <foreach close=")" collection="criterion.value" item="listItem" open="("
-                                             separator=",">
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
                                         #{listItem}
                                     </foreach>
                                 </when>
@@ -1033,8 +1174,7 @@
                                 </when>
                                 <when test="criterion.listValue">
                                     and ${criterion.condition}
-                                    <foreach close=")" collection="criterion.value" item="listItem" open="("
-                                             separator=",">
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
                                         #{listItem}
                                     </foreach>
                                 </when>
@@ -1053,10 +1193,10 @@
         <if test="distinct">
             distinct
         </if>
-        <include refid="Base_Column_List"/>
+        <include refid="Base_Column_List" />
         from t_student
         <if test="_parameter != null">
-            <include refid="Example_Where_Clause"/>
+            <include refid="Example_Where_Clause" />
         </if>
         <if test="orderByClause != null">
             order by ${orderByClause}
@@ -1065,7 +1205,7 @@
     <delete id="deleteByExample" parameterType="com.jincong.springboot.pojo.TStudentExample">
         delete from t_student
         <if test="_parameter != null">
-            <include refid="Example_Where_Clause"/>
+            <include refid="Example_Where_Clause" />
         </if>
     </delete>
     <insert id="insert" parameterType="com.jincong.springboot.pojo.TStudent">
@@ -1105,11 +1245,10 @@
             </if>
         </trim>
     </insert>
-    <select id="countByExample" parameterType="com.jincong.springboot.pojo.TStudentExample"
-            resultType="java.lang.Integer">
+    <select id="countByExample" parameterType="com.jincong.springboot.pojo.TStudentExample" resultType="java.lang.Integer">
         select count(*) from t_student
         <if test="_parameter != null">
-            <include refid="Example_Where_Clause"/>
+            <include refid="Example_Where_Clause" />
         </if>
     </select>
     <update id="updateByExampleSelective" parameterType="map">
@@ -1129,7 +1268,7 @@
             </if>
         </set>
         <if test="_parameter != null">
-            <include refid="Update_By_Example_Where_Clause"/>
+            <include refid="Update_By_Example_Where_Clause" />
         </if>
     </update>
     <update id="updateByExample" parameterType="map">
@@ -1139,14 +1278,14 @@
         sex = #{record.sex,jdbcType=VARCHAR},
         student_class = #{record.studentClass,jdbcType=VARCHAR}
         <if test="_parameter != null">
-            <include refid="Update_By_Example_Where_Clause"/>
+            <include refid="Update_By_Example_Where_Clause" />
         </if>
     </update>
     <resultMap id="BaseResultMap" type="com.jincong.springboot.pojo.TStudent">
-        <result column="sid" jdbcType="INTEGER" property="sid"/>
-        <result column="student_name" jdbcType="VARCHAR" property="studentName"/>
-        <result column="sex" jdbcType="VARCHAR" property="sex"/>
-        <result column="student_class" jdbcType="VARCHAR" property="studentClass"/>
+        <result column="sid" jdbcType="INTEGER" property="sid" />
+        <result column="student_name" jdbcType="VARCHAR" property="studentName" />
+        <result column="sex" jdbcType="VARCHAR" property="sex" />
+        <result column="student_class" jdbcType="VARCHAR" property="studentClass" />
     </resultMap>
     <sql id="Example_Where_Clause">
         <where>
@@ -1166,8 +1305,7 @@
                                 </when>
                                 <when test="criterion.listValue">
                                     and ${criterion.condition}
-                                    <foreach close=")" collection="criterion.value" item="listItem" open="("
-                                             separator=",">
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
                                         #{listItem}
                                     </foreach>
                                 </when>
@@ -1196,8 +1334,7 @@
                                 </when>
                                 <when test="criterion.listValue">
                                     and ${criterion.condition}
-                                    <foreach close=")" collection="criterion.value" item="listItem" open="("
-                                             separator=",">
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
                                         #{listItem}
                                     </foreach>
                                 </when>
@@ -1216,10 +1353,10 @@
         <if test="distinct">
             distinct
         </if>
-        <include refid="Base_Column_List"/>
+        <include refid="Base_Column_List" />
         from t_student
         <if test="_parameter != null">
-            <include refid="Example_Where_Clause"/>
+            <include refid="Example_Where_Clause" />
         </if>
         <if test="orderByClause != null">
             order by ${orderByClause}
@@ -1228,7 +1365,7 @@
     <delete id="deleteByExample" parameterType="com.jincong.springboot.pojo.TStudentExample">
         delete from t_student
         <if test="_parameter != null">
-            <include refid="Example_Where_Clause"/>
+            <include refid="Example_Where_Clause" />
         </if>
     </delete>
     <insert id="insert" parameterType="com.jincong.springboot.pojo.TStudent">
@@ -1268,11 +1405,10 @@
             </if>
         </trim>
     </insert>
-    <select id="countByExample" parameterType="com.jincong.springboot.pojo.TStudentExample"
-            resultType="java.lang.Integer">
+    <select id="countByExample" parameterType="com.jincong.springboot.pojo.TStudentExample" resultType="java.lang.Integer">
         select count(*) from t_student
         <if test="_parameter != null">
-            <include refid="Example_Where_Clause"/>
+            <include refid="Example_Where_Clause" />
         </if>
     </select>
     <update id="updateByExampleSelective" parameterType="map">
@@ -1292,7 +1428,7 @@
             </if>
         </set>
         <if test="_parameter != null">
-            <include refid="Update_By_Example_Where_Clause"/>
+            <include refid="Update_By_Example_Where_Clause" />
         </if>
     </update>
     <update id="updateByExample" parameterType="map">
@@ -1302,14 +1438,14 @@
         sex = #{record.sex,jdbcType=VARCHAR},
         student_class = #{record.studentClass,jdbcType=VARCHAR}
         <if test="_parameter != null">
-            <include refid="Update_By_Example_Where_Clause"/>
+            <include refid="Update_By_Example_Where_Clause" />
         </if>
     </update>
     <resultMap id="BaseResultMap" type="com.jincong.springboot.pojo.TStudent">
-        <result column="sid" jdbcType="INTEGER" property="sid"/>
-        <result column="student_name" jdbcType="VARCHAR" property="studentName"/>
-        <result column="sex" jdbcType="VARCHAR" property="sex"/>
-        <result column="student_class" jdbcType="VARCHAR" property="studentClass"/>
+        <result column="sid" jdbcType="INTEGER" property="sid" />
+        <result column="student_name" jdbcType="VARCHAR" property="studentName" />
+        <result column="sex" jdbcType="VARCHAR" property="sex" />
+        <result column="student_class" jdbcType="VARCHAR" property="studentClass" />
     </resultMap>
     <sql id="Example_Where_Clause">
         <where>
@@ -1329,8 +1465,7 @@
                                 </when>
                                 <when test="criterion.listValue">
                                     and ${criterion.condition}
-                                    <foreach close=")" collection="criterion.value" item="listItem" open="("
-                                             separator=",">
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
                                         #{listItem}
                                     </foreach>
                                 </when>
@@ -1359,8 +1494,7 @@
                                 </when>
                                 <when test="criterion.listValue">
                                     and ${criterion.condition}
-                                    <foreach close=")" collection="criterion.value" item="listItem" open="("
-                                             separator=",">
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
                                         #{listItem}
                                     </foreach>
                                 </when>
@@ -1379,10 +1513,10 @@
         <if test="distinct">
             distinct
         </if>
-        <include refid="Base_Column_List"/>
+        <include refid="Base_Column_List" />
         from t_student
         <if test="_parameter != null">
-            <include refid="Example_Where_Clause"/>
+            <include refid="Example_Where_Clause" />
         </if>
         <if test="orderByClause != null">
             order by ${orderByClause}
@@ -1391,7 +1525,7 @@
     <delete id="deleteByExample" parameterType="com.jincong.springboot.pojo.TStudentExample">
         delete from t_student
         <if test="_parameter != null">
-            <include refid="Example_Where_Clause"/>
+            <include refid="Example_Where_Clause" />
         </if>
     </delete>
     <insert id="insert" parameterType="com.jincong.springboot.pojo.TStudent">
@@ -1431,11 +1565,10 @@
             </if>
         </trim>
     </insert>
-    <select id="countByExample" parameterType="com.jincong.springboot.pojo.TStudentExample"
-            resultType="java.lang.Integer">
+    <select id="countByExample" parameterType="com.jincong.springboot.pojo.TStudentExample" resultType="java.lang.Integer">
         select count(*) from t_student
         <if test="_parameter != null">
-            <include refid="Example_Where_Clause"/>
+            <include refid="Example_Where_Clause" />
         </if>
     </select>
     <update id="updateByExampleSelective" parameterType="map">
@@ -1455,7 +1588,7 @@
             </if>
         </set>
         <if test="_parameter != null">
-            <include refid="Update_By_Example_Where_Clause"/>
+            <include refid="Update_By_Example_Where_Clause" />
         </if>
     </update>
     <update id="updateByExample" parameterType="map">
@@ -1465,14 +1598,14 @@
         sex = #{record.sex,jdbcType=VARCHAR},
         student_class = #{record.studentClass,jdbcType=VARCHAR}
         <if test="_parameter != null">
-            <include refid="Update_By_Example_Where_Clause"/>
+            <include refid="Update_By_Example_Where_Clause" />
         </if>
     </update>
     <resultMap id="BaseResultMap" type="com.jincong.springboot.pojo.TStudent">
-        <result column="sid" jdbcType="INTEGER" property="sid"/>
-        <result column="student_name" jdbcType="VARCHAR" property="studentName"/>
-        <result column="sex" jdbcType="VARCHAR" property="sex"/>
-        <result column="student_class" jdbcType="VARCHAR" property="studentClass"/>
+        <result column="sid" jdbcType="INTEGER" property="sid" />
+        <result column="student_name" jdbcType="VARCHAR" property="studentName" />
+        <result column="sex" jdbcType="VARCHAR" property="sex" />
+        <result column="student_class" jdbcType="VARCHAR" property="studentClass" />
     </resultMap>
     <sql id="Example_Where_Clause">
         <where>
@@ -1492,8 +1625,7 @@
                                 </when>
                                 <when test="criterion.listValue">
                                     and ${criterion.condition}
-                                    <foreach close=")" collection="criterion.value" item="listItem" open="("
-                                             separator=",">
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
                                         #{listItem}
                                     </foreach>
                                 </when>
@@ -1522,8 +1654,7 @@
                                 </when>
                                 <when test="criterion.listValue">
                                     and ${criterion.condition}
-                                    <foreach close=")" collection="criterion.value" item="listItem" open="("
-                                             separator=",">
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
                                         #{listItem}
                                     </foreach>
                                 </when>
@@ -1542,10 +1673,10 @@
         <if test="distinct">
             distinct
         </if>
-        <include refid="Base_Column_List"/>
+        <include refid="Base_Column_List" />
         from t_student
         <if test="_parameter != null">
-            <include refid="Example_Where_Clause"/>
+            <include refid="Example_Where_Clause" />
         </if>
         <if test="orderByClause != null">
             order by ${orderByClause}
@@ -1554,7 +1685,7 @@
     <delete id="deleteByExample" parameterType="com.jincong.springboot.pojo.TStudentExample">
         delete from t_student
         <if test="_parameter != null">
-            <include refid="Example_Where_Clause"/>
+            <include refid="Example_Where_Clause" />
         </if>
     </delete>
     <insert id="insert" parameterType="com.jincong.springboot.pojo.TStudent">
@@ -1594,11 +1725,10 @@
             </if>
         </trim>
     </insert>
-    <select id="countByExample" parameterType="com.jincong.springboot.pojo.TStudentExample"
-            resultType="java.lang.Integer">
+    <select id="countByExample" parameterType="com.jincong.springboot.pojo.TStudentExample" resultType="java.lang.Integer">
         select count(*) from t_student
         <if test="_parameter != null">
-            <include refid="Example_Where_Clause"/>
+            <include refid="Example_Where_Clause" />
         </if>
     </select>
     <update id="updateByExampleSelective" parameterType="map">
@@ -1618,7 +1748,7 @@
             </if>
         </set>
         <if test="_parameter != null">
-            <include refid="Update_By_Example_Where_Clause"/>
+            <include refid="Update_By_Example_Where_Clause" />
         </if>
     </update>
     <update id="updateByExample" parameterType="map">
@@ -1628,14 +1758,14 @@
         sex = #{record.sex,jdbcType=VARCHAR},
         student_class = #{record.studentClass,jdbcType=VARCHAR}
         <if test="_parameter != null">
-            <include refid="Update_By_Example_Where_Clause"/>
+            <include refid="Update_By_Example_Where_Clause" />
         </if>
     </update>
     <resultMap id="BaseResultMap" type="com.jincong.springboot.pojo.TStudent">
-        <result column="sid" jdbcType="INTEGER" property="sid"/>
-        <result column="student_name" jdbcType="VARCHAR" property="studentName"/>
-        <result column="sex" jdbcType="VARCHAR" property="sex"/>
-        <result column="student_class" jdbcType="VARCHAR" property="studentClass"/>
+        <result column="sid" jdbcType="INTEGER" property="sid" />
+        <result column="student_name" jdbcType="VARCHAR" property="studentName" />
+        <result column="sex" jdbcType="VARCHAR" property="sex" />
+        <result column="student_class" jdbcType="VARCHAR" property="studentClass" />
     </resultMap>
     <sql id="Example_Where_Clause">
         <where>
@@ -1655,8 +1785,7 @@
                                 </when>
                                 <when test="criterion.listValue">
                                     and ${criterion.condition}
-                                    <foreach close=")" collection="criterion.value" item="listItem" open="("
-                                             separator=",">
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
                                         #{listItem}
                                     </foreach>
                                 </when>
@@ -1685,8 +1814,7 @@
                                 </when>
                                 <when test="criterion.listValue">
                                     and ${criterion.condition}
-                                    <foreach close=")" collection="criterion.value" item="listItem" open="("
-                                             separator=",">
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
                                         #{listItem}
                                     </foreach>
                                 </when>
@@ -1705,10 +1833,10 @@
         <if test="distinct">
             distinct
         </if>
-        <include refid="Base_Column_List"/>
+        <include refid="Base_Column_List" />
         from t_student
         <if test="_parameter != null">
-            <include refid="Example_Where_Clause"/>
+            <include refid="Example_Where_Clause" />
         </if>
         <if test="orderByClause != null">
             order by ${orderByClause}
@@ -1717,7 +1845,7 @@
     <delete id="deleteByExample" parameterType="com.jincong.springboot.pojo.TStudentExample">
         delete from t_student
         <if test="_parameter != null">
-            <include refid="Example_Where_Clause"/>
+            <include refid="Example_Where_Clause" />
         </if>
     </delete>
     <insert id="insert" parameterType="com.jincong.springboot.pojo.TStudent">
@@ -1757,11 +1885,10 @@
             </if>
         </trim>
     </insert>
-    <select id="countByExample" parameterType="com.jincong.springboot.pojo.TStudentExample"
-            resultType="java.lang.Integer">
+    <select id="countByExample" parameterType="com.jincong.springboot.pojo.TStudentExample" resultType="java.lang.Integer">
         select count(*) from t_student
         <if test="_parameter != null">
-            <include refid="Example_Where_Clause"/>
+            <include refid="Example_Where_Clause" />
         </if>
     </select>
     <update id="updateByExampleSelective" parameterType="map">
@@ -1781,7 +1908,7 @@
             </if>
         </set>
         <if test="_parameter != null">
-            <include refid="Update_By_Example_Where_Clause"/>
+            <include refid="Update_By_Example_Where_Clause" />
         </if>
     </update>
     <update id="updateByExample" parameterType="map">
@@ -1791,14 +1918,14 @@
         sex = #{record.sex,jdbcType=VARCHAR},
         student_class = #{record.studentClass,jdbcType=VARCHAR}
         <if test="_parameter != null">
-            <include refid="Update_By_Example_Where_Clause"/>
+            <include refid="Update_By_Example_Where_Clause" />
         </if>
     </update>
     <resultMap id="BaseResultMap" type="com.jincong.springboot.pojo.TStudent">
-        <result column="sid" jdbcType="INTEGER" property="sid"/>
-        <result column="student_name" jdbcType="VARCHAR" property="studentName"/>
-        <result column="sex" jdbcType="VARCHAR" property="sex"/>
-        <result column="student_class" jdbcType="VARCHAR" property="studentClass"/>
+        <result column="sid" jdbcType="INTEGER" property="sid" />
+        <result column="student_name" jdbcType="VARCHAR" property="studentName" />
+        <result column="sex" jdbcType="VARCHAR" property="sex" />
+        <result column="student_class" jdbcType="VARCHAR" property="studentClass" />
     </resultMap>
     <sql id="Example_Where_Clause">
         <where>
@@ -1818,8 +1945,7 @@
                                 </when>
                                 <when test="criterion.listValue">
                                     and ${criterion.condition}
-                                    <foreach close=")" collection="criterion.value" item="listItem" open="("
-                                             separator=",">
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
                                         #{listItem}
                                     </foreach>
                                 </when>
@@ -1848,8 +1974,7 @@
                                 </when>
                                 <when test="criterion.listValue">
                                     and ${criterion.condition}
-                                    <foreach close=")" collection="criterion.value" item="listItem" open="("
-                                             separator=",">
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
                                         #{listItem}
                                     </foreach>
                                 </when>
@@ -1868,10 +1993,10 @@
         <if test="distinct">
             distinct
         </if>
-        <include refid="Base_Column_List"/>
+        <include refid="Base_Column_List" />
         from t_student
         <if test="_parameter != null">
-            <include refid="Example_Where_Clause"/>
+            <include refid="Example_Where_Clause" />
         </if>
         <if test="orderByClause != null">
             order by ${orderByClause}
@@ -1880,7 +2005,7 @@
     <delete id="deleteByExample" parameterType="com.jincong.springboot.pojo.TStudentExample">
         delete from t_student
         <if test="_parameter != null">
-            <include refid="Example_Where_Clause"/>
+            <include refid="Example_Where_Clause" />
         </if>
     </delete>
     <insert id="insert" parameterType="com.jincong.springboot.pojo.TStudent">
@@ -1920,11 +2045,10 @@
             </if>
         </trim>
     </insert>
-    <select id="countByExample" parameterType="com.jincong.springboot.pojo.TStudentExample"
-            resultType="java.lang.Integer">
+    <select id="countByExample" parameterType="com.jincong.springboot.pojo.TStudentExample" resultType="java.lang.Integer">
         select count(*) from t_student
         <if test="_parameter != null">
-            <include refid="Example_Where_Clause"/>
+            <include refid="Example_Where_Clause" />
         </if>
     </select>
     <update id="updateByExampleSelective" parameterType="map">
@@ -1944,7 +2068,7 @@
             </if>
         </set>
         <if test="_parameter != null">
-            <include refid="Update_By_Example_Where_Clause"/>
+            <include refid="Update_By_Example_Where_Clause" />
         </if>
     </update>
     <update id="updateByExample" parameterType="map">
@@ -1954,14 +2078,14 @@
         sex = #{record.sex,jdbcType=VARCHAR},
         student_class = #{record.studentClass,jdbcType=VARCHAR}
         <if test="_parameter != null">
-            <include refid="Update_By_Example_Where_Clause"/>
+            <include refid="Update_By_Example_Where_Clause" />
         </if>
     </update>
     <resultMap id="BaseResultMap" type="com.jincong.springboot.pojo.TStudent">
-        <result column="sid" jdbcType="INTEGER" property="sid"/>
-        <result column="student_name" jdbcType="VARCHAR" property="studentName"/>
-        <result column="sex" jdbcType="VARCHAR" property="sex"/>
-        <result column="student_class" jdbcType="VARCHAR" property="studentClass"/>
+        <result column="sid" jdbcType="INTEGER" property="sid" />
+        <result column="student_name" jdbcType="VARCHAR" property="studentName" />
+        <result column="sex" jdbcType="VARCHAR" property="sex" />
+        <result column="student_class" jdbcType="VARCHAR" property="studentClass" />
     </resultMap>
     <sql id="Example_Where_Clause">
         <where>
@@ -1981,8 +2105,7 @@
                                 </when>
                                 <when test="criterion.listValue">
                                     and ${criterion.condition}
-                                    <foreach close=")" collection="criterion.value" item="listItem" open="("
-                                             separator=",">
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
                                         #{listItem}
                                     </foreach>
                                 </when>
@@ -2011,8 +2134,7 @@
                                 </when>
                                 <when test="criterion.listValue">
                                     and ${criterion.condition}
-                                    <foreach close=")" collection="criterion.value" item="listItem" open="("
-                                             separator=",">
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
                                         #{listItem}
                                     </foreach>
                                 </when>
@@ -2031,10 +2153,10 @@
         <if test="distinct">
             distinct
         </if>
-        <include refid="Base_Column_List"/>
+        <include refid="Base_Column_List" />
         from t_student
         <if test="_parameter != null">
-            <include refid="Example_Where_Clause"/>
+            <include refid="Example_Where_Clause" />
         </if>
         <if test="orderByClause != null">
             order by ${orderByClause}
@@ -2043,7 +2165,7 @@
     <delete id="deleteByExample" parameterType="com.jincong.springboot.pojo.TStudentExample">
         delete from t_student
         <if test="_parameter != null">
-            <include refid="Example_Where_Clause"/>
+            <include refid="Example_Where_Clause" />
         </if>
     </delete>
     <insert id="insert" parameterType="com.jincong.springboot.pojo.TStudent">
@@ -2083,11 +2205,10 @@
             </if>
         </trim>
     </insert>
-    <select id="countByExample" parameterType="com.jincong.springboot.pojo.TStudentExample"
-            resultType="java.lang.Integer">
+    <select id="countByExample" parameterType="com.jincong.springboot.pojo.TStudentExample" resultType="java.lang.Integer">
         select count(*) from t_student
         <if test="_parameter != null">
-            <include refid="Example_Where_Clause"/>
+            <include refid="Example_Where_Clause" />
         </if>
     </select>
     <update id="updateByExampleSelective" parameterType="map">
@@ -2107,7 +2228,7 @@
             </if>
         </set>
         <if test="_parameter != null">
-            <include refid="Update_By_Example_Where_Clause"/>
+            <include refid="Update_By_Example_Where_Clause" />
         </if>
     </update>
     <update id="updateByExample" parameterType="map">
@@ -2117,14 +2238,14 @@
         sex = #{record.sex,jdbcType=VARCHAR},
         student_class = #{record.studentClass,jdbcType=VARCHAR}
         <if test="_parameter != null">
-            <include refid="Update_By_Example_Where_Clause"/>
+            <include refid="Update_By_Example_Where_Clause" />
         </if>
     </update>
     <resultMap id="BaseResultMap" type="com.jincong.springboot.pojo.TStudent">
-        <result column="sid" jdbcType="INTEGER" property="sid"/>
-        <result column="student_name" jdbcType="VARCHAR" property="studentName"/>
-        <result column="sex" jdbcType="VARCHAR" property="sex"/>
-        <result column="student_class" jdbcType="VARCHAR" property="studentClass"/>
+        <result column="sid" jdbcType="INTEGER" property="sid" />
+        <result column="student_name" jdbcType="VARCHAR" property="studentName" />
+        <result column="sex" jdbcType="VARCHAR" property="sex" />
+        <result column="student_class" jdbcType="VARCHAR" property="studentClass" />
     </resultMap>
     <sql id="Example_Where_Clause">
         <where>
@@ -2144,8 +2265,7 @@
                                 </when>
                                 <when test="criterion.listValue">
                                     and ${criterion.condition}
-                                    <foreach close=")" collection="criterion.value" item="listItem" open="("
-                                             separator=",">
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
                                         #{listItem}
                                     </foreach>
                                 </when>
@@ -2174,8 +2294,7 @@
                                 </when>
                                 <when test="criterion.listValue">
                                     and ${criterion.condition}
-                                    <foreach close=")" collection="criterion.value" item="listItem" open="("
-                                             separator=",">
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
                                         #{listItem}
                                     </foreach>
                                 </when>
@@ -2194,10 +2313,10 @@
         <if test="distinct">
             distinct
         </if>
-        <include refid="Base_Column_List"/>
+        <include refid="Base_Column_List" />
         from t_student
         <if test="_parameter != null">
-            <include refid="Example_Where_Clause"/>
+            <include refid="Example_Where_Clause" />
         </if>
         <if test="orderByClause != null">
             order by ${orderByClause}
@@ -2206,7 +2325,7 @@
     <delete id="deleteByExample" parameterType="com.jincong.springboot.pojo.TStudentExample">
         delete from t_student
         <if test="_parameter != null">
-            <include refid="Example_Where_Clause"/>
+            <include refid="Example_Where_Clause" />
         </if>
     </delete>
     <insert id="insert" parameterType="com.jincong.springboot.pojo.TStudent">
@@ -2246,11 +2365,10 @@
             </if>
         </trim>
     </insert>
-    <select id="countByExample" parameterType="com.jincong.springboot.pojo.TStudentExample"
-            resultType="java.lang.Integer">
+    <select id="countByExample" parameterType="com.jincong.springboot.pojo.TStudentExample" resultType="java.lang.Integer">
         select count(*) from t_student
         <if test="_parameter != null">
-            <include refid="Example_Where_Clause"/>
+            <include refid="Example_Where_Clause" />
         </if>
     </select>
     <update id="updateByExampleSelective" parameterType="map">
@@ -2270,7 +2388,7 @@
             </if>
         </set>
         <if test="_parameter != null">
-            <include refid="Update_By_Example_Where_Clause"/>
+            <include refid="Update_By_Example_Where_Clause" />
         </if>
     </update>
     <update id="updateByExample" parameterType="map">
@@ -2280,14 +2398,14 @@
         sex = #{record.sex,jdbcType=VARCHAR},
         student_class = #{record.studentClass,jdbcType=VARCHAR}
         <if test="_parameter != null">
-            <include refid="Update_By_Example_Where_Clause"/>
+            <include refid="Update_By_Example_Where_Clause" />
         </if>
     </update>
     <resultMap id="BaseResultMap" type="com.jincong.springboot.pojo.TStudent">
-        <result column="sid" jdbcType="INTEGER" property="sid"/>
-        <result column="student_name" jdbcType="VARCHAR" property="studentName"/>
-        <result column="sex" jdbcType="VARCHAR" property="sex"/>
-        <result column="student_class" jdbcType="VARCHAR" property="studentClass"/>
+        <result column="sid" jdbcType="INTEGER" property="sid" />
+        <result column="student_name" jdbcType="VARCHAR" property="studentName" />
+        <result column="sex" jdbcType="VARCHAR" property="sex" />
+        <result column="student_class" jdbcType="VARCHAR" property="studentClass" />
     </resultMap>
     <sql id="Example_Where_Clause">
         <where>
@@ -2307,8 +2425,7 @@
                                 </when>
                                 <when test="criterion.listValue">
                                     and ${criterion.condition}
-                                    <foreach close=")" collection="criterion.value" item="listItem" open="("
-                                             separator=",">
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
                                         #{listItem}
                                     </foreach>
                                 </when>
@@ -2337,8 +2454,7 @@
                                 </when>
                                 <when test="criterion.listValue">
                                     and ${criterion.condition}
-                                    <foreach close=")" collection="criterion.value" item="listItem" open="("
-                                             separator=",">
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
                                         #{listItem}
                                     </foreach>
                                 </when>
@@ -2357,10 +2473,10 @@
         <if test="distinct">
             distinct
         </if>
-        <include refid="Base_Column_List"/>
+        <include refid="Base_Column_List" />
         from t_student
         <if test="_parameter != null">
-            <include refid="Example_Where_Clause"/>
+            <include refid="Example_Where_Clause" />
         </if>
         <if test="orderByClause != null">
             order by ${orderByClause}
@@ -2369,7 +2485,7 @@
     <delete id="deleteByExample" parameterType="com.jincong.springboot.pojo.TStudentExample">
         delete from t_student
         <if test="_parameter != null">
-            <include refid="Example_Where_Clause"/>
+            <include refid="Example_Where_Clause" />
         </if>
     </delete>
     <insert id="insert" parameterType="com.jincong.springboot.pojo.TStudent">
@@ -2409,11 +2525,10 @@
             </if>
         </trim>
     </insert>
-    <select id="countByExample" parameterType="com.jincong.springboot.pojo.TStudentExample"
-            resultType="java.lang.Integer">
+    <select id="countByExample" parameterType="com.jincong.springboot.pojo.TStudentExample" resultType="java.lang.Integer">
         select count(*) from t_student
         <if test="_parameter != null">
-            <include refid="Example_Where_Clause"/>
+            <include refid="Example_Where_Clause" />
         </if>
     </select>
     <update id="updateByExampleSelective" parameterType="map">
@@ -2433,7 +2548,7 @@
             </if>
         </set>
         <if test="_parameter != null">
-            <include refid="Update_By_Example_Where_Clause"/>
+            <include refid="Update_By_Example_Where_Clause" />
         </if>
     </update>
     <update id="updateByExample" parameterType="map">
@@ -2443,14 +2558,14 @@
         sex = #{record.sex,jdbcType=VARCHAR},
         student_class = #{record.studentClass,jdbcType=VARCHAR}
         <if test="_parameter != null">
-            <include refid="Update_By_Example_Where_Clause"/>
+            <include refid="Update_By_Example_Where_Clause" />
         </if>
     </update>
     <resultMap id="BaseResultMap" type="com.jincong.springboot.pojo.TStudent">
-        <result column="sid" jdbcType="INTEGER" property="sid"/>
-        <result column="student_name" jdbcType="VARCHAR" property="studentName"/>
-        <result column="sex" jdbcType="VARCHAR" property="sex"/>
-        <result column="student_class" jdbcType="VARCHAR" property="studentClass"/>
+        <result column="sid" jdbcType="INTEGER" property="sid" />
+        <result column="student_name" jdbcType="VARCHAR" property="studentName" />
+        <result column="sex" jdbcType="VARCHAR" property="sex" />
+        <result column="student_class" jdbcType="VARCHAR" property="studentClass" />
     </resultMap>
     <sql id="Example_Where_Clause">
         <where>
@@ -2470,8 +2585,7 @@
                                 </when>
                                 <when test="criterion.listValue">
                                     and ${criterion.condition}
-                                    <foreach close=")" collection="criterion.value" item="listItem" open="("
-                                             separator=",">
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
                                         #{listItem}
                                     </foreach>
                                 </when>
@@ -2500,8 +2614,7 @@
                                 </when>
                                 <when test="criterion.listValue">
                                     and ${criterion.condition}
-                                    <foreach close=")" collection="criterion.value" item="listItem" open="("
-                                             separator=",">
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
                                         #{listItem}
                                     </foreach>
                                 </when>
@@ -2520,10 +2633,10 @@
         <if test="distinct">
             distinct
         </if>
-        <include refid="Base_Column_List"/>
+        <include refid="Base_Column_List" />
         from t_student
         <if test="_parameter != null">
-            <include refid="Example_Where_Clause"/>
+            <include refid="Example_Where_Clause" />
         </if>
         <if test="orderByClause != null">
             order by ${orderByClause}
@@ -2532,7 +2645,7 @@
     <delete id="deleteByExample" parameterType="com.jincong.springboot.pojo.TStudentExample">
         delete from t_student
         <if test="_parameter != null">
-            <include refid="Example_Where_Clause"/>
+            <include refid="Example_Where_Clause" />
         </if>
     </delete>
     <insert id="insert" parameterType="com.jincong.springboot.pojo.TStudent">
@@ -2572,11 +2685,10 @@
             </if>
         </trim>
     </insert>
-    <select id="countByExample" parameterType="com.jincong.springboot.pojo.TStudentExample"
-            resultType="java.lang.Integer">
+    <select id="countByExample" parameterType="com.jincong.springboot.pojo.TStudentExample" resultType="java.lang.Integer">
         select count(*) from t_student
         <if test="_parameter != null">
-            <include refid="Example_Where_Clause"/>
+            <include refid="Example_Where_Clause" />
         </if>
     </select>
     <update id="updateByExampleSelective" parameterType="map">
@@ -2596,7 +2708,7 @@
             </if>
         </set>
         <if test="_parameter != null">
-            <include refid="Update_By_Example_Where_Clause"/>
+            <include refid="Update_By_Example_Where_Clause" />
         </if>
     </update>
     <update id="updateByExample" parameterType="map">
@@ -2606,14 +2718,14 @@
         sex = #{record.sex,jdbcType=VARCHAR},
         student_class = #{record.studentClass,jdbcType=VARCHAR}
         <if test="_parameter != null">
-            <include refid="Update_By_Example_Where_Clause"/>
+            <include refid="Update_By_Example_Where_Clause" />
         </if>
     </update>
     <resultMap id="BaseResultMap" type="com.jincong.springboot.pojo.TStudent">
-        <result column="sid" jdbcType="INTEGER" property="sid"/>
-        <result column="student_name" jdbcType="VARCHAR" property="studentName"/>
-        <result column="sex" jdbcType="VARCHAR" property="sex"/>
-        <result column="student_class" jdbcType="VARCHAR" property="studentClass"/>
+        <result column="sid" jdbcType="INTEGER" property="sid" />
+        <result column="student_name" jdbcType="VARCHAR" property="studentName" />
+        <result column="sex" jdbcType="VARCHAR" property="sex" />
+        <result column="student_class" jdbcType="VARCHAR" property="studentClass" />
     </resultMap>
     <sql id="Example_Where_Clause">
         <where>
@@ -2633,8 +2745,7 @@
                                 </when>
                                 <when test="criterion.listValue">
                                     and ${criterion.condition}
-                                    <foreach close=")" collection="criterion.value" item="listItem" open="("
-                                             separator=",">
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
                                         #{listItem}
                                     </foreach>
                                 </when>
@@ -2663,8 +2774,7 @@
                                 </when>
                                 <when test="criterion.listValue">
                                     and ${criterion.condition}
-                                    <foreach close=")" collection="criterion.value" item="listItem" open="("
-                                             separator=",">
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
                                         #{listItem}
                                     </foreach>
                                 </when>
@@ -2683,10 +2793,10 @@
         <if test="distinct">
             distinct
         </if>
-        <include refid="Base_Column_List"/>
+        <include refid="Base_Column_List" />
         from t_student
         <if test="_parameter != null">
-            <include refid="Example_Where_Clause"/>
+            <include refid="Example_Where_Clause" />
         </if>
         <if test="orderByClause != null">
             order by ${orderByClause}
@@ -2695,7 +2805,7 @@
     <delete id="deleteByExample" parameterType="com.jincong.springboot.pojo.TStudentExample">
         delete from t_student
         <if test="_parameter != null">
-            <include refid="Example_Where_Clause"/>
+            <include refid="Example_Where_Clause" />
         </if>
     </delete>
     <insert id="insert" parameterType="com.jincong.springboot.pojo.TStudent">
@@ -2735,11 +2845,10 @@
             </if>
         </trim>
     </insert>
-    <select id="countByExample" parameterType="com.jincong.springboot.pojo.TStudentExample"
-            resultType="java.lang.Integer">
+    <select id="countByExample" parameterType="com.jincong.springboot.pojo.TStudentExample" resultType="java.lang.Integer">
         select count(*) from t_student
         <if test="_parameter != null">
-            <include refid="Example_Where_Clause"/>
+            <include refid="Example_Where_Clause" />
         </if>
     </select>
     <update id="updateByExampleSelective" parameterType="map">
@@ -2759,7 +2868,7 @@
             </if>
         </set>
         <if test="_parameter != null">
-            <include refid="Update_By_Example_Where_Clause"/>
+            <include refid="Update_By_Example_Where_Clause" />
         </if>
     </update>
     <update id="updateByExample" parameterType="map">
@@ -2769,14 +2878,14 @@
         sex = #{record.sex,jdbcType=VARCHAR},
         student_class = #{record.studentClass,jdbcType=VARCHAR}
         <if test="_parameter != null">
-            <include refid="Update_By_Example_Where_Clause"/>
+            <include refid="Update_By_Example_Where_Clause" />
         </if>
     </update>
     <resultMap id="BaseResultMap" type="com.jincong.springboot.pojo.TStudent">
-        <id column="sid" jdbcType="INTEGER" property="sid"/>
-        <result column="student_name" jdbcType="VARCHAR" property="studentName"/>
-        <result column="sex" jdbcType="VARCHAR" property="sex"/>
-        <result column="student_class" jdbcType="VARCHAR" property="studentClass"/>
+        <id column="sid" jdbcType="INTEGER" property="sid" />
+        <result column="student_name" jdbcType="VARCHAR" property="studentName" />
+        <result column="sex" jdbcType="VARCHAR" property="sex" />
+        <result column="student_class" jdbcType="VARCHAR" property="studentClass" />
     </resultMap>
     <sql id="Example_Where_Clause">
         <where>
@@ -2796,8 +2905,7 @@
                                 </when>
                                 <when test="criterion.listValue">
                                     and ${criterion.condition}
-                                    <foreach close=")" collection="criterion.value" item="listItem" open="("
-                                             separator=",">
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
                                         #{listItem}
                                     </foreach>
                                 </when>
@@ -2826,8 +2934,7 @@
                                 </when>
                                 <when test="criterion.listValue">
                                     and ${criterion.condition}
-                                    <foreach close=")" collection="criterion.value" item="listItem" open="("
-                                             separator=",">
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
                                         #{listItem}
                                     </foreach>
                                 </when>
@@ -2846,10 +2953,10 @@
         <if test="distinct">
             distinct
         </if>
-        <include refid="Base_Column_List"/>
+        <include refid="Base_Column_List" />
         from t_student
         <if test="_parameter != null">
-            <include refid="Example_Where_Clause"/>
+            <include refid="Example_Where_Clause" />
         </if>
         <if test="orderByClause != null">
             order by ${orderByClause}
@@ -2857,7 +2964,7 @@
     </select>
     <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
         select
-        <include refid="Base_Column_List"/>
+        <include refid="Base_Column_List" />
         from t_student
         where sid = #{sid,jdbcType=INTEGER}
     </select>
@@ -2868,7 +2975,7 @@
     <delete id="deleteByExample" parameterType="com.jincong.springboot.pojo.TStudentExample">
         delete from t_student
         <if test="_parameter != null">
-            <include refid="Example_Where_Clause"/>
+            <include refid="Example_Where_Clause" />
         </if>
     </delete>
     <insert id="insert" parameterType="com.jincong.springboot.pojo.TStudent">
@@ -2908,11 +3015,10 @@
             </if>
         </trim>
     </insert>
-    <select id="countByExample" parameterType="com.jincong.springboot.pojo.TStudentExample"
-            resultType="java.lang.Integer">
+    <select id="countByExample" parameterType="com.jincong.springboot.pojo.TStudentExample" resultType="java.lang.Integer">
         select count(*) from t_student
         <if test="_parameter != null">
-            <include refid="Example_Where_Clause"/>
+            <include refid="Example_Where_Clause" />
         </if>
     </select>
     <update id="updateByExampleSelective" parameterType="map">
@@ -2932,7 +3038,7 @@
             </if>
         </set>
         <if test="_parameter != null">
-            <include refid="Update_By_Example_Where_Clause"/>
+            <include refid="Update_By_Example_Where_Clause" />
         </if>
     </update>
     <update id="updateByExample" parameterType="map">
@@ -2942,7 +3048,7 @@
         sex = #{record.sex,jdbcType=VARCHAR},
         student_class = #{record.studentClass,jdbcType=VARCHAR}
         <if test="_parameter != null">
-            <include refid="Update_By_Example_Where_Clause"/>
+            <include refid="Update_By_Example_Where_Clause" />
         </if>
     </update>
     <update id="updateByPrimaryKeySelective" parameterType="com.jincong.springboot.pojo.TStudent">
