@@ -10,11 +10,15 @@ package com.jincong.springboot.test;
 public class Dog {
 
 
-    public String name;
+    private String name;
 
 
     public Dog(String name) {
         this.name = name;
     }
+
+
+
+
 
 }

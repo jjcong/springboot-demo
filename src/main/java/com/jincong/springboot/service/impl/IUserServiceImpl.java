@@ -20,6 +20,7 @@ import tk.mybatis.mapper.entity.Example;
 import tk.mybatis.mapper.weekend.Weekend;
 import tk.mybatis.mapper.weekend.WeekendCriteria;
 
+import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import java.util.*;
 import java.util.concurrent.Future;
@@ -38,6 +39,7 @@ public class IUserServiceImpl implements IUserService {
     private ApplicationContext applicationContext;
 
 
+    @PostConstruct
     @Override
     public List<User> findAllUser() {
 
@@ -239,6 +241,7 @@ public class IUserServiceImpl implements IUserService {
     @Override
     public User getUserByListener() {
         //User user = findUserById(7);
+
         User user = new User();
         MyEvent event = new MyEvent(this, user);
         applicationContext.publishEvent(event);

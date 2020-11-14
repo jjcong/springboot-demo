@@ -1,24 +1,8 @@
 package com.jincong.springboot.controller;
 
-import com.alibaba.fastjson.JSON;
-import com.jincong.springboot.domain.User;
-import com.jincong.springboot.result.BaseResult;
-import com.jincong.springboot.service.IUserService;
-import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.kafka.clients.consumer.ConsumerRecord;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.kafka.annotation.KafkaListener;
-import org.springframework.kafka.core.KafkaTemplate;
-import org.springframework.kafka.support.SendResult;
-import org.springframework.util.concurrent.ListenableFuture;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import javax.annotation.Resource;
-import java.util.List;
-import java.util.concurrent.ExecutionException;
 
 /**
  * 测试Kafka
@@ -31,6 +15,7 @@ import java.util.concurrent.ExecutionException;
 @Slf4j
 @RequestMapping("/kafka")
 public class KafkaController {
+    /*
 
     @Autowired
     private IUserService userService;
@@ -83,5 +68,6 @@ public class KafkaController {
         return new BaseResult();
 
     }
+    */
 
 }
