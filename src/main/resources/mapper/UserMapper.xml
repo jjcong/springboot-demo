@@ -27,10 +27,17 @@
     <!-- 查询用户列表 -->
     <select id="findAllUser" resultType="com.jincong.springboot.domain.User">
         select
-        *
+           id,
+           user_code,
+           user_name,
+           phone,
+           sex,
+           password,
+           remark,
+           create_time,
+           last_update_time
 
-        from
-        t_user
+        from t_user
 
     </select>
 

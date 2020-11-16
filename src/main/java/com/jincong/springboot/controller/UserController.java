@@ -107,6 +107,7 @@ public class UserController {
     @ApiOperation(value = "根据用户名称获取用户列表")
     @GetMapping(value = "/findUserByUserName")
     public List<User> findUserByUserName(@RequestParam @ApiParam(value = "用户名称") String userName) {
+
         return userService.findUserByUserName(userName);
     }
 

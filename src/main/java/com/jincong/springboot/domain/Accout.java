@@ -1,5 +1,6 @@
 package com.jincong.springboot.domain;
 
+import lombok.Builder;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -10,6 +11,7 @@ import java.util.Date;
  * @author 
  */
 @Data
+@Builder
 public class Accout implements Serializable {
     /**
      * 自增主键

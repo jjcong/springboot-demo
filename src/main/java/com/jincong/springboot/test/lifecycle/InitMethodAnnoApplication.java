@@ -15,6 +15,6 @@ public class InitMethodAnnoApplication {
         AnnotationConfigApplicationContext ctx = new AnnotationConfigApplicationContext(InitMethodConfigration.class);
         System.out.println("IOC容器初始化完成。。。。。");
         Thread.sleep(3000);
-        ctx.close();;
+        ctx.close();
     }
 }
