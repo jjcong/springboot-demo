@@ -5,7 +5,7 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 
-@Component
+@Component("dog11")
 public class Dog implements InitializingBean {
     public void initMethod() {
         System.out.println("initMethod ...");

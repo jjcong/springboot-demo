@@ -1,6 +1,6 @@
 package com.jincong.springboot.test.postprocessor.config;
 
-import com.jincong.springboot.test.postprocessor.Cat;
+import com.jincong.springboot.test.postprocessor.Cat1;
 import com.jincong.springboot.test.postprocessor.Dog;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.BeanPostProcessor;
@@ -19,7 +19,7 @@ public class AnimalBeanPostProcessor implements BeanPostProcessor {
     @Override
     public Object postProcessBeforeInitialization(Object bean, String beanName)  throws BeansException {
         System.out.println("拦截到Bean的初始化之前：" + bean);
-        if (bean instanceof Cat) {
+        if (bean instanceof Cat1) {
             return new Dog();
         }
         return bean;

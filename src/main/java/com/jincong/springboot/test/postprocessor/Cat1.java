@@ -3,7 +3,7 @@ package com.jincong.springboot.test.postprocessor;
 import org.springframework.stereotype.Component;
 
 @Component
-public class Cat {
+public class Cat1 {
 
     private String name;
 

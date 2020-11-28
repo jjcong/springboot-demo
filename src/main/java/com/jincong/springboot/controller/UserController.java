@@ -101,6 +101,8 @@ public class UserController {
         Date minDate = userList.stream().min(Comparator.comparing(User::getCreateTime)).orElse(null).getCreateTime();
         System.out.println(userNameList);
 
+
+
         return new BaseResult<>(userList, "获取用户信息成功");
     }
 
@@ -110,6 +112,7 @@ public class UserController {
 
         return userService.findUserByUserName(userName);
     }
+
 
 
 
@@ -192,14 +195,15 @@ public class UserController {
         user.setLastUpdateTime(new Date());
         user.setRemark("测试Redis格式化");
 
-        redisTemplateService.set("redis:user:1", user);
+        redisTemplateService.set("redis:user:2", user);
 
         StopWatch stopWatch = new StopWatch("Redis");
         stopWatch.start("testRedis");
-        User us = redisTemplateService.get("redis:user:1", User.class);
+        User us = redisTemplateService.get("redis:user:2", User.class);
         stopWatch.stop();
         System.out.println(stopWatch.prettyPrint());
         System.out.println(us);
+
 
     }
 
