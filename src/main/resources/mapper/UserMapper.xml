@@ -5,7 +5,7 @@
 <mapper namespace="com.jincong.springboot.mapper.UserMapper">
 
     <resultMap id="UserResult" type="com.jincong.springboot.vo.UserVO">
-        <id property="id" column="id" />
+        <id property="id" column="id"/>
         <result property="userCode" column="user_code" jdbcType="VARCHAR"/>
         <result property="userName" column="user_name" jdbcType="VARCHAR"/>
         <result property="phone" column="phone" jdbcType="VARCHAR"/>
@@ -13,29 +13,28 @@
         <result property="password" column="password" jdbcType="VARCHAR"/>
         <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
         <result property="lastUpdateTime" column="last_update_time" jdbcType="TIMESTAMP"/>
-        <association property="roleList"  resultMap="RoleResult" />
+        <association property="roleList" resultMap="RoleResult"/>
     </resultMap>
 
 
     <resultMap id="RoleResult" type="com.jincong.springboot.vo.RoleVO">
-        <id property="id" column="roleId" />
+        <id property="id" column="roleId"/>
         <result property="roleId" column="role_id" jdbcType="INTEGER"/>
         <result property="roleName" column="role_name" jdbcType="VARCHAR"/>
         <result property="remark" column="remark" jdbcType="VARCHAR"/>
-<!--        <association property="userVO"  jdbcType="com.jincong.springboot.vo.UserVO" resultMap="UserResult" />-->
+        <!--        <association property="userVO"  jdbcType="com.jincong.springboot.vo.UserVO" resultMap="UserResult" />-->
     </resultMap>
     <!-- 查询用户列表 -->
     <select id="findAllUser" resultType="com.jincong.springboot.domain.User">
-        select
-           id,
-           user_code,
-           user_name,
-           phone,
-           sex,
-           password,
-           remark,
-           create_time,
-           last_update_time
+        select id,
+               user_code,
+               user_name,
+               phone,
+               sex,
+               password,
+               remark,
+               create_time,
+               last_update_time
 
         from t_user
 
@@ -43,19 +42,19 @@
 
     <select id="findUserByUserCode" resultMap="UserResult">
         select
-            u.id,
-            u.user_code,
-            u.user_name,
-            u.password,
-            u.create_time,
-            u.last_update_time,
-            r.id roleId,
-            r.role_id,
-            r.role_name,
-            r.remark
+        u.id,
+        u.user_code,
+        u.user_name,
+        u.password,
+        u.create_time,
+        u.last_update_time,
+        r.id roleId,
+        r.role_id,
+        r.role_name,
+        r.remark
 
         from
-            t_user u
+        t_user u
         left join t_role r on u.user_code = r.user_code
         <where>
             u.user_code= #{userCode}
@@ -79,16 +78,37 @@
         </where>
 
     </select>
+    <select id="findUserByUserNameAndIds" resultType="com.jincong.springboot.domain.User">
+        select id,
+               user_code,
+               user_name,
+               phone,
+               sex,
+               password,
+               remark,
+               create_time,
+               last_update_time
+        from t_user u
+        <where>
+            <if test="userIds != null and userIds.size() != 0">
+                u.id in
+                <foreach collection="list" item="id" index="index" open="(" separator="," close=")">
+                    #{id}
+                </foreach>
+            </if>
+            <if test="userName != null and userName != ''">
+                and u.user_name LIKE CONCAT('%', #{userName}, '%')
+            </if>
+        </where>
+    </select>
 
 
     <!-- 增加用户 -->
     <insert id="addUser" parameterType="com.jincong.springboot.domain.User">
 
-        INSERT INTO
-        t_user
-        (user_code, user_name, password, create_time)
-        values
-        (#{userId}, #{userName}, #{password}, #{createTime})
+        INSERT INTO t_user
+            (user_code, user_name, password, create_time)
+        values (#{userId}, #{userName}, #{password}, #{createTime})
     </insert>
 
     <!-- 批量删除用户 -->

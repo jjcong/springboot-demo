@@ -26,4 +26,13 @@ public interface UserMapper {
     @Select("SELECT * FROM t_user WHERE user_code = #{userCode, jdbcType=VARCHAR}")
     UserVO annotationFindUserByUserCode(@Param("userCode")String userCode);
 
+
+    /**
+     * 根据用户名称和用户id查询数据
+     * @param userName 用户名称
+     * @param userIds  用户Id
+     * @return
+     */
+    List<User> findUserByUserNameAndIds( String userName,List<Integer> userIds);
+
 }

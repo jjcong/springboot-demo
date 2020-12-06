@@ -22,6 +22,7 @@ import tk.mybatis.mapper.weekend.WeekendCriteria;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
+import javax.validation.constraints.NotNull;
 import java.util.*;
 import java.util.concurrent.Future;
 import java.util.stream.Collectors;
@@ -110,6 +111,10 @@ public class IUserServiceImpl implements IUserService {
     @Override
     public List<User> findUserByUserName(String userName) {
 
+        List<Integer> userIds = Arrays.asList(1,2,4);
+
+        List<User> result = userMapper.findUserByUserNameAndIds(userName, userIds);
+
         Example example = new Example(User.class);
         Example.Criteria criteria = example.createCriteria();
 
@@ -117,6 +122,12 @@ public class IUserServiceImpl implements IUserService {
 
         return newUserMapper.selectByExample(example);
     }
+
+    @Override
+    public List<User> findUserByUserNameAndIds(@NotNull String userName, @NotNull List<Integer> userIds) {
+        return userMapper.findUserByUserNameAndIds(userName, userIds);
+    }
+
 
     @Override
     public UserVO findUserByUserCode(String userCode) {

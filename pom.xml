@@ -168,6 +168,12 @@
             <version>2.9.2</version>
         </dependency>
 
+<!--        <dependency>-->
+<!--            <groupId>com.github.xiaoymin</groupId>-->
+<!--            <artifactId>swagger-bootstrap-ui</artifactId>-->
+<!--&lt;!&ndash;            <version>1.9.2</version>&ndash;&gt;-->
+<!--        </dependency>-->
+
         <!--数据库文档核心依赖-->
         <dependency>
             <groupId>cn.smallbun.screw</groupId>

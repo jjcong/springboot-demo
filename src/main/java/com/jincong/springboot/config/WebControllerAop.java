@@ -15,6 +15,8 @@ import java.util.List;
 
 /**
  * 使用AOP统一处理Web请求日志
+ * 执行顺序
+ *  环绕通知start->前置通知->环绕通知end->后置通知->最终通知
  *
  * @author j_cong
  * @version V1.0
@@ -26,7 +28,7 @@ public class WebControllerAop {
     /**
      * 指定切入点，匹配 com.jincong.springboot.controller包及其子包下的所有类的所有方法
      */
-    @Pointcut("execution(public * com.jincong.springboot.controller1.*.*(..))")
+    @Pointcut("execution(public * com.jincong.springboot.controller.*.*(..))")
     public void webLog() {
     }
 
@@ -98,7 +100,7 @@ public class WebControllerAop {
     public void after(JoinPoint jp) {
         System.out.println("后置通知开始——————————————————————");
 
-        System.out.println("后置通知开始——————————————————————");
+        System.out.println("后置通知结束——————————————————————");
 
     }
 

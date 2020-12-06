@@ -3,6 +3,7 @@ package com.jincong.springboot.service;
 import com.jincong.springboot.domain.User;
 import com.jincong.springboot.vo.UserVO;
 
+import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.concurrent.Future;
 
@@ -14,6 +15,9 @@ public interface IUserService {
     List<User> findAllUser();
 
     List<User> findUserByUserName(String userName);
+
+
+    List<User> findUserByUserNameAndIds(@NotNull String userName, @NotNull List<Integer> userIds);
 
     UserVO findUserByUserCode(String userCode);
 
