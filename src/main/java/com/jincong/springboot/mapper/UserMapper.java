@@ -31,7 +31,7 @@ public interface UserMapper {
      * 根据用户名称和用户id查询数据
      * @param userName 用户名称
      * @param userIds  用户Id
-     * @return
+     * @return   用户列表，如果没有则返回空集合
      */
     List<User> findUserByUserNameAndIds( String userName,List<Integer> userIds);
 
