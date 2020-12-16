@@ -35,4 +35,9 @@ public interface UserMapper {
      */
     List<User> findUserByUserNameAndIds( String userName,List<Integer> userIds);
 
+
+
+
+    List<Integer> existData();
+
 }

@@ -101,6 +101,9 @@
             </if>
         </where>
     </select>
+    <select id="existData" resultType="java.lang.Integer">
+        select 1 from t_user limit 10;
+    </select>
 
 
     <!-- 增加用户 -->

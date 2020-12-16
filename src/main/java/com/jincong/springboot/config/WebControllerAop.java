@@ -28,7 +28,7 @@ public class WebControllerAop {
     /**
      * 指定切入点，匹配 com.jincong.springboot.controller包及其子包下的所有类的所有方法
      */
-    @Pointcut("execution(public * com.jincong.springboot.controller1.*.*(..))")
+    @Pointcut("execution(public * com.jincong.springboot.controller.*.*(..))")
     public void webLog() {
     }
 
@@ -85,7 +85,7 @@ public class WebControllerAop {
      * @param jp
      */
     @AfterThrowing("webLog()")
-    public void throwss(JoinPoint jp) {
+    public void throwsMethod(JoinPoint jp) {
         System.out.println("异常通知开始——————————————————————");
 
         System.out.println("异常通知结束——————————————————————");
@@ -111,7 +111,7 @@ public class WebControllerAop {
      * @return
      */
     @Around("webLog()")
-    public Object arround(ProceedingJoinPoint pjp) {
+    public Object around(ProceedingJoinPoint pjp) {
 
         try {
             System.out.println("环绕通知开始——————————————————————");

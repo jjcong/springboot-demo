@@ -40,4 +40,7 @@ public interface IUserService {
     User getUserByListener();
 
 
+    boolean existData();
+
+
 }

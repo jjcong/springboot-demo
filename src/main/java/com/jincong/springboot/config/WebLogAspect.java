@@ -38,7 +38,7 @@ public class WebLogAspect {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(WebLogAspect.class);
 
-    @Pointcut("execution(public * com.jincong.springboot.controller.*.*(..))")
+    @Pointcut("execution(public * com.jincong.springboot.controller1.*.*(..))")
     public void webLog() {
     }
 
@@ -46,6 +46,7 @@ public class WebLogAspect {
     public void doBefore(JoinPoint joinPoint) throws Throwable {
     }
 
+    // returning表示使用ret来接收方法的返回参数
     @AfterReturning(value = "webLog()", returning = "ret")
     public void doAfterReturning(Object ret) throws Throwable {
     }

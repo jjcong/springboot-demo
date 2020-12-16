@@ -44,6 +44,9 @@ public class IUserServiceImpl implements IUserService {
     @Override
     public List<User> findAllUser() {
 
+
+        List<Integer> result2 = userMapper.existData();
+
         CatVO catVO = new CatVO();
         catVO.setColor("红");
         catVO.setPrice("100");
@@ -74,7 +77,9 @@ public class IUserServiceImpl implements IUserService {
         List<HouseDTO> houseDTOList = JSON.parseArray(hounseStr, HouseDTO.class);
         List<CatDTO> catDTO = houseDTOList.get(0).getCats();
 
-        for (CatDTO cat: catDTO) {
+        catDTO.forEach(System.out::println);
+
+        for (CatDTO cat : catDTO) {
             System.out.println(cat);
         }
         System.out.println(catDTO);
@@ -90,7 +95,7 @@ public class IUserServiceImpl implements IUserService {
         stringList.add(list3);
 
 
-        List<String> result =stringList.stream().flatMap(Collection::stream).collect(Collectors.toList());
+        List<String> result = stringList.stream().flatMap(Collection::stream).collect(Collectors.toList());
 
         StopWatch stopWatch = new StopWatch("查询用户计时统计");
         stopWatch.start("查询用户");
@@ -111,7 +116,7 @@ public class IUserServiceImpl implements IUserService {
     @Override
     public List<User> findUserByUserName(String userName) {
 
-        List<Integer> userIds = Arrays.asList(1,2,4);
+        List<Integer> userIds = Arrays.asList(1, 2, 4);
 
         List<User> result = userMapper.findUserByUserNameAndIds(userName, userIds);
 
@@ -143,7 +148,6 @@ public class IUserServiceImpl implements IUserService {
 
     @Override
     public int addUser(User user1) {
-
 
 
         User user = new User();
@@ -257,5 +261,10 @@ public class IUserServiceImpl implements IUserService {
         MyEvent event = new MyEvent(this, user);
         applicationContext.publishEvent(event);
         return user;
+    }
+
+    @Override
+    public boolean existData() {
+        return false;
     }
 }
