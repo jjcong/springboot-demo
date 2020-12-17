@@ -76,6 +76,9 @@ public class UserController {
     @Autowired
     IOrderService orderService;
 
+    @Autowired
+    IGoodsService goodsService;
+
 
     private static final Logger LOGGER = LoggerFactory.getLogger(UserController.class);
 

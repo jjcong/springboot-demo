@@ -9,8 +9,11 @@ import com.alibaba.excel.write.metadata.WriteSheet;
 import com.jincong.springboot.pojo.OrderDTO;
 import com.jincong.springboot.pojo.TOrder;
 import com.jincong.springboot.result.BaseResult;
+import com.jincong.springboot.service.IGoodsService;
 import com.jincong.springboot.service.IOrderService;
+import com.jincong.springboot.vo.GoodsCategoryVO;
 import com.jincong.springboot.vo.QueryUserVO;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -43,6 +46,10 @@ public class OrderController {
 
     @Autowired
     IOrderService orderService;
+
+
+    @Autowired
+    IGoodsService goodsService;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(OrderController.class);
 
@@ -112,4 +119,14 @@ public class OrderController {
 
         return true;
     }
+
+    @ApiOperation(value = "获取商品分类树")
+    @RequestMapping(value = "/getGoodsCategoryTree", method = RequestMethod.GET)
+    public BaseResult findAllUser() {
+
+        List<GoodsCategoryVO> goodsCategories = goodsService.listTree();
+
+        return new BaseResult<>(goodsCategories, "获取商品分类树");
+    }
+
 }

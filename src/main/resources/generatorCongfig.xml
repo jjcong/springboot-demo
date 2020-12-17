@@ -53,6 +53,6 @@
 <!--        <table schema="" tableName="t_student"></table>-->
 <!--        <table schema="" tableName="userdb"></table>-->
 <!--        <table schema="" tableName="accout"></table>-->
-        <table schema="" tableName="t_order"></table>
+        <table schema="" tableName="t_goods_category"></table>
     </context>
 </generatorConfiguration>
