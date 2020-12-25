@@ -3,11 +3,13 @@ package com.jincong.springboot.domain;
 import com.alibaba.fastjson.annotation.JSONField;
 import com.jincong.springboot.config.SexEnum;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.Date;
 
 @Data
+@NoArgsConstructor
 @Table(name = "t_user")
 public class User {
 
@@ -33,5 +35,6 @@ public class User {
     private Date createTime;
 
     @JSONField(format = "yyyy-MM-dd HH:mm:ss")
+    // 字段添加填充内容
     private Date lastUpdateTime;
 }

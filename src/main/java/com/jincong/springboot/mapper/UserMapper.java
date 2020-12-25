@@ -19,6 +19,8 @@ public interface UserMapper {
 
     List<User> findUserByUserName(Map request);
 
+
+
     int addUser(User user);
 
     int delBatchUser(int[] ids);

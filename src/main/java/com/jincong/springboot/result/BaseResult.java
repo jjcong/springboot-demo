@@ -26,7 +26,7 @@ public class BaseResult<T> {
     private String msg;
 
     /**
-     * 若没有数据返回，默认状态码为0， 提示成功
+     * 若没有数据返回，默认状态码为200， 提示成功
      */
     public BaseResult() {
         this.code = 200;
@@ -66,4 +66,6 @@ public class BaseResult<T> {
         this.code = 200;
         this.msg = msg;
     }
+
+
 }

@@ -24,6 +24,7 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.util.StopWatch;
 import org.springframework.util.StringUtils;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.ServletContext;
@@ -147,7 +148,7 @@ public class UserController {
 
 
     @PostMapping("/addUser")
-    public boolean addUser(@RequestBody QueryUserVO userVO) {
+    public boolean addUser(@Validated @RequestBody QueryUserVO userVO) {
 
         User newUser = new User();
         newUser.setUserName(userVO.getUserName());

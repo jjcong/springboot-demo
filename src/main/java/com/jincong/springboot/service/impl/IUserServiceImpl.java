@@ -1,8 +1,6 @@
 package com.jincong.springboot.service.impl;
 
-import cn.hutool.core.util.RandomUtil;
 import com.alibaba.fastjson.JSON;
-import com.jincong.springboot.config.SexEnum;
 import com.jincong.springboot.domain.User;
 import com.jincong.springboot.handler.MyEvent;
 import com.jincong.springboot.mapper.NewUserMapper;
@@ -150,19 +148,19 @@ public class IUserServiceImpl implements IUserService {
     public int addUser(User user1) {
 
 
-        User user = new User();
-        StopWatch stopWatch = new StopWatch("测试插入10000条数据");
-        stopWatch.start("任务开始");
+        //User user = new User();
+        //StopWatch stopWatch = new StopWatch("测试插入10000条数据");
+        //stopWatch.start("任务开始");
+        //
+        //user.setUserCode("bigger1993");
+        //user.setUserName("型男");
+        //user.setPassword(RandomUtil.randomString(8));
+        //user.setSex(SexEnum.MAN);
+        //user.setCreateTime(new Date());
+        //user.setLastUpdateTime(new Date());
 
-        user.setUserCode("bigger1993");
-        user.setUserName("型男");
-        user.setPassword(RandomUtil.randomString(8));
-        user.setSex(SexEnum.MAN);
-        user.setCreateTime(new Date());
-        user.setLastUpdateTime(new Date());
 
-
-        return newUserMapper.insert(user);
+        return newUserMapper.insert(user1);
 
     }
 
