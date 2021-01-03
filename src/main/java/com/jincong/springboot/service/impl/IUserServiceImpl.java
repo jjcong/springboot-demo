@@ -181,6 +181,8 @@ public class IUserServiceImpl implements IUserService {
 
     @Override
     public int updateUser(User user) {
+
+
         User user1 = new User();
         Example example = new Example(User.class);
         Example.Criteria criteria = example.createCriteria().andEqualTo("id", 5);
@@ -196,7 +198,9 @@ public class IUserServiceImpl implements IUserService {
         if (user == null) {
             return Collections.emptyList();
         }
+
         Weekend<User> userWeekend = new Weekend<>(User.class);
+        userWeekend.weekendCriteria().andEqualTo(User::getUserName, "1").andEqualTo(User::getPassword, "2");
         WeekendCriteria<User, Object> weekendCriteria = userWeekend.weekendCriteria();
         weekendCriteria.orLike(User::getUserName, user.getUserName())
                 .orLike(User::getPassword, user.getPassword());

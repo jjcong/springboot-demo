@@ -30,6 +30,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.constraints.NotBlank;
 import java.math.BigDecimal;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
@@ -106,9 +107,6 @@ public class UserController {
         System.out.println(userNameList);
 
 
-
-
-
         return new BaseResult<>(userList, "获取用户信息成功");
     }
 
@@ -166,7 +164,7 @@ public class UserController {
     }
 
     @GetMapping(value = "/delBatchUser")
-    public boolean delBatchUser(@RequestParam String ids) {
+    public boolean delBatchUser(@RequestParam @Validated @NotBlank(message = "用户ID不能为空") String ids) {
         if (StringUtils.isEmpty(ids)) {
             return false;
         }

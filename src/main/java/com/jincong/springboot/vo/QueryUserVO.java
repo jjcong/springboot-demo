@@ -2,8 +2,10 @@ package com.jincong.springboot.vo;
 
 import lombok.Data;
 import lombok.ToString;
+import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 /**
@@ -27,6 +29,8 @@ public class QueryUserVO {
      * 用户密码
      */
     @NotBlank(message="用户密码不能为空")
+    @Length(min = 6, max = 8, message = "密码长度为6-8位。")
+    @Pattern(regexp = "[a-zA-Z]*", message = "密码不合法")
     private String password;
 
     /**

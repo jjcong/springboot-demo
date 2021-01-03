@@ -16,5 +16,6 @@ public class RoleVO {
 
     private String remark;
 
-    private UserVO userVO;
+    private String userCode;
+
 }

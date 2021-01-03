@@ -21,6 +21,7 @@
         <id property="id" column="roleId"/>
         <result property="roleId" column="role_id" jdbcType="INTEGER"/>
         <result property="roleName" column="role_name" jdbcType="VARCHAR"/>
+        <result property="userCode" column="user_code" jdbcType="VARCHAR"/>
         <result property="remark" column="remark" jdbcType="VARCHAR"/>
         <!--        <association property="userVO"  jdbcType="com.jincong.springboot.vo.UserVO" resultMap="UserResult" />-->
     </resultMap>
