@@ -89,6 +89,8 @@ public class UserController {
     public BaseResult findAllUser() {
 
         List<User> userList = userService.findAllUser();
+        userList.stream().collect(Collectors.toMap(User::getUserCode, Function.identity(), (former, latter) -> latter));
+
 //        userList = new ArrayList<>();
         Map<String, User> maps = userList.stream()
                 .collect(Collectors.toMap(User::getUserCode, Function.identity(), (o1, o2) -> o2));
