@@ -4,6 +4,7 @@ import com.alibaba.fastjson.annotation.JSONField;
 import lombok.Data;
 import lombok.ToString;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
@@ -16,8 +17,9 @@ import java.util.List;
  */
 @Data
 @ToString
-public class UserVO {
+public class UserVO implements Serializable {
 
+    private static final long serialVersionUID = 7015590617564929735L;
     private Integer id;
 
     private String userCode;
