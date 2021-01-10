@@ -3,6 +3,7 @@ package com.jincong.springboot;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cache.annotation.EnableCaching;
+import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
@@ -25,10 +26,17 @@ public class SpringbootApplication {
 
 
     public static void main(String[] args) {
-        SpringApplication.run(SpringbootApplication.class, args);
+        ConfigurableApplicationContext context = SpringApplication.run(SpringbootApplication.class, args);
+
+
+
        /* SpringApplication springApplication = new SpringApplication(SpringbootApplication.class);
         springApplication.addInitializers(new ApplicationContextInitializerDemo());
         springApplication.run(args);*/
+
+
+
+
     }
 
 }
