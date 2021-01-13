@@ -125,7 +125,7 @@ public class UserController {
 
     @ApiOperation(value = "根据用户名编号获取用户列表")
     @GetMapping(value = "/findUserByUserCode")
-    @Cacheable(value = "user", key = "methodName + '::' + #p0")
+    //@Cacheable(value = "user", key = "methodName + '::' + #p0")
     public UserVO findUserByUserCode(@RequestParam @ApiParam(value = "用户编码") String userCode) {
 
         //UserVO userVO1 = userMapper.annotationFindUserByUserCode(userCode);

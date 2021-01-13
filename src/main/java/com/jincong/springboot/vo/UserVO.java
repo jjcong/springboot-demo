@@ -20,6 +20,7 @@ import java.util.List;
 public class UserVO implements Serializable {
 
     private static final long serialVersionUID = 7015590617564929735L;
+
     private Integer id;
 
     private String userCode;

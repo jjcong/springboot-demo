@@ -13,7 +13,13 @@
         <result property="password" column="password" jdbcType="VARCHAR"/>
         <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
         <result property="lastUpdateTime" column="last_update_time" jdbcType="TIMESTAMP"/>
-        <association property="roleList" resultMap="RoleResult"/>
+        <collection property="roleList" ofType="com.jincong.springboot.vo.RoleVO">
+            <result property="roleId" column="roleId" jdbcType="INTEGER"/>
+            <result property="roleName" column="role_name" jdbcType="VARCHAR"/>
+            <!--   此处取从表中的关联字段，不能直接去外层的关联字段         -->
+            <result property="userCode" column="userCode1" jdbcType="VARCHAR"/>
+            <result property="remark" column="remark" jdbcType="VARCHAR"/>
+        </collection>
     </resultMap>
 
 
@@ -21,9 +27,8 @@
         <id property="id" column="roleId"/>
         <result property="roleId" column="role_id" jdbcType="INTEGER"/>
         <result property="roleName" column="role_name" jdbcType="VARCHAR"/>
-        <result property="userCode" column="user_code" jdbcType="VARCHAR"/>
+        <result property="userCode" column="userCode1" jdbcType="VARCHAR"/>
         <result property="remark" column="remark" jdbcType="VARCHAR"/>
-        <!--        <association property="userVO"  jdbcType="com.jincong.springboot.vo.UserVO" resultMap="UserResult" />-->
     </resultMap>
     <!-- 查询用户列表 -->
     <select id="findAllUser" resultType="com.jincong.springboot.domain.User">
@@ -43,17 +48,16 @@
 
     <select id="findUserByUserCode" resultMap="UserResult">
         select
-        u.id,
+        u.id id,
         u.user_code,
         u.user_name,
         u.password,
         u.create_time,
         u.last_update_time,
         r.id roleId,
-        r.role_id,
-        r.role_name,
-        r.remark
-
+        <!-- 此处必须重命名userCode，保证不与主表重名，否则当匹配不到角色时，会产生一条只有userCode数据 -->
+        r.user_code as userCode1,
+        r.role_name
         from
         t_user u
         left join t_role r on u.user_code = r.user_code
