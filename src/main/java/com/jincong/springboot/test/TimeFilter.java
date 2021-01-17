@@ -32,7 +32,7 @@ public class TimeFilter implements Filter {
 
         LOGGER.info("过滤器[doFilter] start to doFiler, url={}", gerUrlFrom(servletRequest));
         StopWatch stopWatch = new StopWatch();
-        stopWatch.start("doFilter conusumer time");
+        stopWatch.start("doFilter consumer time");
         // 真正的处理逻辑
         filterChain.doFilter(servletRequest, servletResponse);
         stopWatch.stop();
@@ -49,7 +49,7 @@ public class TimeFilter implements Filter {
 
     private String gerUrlFrom(ServletRequest request) {
         if (request instanceof HttpServletRequest) {
-            return ((HttpServletRequest) request).getRequestURI().toString();
+            return ((HttpServletRequest) request).getRequestURI();
         }
         return "";
     }

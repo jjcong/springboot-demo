@@ -86,11 +86,23 @@ public class UserController {
     private static final Logger LOGGER = LoggerFactory.getLogger(UserController.class);
 
     @ApiOperation(value = "全量获取用户列表")
-    @Cacheable(value = "user", key = "methodName")
+    //@Cacheable(value = "user", key = "methodName")
     @RequestMapping(value = "/findAllUser", method = RequestMethod.GET)
     public BaseResult findAllUser() {
 
         List<User> userList = userService.findAllUser();
+
+        String str = null;
+        System.out.println(str.length());
+
+
+        List<User> distinctUser = userList.stream()
+                .collect(Collectors.collectingAndThen(
+                        Collectors.toCollection(
+                                () -> new TreeSet<>(Comparator.comparing(o -> o.getUserName() + o.getUserCode()))),
+                        ArrayList::new));
+
+
         userList.stream().collect(Collectors.toMap(User::getUserCode, Function.identity(), (former, latter) -> latter));
 
 //        userList = new ArrayList<>();
@@ -126,7 +138,7 @@ public class UserController {
     @ApiOperation(value = "根据用户名编号获取用户列表")
     @GetMapping(value = "/findUserByUserCode")
     //@Cacheable(value = "user", key = "methodName + '::' + #p0")
-    public UserVO findUserByUserCode(@RequestParam @ApiParam(value = "用户编码") String userCode) {
+    public UserVO findUserByUserCode(@RequestParam(value = "userCode", defaultValue = "1", required = false) @ApiParam(value = "用户编码") String userCode) {
 
         //UserVO userVO1 = userMapper.annotationFindUserByUserCode(userCode);
         //System.out.println(userVO1);
@@ -135,11 +147,11 @@ public class UserController {
 
     @ApiOperation(value = "根据用户Id称获取用户信息")
     @GetMapping("/findUser/{code}")
-    public BaseResult findUserById(@PathVariable(value = "code") @ApiParam(value = "用户id") Integer id) {
+    public BaseResult findUserById(@PathVariable @ApiParam(value = "用户id") Integer code) {
         //匹配/findUser/{id]的restful风格 url
         //如果希望自动匹配，则必须保证url中的参数名称与Controller方法中的参数保持一致，
         //否则，需要手动设置value保证参数一致
-        return new BaseResult<>(userService.findUserById(id));
+        return new BaseResult<>(userService.findUserById(code));
     }
 
     @GetMapping("/findUser")
@@ -166,6 +178,7 @@ public class UserController {
 
     @PostMapping("/listUserByCondition")
     public List<User> listUserByCondition(@RequestBody User userVO) {
+
         return userService.listUserByCondition(userVO);
     }
 
@@ -272,15 +285,14 @@ public class UserController {
     }
 
 
-
     @RequestMapping("/testTransaction")
 
     public BaseResult testTransaction() throws Exception {
 
         HttpComponentsClientHttpRequestFactory httpRequestFactory = new HttpComponentsClientHttpRequestFactory();
-        httpRequestFactory.setConnectionRequestTimeout(10*1000);
-        httpRequestFactory.setConnectTimeout(10*1000);
-        httpRequestFactory.setReadTimeout(10*1000);
+        httpRequestFactory.setConnectionRequestTimeout(10 * 1000);
+        httpRequestFactory.setConnectTimeout(10 * 1000);
+        httpRequestFactory.setReadTimeout(10 * 1000);
 
 
 
@@ -296,11 +308,12 @@ public class UserController {
 
     /**
      * 导出百万数据性能测试
+     *
      * @return
      */
     @GetMapping("/export")
-    public BaseResult export(@RequestParam(name = "startTime")  DateTime startTime,
-                             @RequestParam(name = "endTime")  DateTime endTime,  HttpServletResponse response) throws Exception{
+    public BaseResult export(@RequestParam(name = "startTime") DateTime startTime,
+                             @RequestParam(name = "endTime") DateTime endTime, HttpServletResponse response) throws Exception {
 
 
         long start = System.currentTimeMillis();
@@ -322,7 +335,7 @@ public class UserController {
         long lastBatchMaxId = 0L;
         int limit = 500;
 
-        for(;;) {
+        for (; ; ) {
             List<OrderDTO> orderList = orderService.listOrdersByScrollingPagination(lastBatchMaxId, limit, startTime, endTime);
             if (CollectionUtil.isEmpty(orderList)) {
                 break;

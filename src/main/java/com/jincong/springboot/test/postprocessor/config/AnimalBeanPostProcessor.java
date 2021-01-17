@@ -18,7 +18,7 @@ public class AnimalBeanPostProcessor implements BeanPostProcessor {
 
     @Override
     public Object postProcessBeforeInitialization(Object bean, String beanName)  throws BeansException {
-        System.out.println("拦截到Bean的初始化之前：" + bean);
+        //System.out.println("拦截到Bean的初始化之前：" + bean);
         if (bean instanceof Cat1) {
             return new Dog();
         }
@@ -27,7 +27,7 @@ public class AnimalBeanPostProcessor implements BeanPostProcessor {
 
     @Override
     public Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException {
-        System.out.println("拦截到Bean的初始化之后：" + bean);
+        //System.out.println("拦截到Bean的初始化之后：" + bean);
         return bean;
     }
 }

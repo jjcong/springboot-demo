@@ -118,7 +118,7 @@ public class IUserServiceImpl implements IUserService {
 
         List<Integer> userIds = Arrays.asList(1, 2, 4);
 
-        List<User> result = userMapper.findUserByUserNameAndIds(userName, userIds);
+        //List<User> result = userMapper.findUserByUserNameAndIds(userName, userIds);
 
         Example example = new Example(User.class);
         Example.Criteria criteria = example.createCriteria();

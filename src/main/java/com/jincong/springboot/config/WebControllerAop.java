@@ -106,23 +106,19 @@ public class WebControllerAop {
 
     /**
      * 环绕通知,环绕增强，相当于MethodInterceptor
+     * 注意：此处需要向外抛出异常，让Spring感知到以便后续的异常处理
      *
      * @param pjp
      * @return
      */
     @Around("webLog()")
-    public Object around(ProceedingJoinPoint pjp) {
+    public Object around(ProceedingJoinPoint pjp) throws Throwable {
+        System.out.println("环绕通知开始——————————————————————");
+        Object o = pjp.proceed();
 
-        try {
-            System.out.println("环绕通知开始——————————————————————");
-            Object o = pjp.proceed();
+        System.out.println("环绕通知结束——————————————————————");
+        return o;
 
-            System.out.println("环绕通知结束——————————————————————");
-            return o;
-        } catch (Throwable e) {
-            e.printStackTrace();
-            return null;
-        }
     }
 
 }
