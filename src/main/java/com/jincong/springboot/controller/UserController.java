@@ -372,4 +372,21 @@ public class UserController {
 
         return true;
     }
+
+
+    @RequestMapping("/concurrentTest")
+    public void concurrentTest() {
+
+
+        Integer stock = redisTemplateService.get("stock", Integer.class);
+        if (stock > 0) {
+            boolean flag = redisTemplateService.set("stock", stock - 1);
+            log.info("成功减库存，当前库存【{}】", stock - 1);
+        } else {
+            log.info("库存已经被清空了---------");
+        }
+
+    }
+
+
 }

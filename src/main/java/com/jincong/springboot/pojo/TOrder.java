@@ -1,8 +1,15 @@
 package com.jincong.springboot.pojo;
 
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import javax.persistence.Table;
 import java.math.BigDecimal;
 import java.util.Date;
 
+@Data
+@NoArgsConstructor
+@Table(name = "t_order")
 public class TOrder {
     private Long id;
 

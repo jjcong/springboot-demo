@@ -3,7 +3,6 @@ package com.jincong.springboot.test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
-import org.springframework.util.StopWatch;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
@@ -30,14 +29,14 @@ public class TimeFilter implements Filter {
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
 
-        LOGGER.info("过滤器[doFilter] start to doFiler, url={}", gerUrlFrom(servletRequest));
-        StopWatch stopWatch = new StopWatch();
-        stopWatch.start("doFilter consumer time");
-        // 真正的处理逻辑
+        //LOGGER.info("过滤器[doFilter] start to doFiler, url={}", gerUrlFrom(servletRequest));
+        //StopWatch stopWatch = new StopWatch();
+        //stopWatch.start("doFilter consumer time");
+        //// 真正的处理逻辑
         filterChain.doFilter(servletRequest, servletResponse);
-        stopWatch.stop();
-        stopWatch.prettyPrint();
-        LOGGER.info("过滤器[doFilter] end to doFilter");
+        //stopWatch.stop();
+        //stopWatch.prettyPrint();
+        //LOGGER.info("过滤器[doFilter] end to doFilter");
 
     }
 

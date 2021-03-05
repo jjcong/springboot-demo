@@ -129,4 +129,23 @@ public class OrderController {
         return new BaseResult<>(goodsCategories, "获取商品分类树");
     }
 
+
+    @ApiOperation(value = "获取商品分类树")
+    @GetMapping(value = "/getStockByDB")
+    public BaseResult getStockByDB() {
+        int id = 1;
+        int reamingStock = orderService.getStockFromDB(id);
+        log.info("商品Id: [{}] 剩余库存为: [{}]", id, reamingStock);
+
+        return new BaseResult<>(reamingStock, "获取商品分类树");
+    }
+
+    @ApiOperation(value = "获取商品分类树")
+    @GetMapping(value = "/getStockByRedis")
+    public BaseResult getStockByRedis() {
+        int id = 1;
+        int reamingStock = orderService.getStockFromRedis(id);
+
+        return new BaseResult<>(reamingStock, "获取商品分类树");
+    }
 }

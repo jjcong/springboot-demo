@@ -12,4 +12,10 @@ public interface IOrderService {
 
 
     int insertOrder(TOrder order);
+
+    int getStockFromDB(Integer id);
+
+    int getStockFromRedis(Integer id);
+
+    boolean writeRedis(String key, Integer value);
 }

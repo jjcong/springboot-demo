@@ -28,7 +28,7 @@ public class WebControllerAop {
     /**
      * 指定切入点，匹配 com.jincong.springboot.controller包及其子包下的所有类的所有方法
      */
-    @Pointcut("execution(public * com.jincong.springboot.controller.*.*(..))")
+    @Pointcut("execution(public * com.jincong.springboot.controller1.*.*(..))")
     public void webLog() {
     }
 
