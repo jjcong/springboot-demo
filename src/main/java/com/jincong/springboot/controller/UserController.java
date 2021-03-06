@@ -6,6 +6,7 @@ import com.alibaba.excel.ExcelWriter;
 import com.alibaba.excel.support.ExcelTypeEnum;
 import com.alibaba.excel.write.builder.ExcelWriterBuilder;
 import com.alibaba.excel.write.metadata.WriteSheet;
+import com.jincong.springboot.config.MyAnnotation;
 import com.jincong.springboot.domain.User;
 import com.jincong.springboot.mapper.UserMapper;
 import com.jincong.springboot.pojo.OrderDTO;
@@ -87,6 +88,7 @@ public class UserController {
 
     @ApiOperation(value = "全量获取用户列表")
     //@Cacheable(value = "user", key = "methodName")
+    @MyAnnotation()
     @RequestMapping(value = "/findAllUser", method = RequestMethod.GET)
     public BaseResult findAllUser() {
 
