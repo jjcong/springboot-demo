@@ -50,5 +50,12 @@ public class UserVO implements Serializable {
     @JSONField(format = "yyyy-MM-dd HH:mm:ss")
     private Date lastUpdateTime;
 
+    /**
+     * 爱好，DB中多个爱好使用，分割，此处映射为列表
+     */
+    private List<String> hobbies;
+
     private List<RoleVO> roleList;
+
+
 }

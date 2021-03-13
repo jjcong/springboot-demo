@@ -11,6 +11,7 @@
         <result property="phone" column="phone" jdbcType="VARCHAR"/>
         <result property="sex" column="sex" jdbcType="INTEGER"/>
         <result property="password" column="password" jdbcType="VARCHAR"/>
+        <result property="hobbies" column="hobby" jdbcType="VARCHAR"/>
         <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
         <result property="lastUpdateTime" column="last_update_time" jdbcType="TIMESTAMP"/>
         <collection property="roleList" ofType="com.jincong.springboot.vo.RoleVO">
@@ -53,6 +54,7 @@
         u.user_name,
         u.password,
         u.create_time,
+        u.hobby,
         u.last_update_time,
         r.id roleId,
         <!-- 此处必须重命名userCode，保证不与主表重名，否则当匹配不到角色时，会产生一条只有userCode数据 -->

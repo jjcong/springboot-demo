@@ -29,6 +29,8 @@ public class User {
 
     private SexEnum sex;
 
+    private String hobby;
+
     private String remark;
 
     @JSONField(format = "yyyy-MM-dd HH:mm:ss")

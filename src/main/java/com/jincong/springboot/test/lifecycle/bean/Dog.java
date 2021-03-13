@@ -16,7 +16,7 @@ public class Dog {
 
 
     public Dog() {
-        log.info("Dog 构造方法执行了。。。");
+        //log.info("Dog 构造方法执行了。。。");
     }
 
 
@@ -25,15 +25,15 @@ public class Dog {
     }
 
     public void setName(String name) {
-        log.info("setName方法执行了。。。");
+        //log.info("setName方法执行了。。。");
         this.name = name;
     }
 
     public void init() {
-        log.info("{} 被初始化了。。。。。。", name);
+        //log.info("{} 被初始化了。。。。。。", name);
     }
 
     public void destroy() {
-        log.info("{} 被销毁了。。。。。。", name);
+        //log.info("{} 被销毁了。。。。。。", name);
     }
 }

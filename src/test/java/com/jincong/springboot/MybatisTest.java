@@ -12,6 +12,7 @@ import com.jincong.springboot.mapper.UserMapper;
 import com.jincong.springboot.utils.ListUtil;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,12 +21,14 @@ import org.springframework.test.context.junit4.SpringRunner;
 import tk.mybatis.mapper.entity.Example;
 
 import javax.sql.DataSource;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 @SpringBootTest(classes = SpringbootApplication.class)
 @RunWith(SpringRunner.class)
+@Slf4j
 public class MybatisTest {
 
 
@@ -63,6 +66,70 @@ public class MybatisTest {
         List<List<Integer>> result2 = ListUtil.averageList(list, 4);
 
         System.out.println(result2);
+    }
+
+    @Test
+    public void testOriginalConnection() throws SQLException {
+
+        Connection connection = null;
+
+        PreparedStatement statement = null;
+
+        ResultSet resultSet = null;
+
+        try {
+            // 1 加载数据库驱动
+            Class.forName("com.mysql.cj.jdbc.Driver");
+
+            String url = "jdbc:mysql://127.0.0.1:3306/test?useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&useSSL=false&serverTimezone=Asia/Shanghai";
+            String username = "root";
+            String password = "Jincong@163.com";
+
+            // 2 创建连接
+            connection = DriverManager.getConnection(url, username, password);
+
+            // 3 创建statement
+            statement = connection.prepareStatement("SELECT * from t_user where id = ?");
+
+            statement.setInt(1, 25);
+
+            // 4 执行数据库查询
+            resultSet = statement.executeQuery();
+
+            // 5 获取结果集
+            while (resultSet.next()) {
+                int id = resultSet.getInt("id");
+                String userName = resultSet.getString("user_name");
+                log.info("id={}, userName={}", id, userName);
+            }
+
+        } catch (ClassNotFoundException | SQLException e) {
+            e.printStackTrace();
+        } finally {
+            // 6 关闭连接
+            if (resultSet != null) {
+                try {
+                    resultSet.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (statement != null) {
+                try {
+                    statement.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
     }
 
     /**
@@ -126,6 +193,4 @@ public class MybatisTest {
         //执行生成
         new DocumentationExecute(config).execute();
     }
-
-
 }

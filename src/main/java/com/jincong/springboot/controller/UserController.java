@@ -144,7 +144,10 @@ public class UserController {
 
         //UserVO userVO1 = userMapper.annotationFindUserByUserCode(userCode);
         //System.out.println(userVO1);
-        return userService.findUserByUserCode(userCode);
+        UserVO userByUserCode = userService.findUserByUserCode(userCode);
+
+        log.info("结果为： {}", userByUserCode);
+        return userByUserCode;
     }
 
     @ApiOperation(value = "根据用户Id称获取用户信息")
@@ -172,6 +175,7 @@ public class UserController {
         newUser.setUserName(userVO.getUserName());
         newUser.setPassword(userVO.getPassword());
         newUser.setRemark(userVO.getRemark());
+        newUser.setHobby("唱歌,书画");
         newUser.setCreateTime(new Date());
         newUser.setLastUpdateTime(new Date());
 

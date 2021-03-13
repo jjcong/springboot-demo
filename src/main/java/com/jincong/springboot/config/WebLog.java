@@ -61,4 +61,5 @@ public class WebLog {
      * 请求返回的结果
      */
     private Object result;
+
 }

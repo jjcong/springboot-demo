@@ -27,13 +27,13 @@ public class Pen {
 
     @PostConstruct
     public void addInk() {
-        System.out.println("钢笔中已加满墨水。。。");
+        //System.out.println("钢笔中已加满墨水。。。");
         this.ink = 100;
     }
 
     @PreDestroy
     public void outwellInk() {
-        System.out.println("钢笔中的墨水都放干净了。。。");
+        //System.out.println("钢笔中的墨水都放干净了。。。");
         this.ink = 0;
     }
 
