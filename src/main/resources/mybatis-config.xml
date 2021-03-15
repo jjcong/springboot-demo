@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <typeAliases>
+        <typeAlias alias="user" type="com.jincong.springboot.domain.User" />
+    </typeAliases>
+
+    <!-- 类型转换器 -->
+    <typeHandlers>
+        <typeHandler handler="com.jincong.springboot.config.ListTypeHandler"/>
+        <typeHandler handler="com.jincong.springboot.config.SexEnumTypeHandler"/>
+    </typeHandlers>
+    <environments default="development">
+        <environment id="development">
+            <transactionManager type="JDBC" />
+            <dataSource type="POOLED">
+                <property name="driver" value="com.mysql.jdbc.Driver" />
+                <property name="url" value="jdbc:mysql://localhost:3306/test" />
+                <property name="username" value="root" />
+                <property name="password" value="Jincong@163.com" />
+            </dataSource>
+        </environment>
+    </environments>
+    <mappers>
+        <mapper resource="mapper/UserMapper.xml" />
+    </mappers>
+</configuration>

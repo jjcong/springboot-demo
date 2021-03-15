@@ -13,6 +13,13 @@ import com.jincong.springboot.utils.ListUtil;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.ibatis.executor.SimpleExecutor;
+import org.apache.ibatis.mapping.MappedStatement;
+import org.apache.ibatis.session.RowBounds;
+import org.apache.ibatis.session.SqlSessionFactory;
+import org.apache.ibatis.session.SqlSessionFactoryBuilder;
+import org.apache.ibatis.transaction.jdbc.JdbcTransaction;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,6 +44,30 @@ public class MybatisTest {
 
     @Autowired
     private NewUserMapper newUserMapper;
+
+
+    private org.apache.ibatis.session.Configuration configuration;
+
+
+    private Connection connection;
+
+
+    private JdbcTransaction jdbcTransaction;
+
+
+    /**
+     * 数据库连接
+     */
+    private static final String URL = "jdbc:mysql://127.0.0.1:3306/test?useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&useSSL=false&serverTimezone=Asia/Shanghai";
+    /**
+     * 用户名
+     */
+    private static final String USERNAME = "root";
+    /**
+     * 密码
+     */
+    private static final String PASSWORD = "Jincong@163.com";
+
 
 
     @Test
@@ -192,5 +223,37 @@ public class MybatisTest {
                 .produceConfig(processConfig).build();
         //执行生成
         new DocumentationExecute(config).execute();
+    }
+
+
+    @Before
+    public void init() throws SQLException {
+        SqlSessionFactoryBuilder factoryBuilder = new SqlSessionFactoryBuilder();
+        SqlSessionFactory build = factoryBuilder.build(MybatisTest.class.getResourceAsStream("/mybatis-config.xml"));
+
+        configuration = build.getConfiguration();
+
+        connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
+
+        jdbcTransaction = new JdbcTransaction(connection);
+
+    }
+
+
+    @Test
+    public void simpleTest() throws SQLException {
+
+        SimpleExecutor executor = new SimpleExecutor(configuration, jdbcTransaction);
+
+        MappedStatement mappedStatement = configuration.getMappedStatement("com.jincong.springboot.mapper.UserMapper.findAllUser");
+
+        List<Object> objects = executor.doQuery(mappedStatement, 10
+                , RowBounds.DEFAULT, SimpleExecutor.NO_RESULT_HANDLER, mappedStatement.getBoundSql(10));
+
+        executor.doQuery(mappedStatement, 10
+                , RowBounds.DEFAULT, SimpleExecutor.NO_RESULT_HANDLER, mappedStatement.getBoundSql(10));
+        log.info("查询结果： {}", objects);
+
+
     }
 }
