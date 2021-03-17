@@ -10,12 +10,14 @@ import com.jincong.springboot.domain.User;
 import com.jincong.springboot.mapper.NewUserMapper;
 import com.jincong.springboot.mapper.UserMapper;
 import com.jincong.springboot.utils.ListUtil;
+import com.jincong.springboot.vo.UserVO;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.ibatis.executor.SimpleExecutor;
+import org.apache.ibatis.executor.*;
 import org.apache.ibatis.mapping.MappedStatement;
 import org.apache.ibatis.session.RowBounds;
+import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 import org.apache.ibatis.transaction.jdbc.JdbcTransaction;
@@ -53,6 +55,8 @@ public class MybatisTest {
 
 
     private JdbcTransaction jdbcTransaction;
+
+    private SqlSessionFactory factory;
 
 
     /**
@@ -229,9 +233,9 @@ public class MybatisTest {
     @Before
     public void init() throws SQLException {
         SqlSessionFactoryBuilder factoryBuilder = new SqlSessionFactoryBuilder();
-        SqlSessionFactory build = factoryBuilder.build(MybatisTest.class.getResourceAsStream("/mybatis-config.xml"));
+        factory = factoryBuilder.build(MybatisTest.class.getResourceAsStream("/mybatis-config.xml"));
 
-        configuration = build.getConfiguration();
+        configuration = factory.getConfiguration();
 
         connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
 
@@ -240,6 +244,10 @@ public class MybatisTest {
     }
 
 
+    /**
+     * 使用简单执行器，每次执行查询都会进行预编译
+     * @throws SQLException
+     */
     @Test
     public void simpleTest() throws SQLException {
 
@@ -254,6 +262,141 @@ public class MybatisTest {
                 , RowBounds.DEFAULT, SimpleExecutor.NO_RESULT_HANDLER, mappedStatement.getBoundSql(10));
         log.info("查询结果： {}", objects);
 
+    }
+
+    /**
+     * 使用可重复利用执行器，相同的SQL只会预编译一次
+     * @throws SQLException
+     */
+    @Test
+    public void reuseTest() throws SQLException {
+
+          ReuseExecutor executor = new ReuseExecutor(configuration, jdbcTransaction);
+
+        MappedStatement mappedStatement = configuration.getMappedStatement("com.jincong.springboot.mapper.UserMapper.findAllUser");
+
+        List<Object> objects = executor.doQuery(mappedStatement, 10
+                , RowBounds.DEFAULT, SimpleExecutor.NO_RESULT_HANDLER, mappedStatement.getBoundSql(10));
+
+        executor.doQuery(mappedStatement, 10
+                , RowBounds.DEFAULT, SimpleExecutor.NO_RESULT_HANDLER, mappedStatement.getBoundSql(10));
+        log.info("查询结果： {}", objects);
 
     }
+
+    /**
+     * 批处理执行器，只会对修改操作，必须手动刷新才会生效
+     * @throws SQLException
+     */
+    @Test
+    public void batchTest() throws SQLException {
+
+        BatchExecutor executor = new BatchExecutor(configuration, jdbcTransaction);
+
+        MappedStatement mappedStatement = configuration.getMappedStatement("com.jincong.springboot.mapper.UserMapper.findAllUser");
+
+        List<Object> objects = executor.doQuery(mappedStatement, 10
+                , RowBounds.DEFAULT, SimpleExecutor.NO_RESULT_HANDLER, mappedStatement.getBoundSql(10));
+
+        executor.doQuery(mappedStatement, 10
+                , RowBounds.DEFAULT, SimpleExecutor.NO_RESULT_HANDLER, mappedStatement.getBoundSql(10));
+        log.info("查询结果： {}", objects);
+
+    }
+
+
+    /**
+     * 基础执行器，只会对修改操作，必须手动刷新才会生效
+     * @throws SQLException
+     */
+    @Test
+    public void baseTest() throws SQLException {
+
+        Executor executor = new SimpleExecutor(configuration, jdbcTransaction);
+
+        MappedStatement mappedStatement = configuration.getMappedStatement("com.jincong.springboot.mapper.UserMapper.findAllUser");
+
+        executor.query(mappedStatement, 10, RowBounds.DEFAULT, Executor.NO_RESULT_HANDLER);
+        executor.query(mappedStatement, 10, RowBounds.DEFAULT, Executor.NO_RESULT_HANDLER);
+
+        log.info("查询结果： {}", 1);
+
+    }
+
+    /**
+     * 缓存执行器，只会对修改操作，必须手动刷新才会生效
+     * @throws SQLException
+     */
+    @Test
+    public void cacheExecutorTest() throws SQLException {
+
+        Executor executor = new SimpleExecutor(configuration, jdbcTransaction);
+
+        Executor cachingExecutor = new CachingExecutor(executor);
+
+
+        MappedStatement mappedStatement = configuration.getMappedStatement("com.jincong.springboot.mapper.UserMapper.findAllUser");
+
+        cachingExecutor.query(mappedStatement, 10, RowBounds.DEFAULT, Executor.NO_RESULT_HANDLER);
+        cachingExecutor.commit(true);
+        cachingExecutor.query(mappedStatement, 10, RowBounds.DEFAULT, Executor.NO_RESULT_HANDLER);
+
+        log.info("查询结果： {}", 1);
+
+    }
+
+
+    /**
+     * 缓存执行器，只会对修改操作，必须手动刷新才会生效
+     * @throws SQLException
+     */
+    @Test
+    public void sessionTest() throws SQLException {
+
+        SqlSession sqlSession = factory.openSession(true);
+
+        // 降低使用复杂度
+        List<Object> selectList = sqlSession.selectList("com.jincong.springboot.mapper.UserMapper.findAllUser", 10);
+
+
+        log.info("查询结果： {}", selectList);
+
+    }
+
+
+
+    /**
+     * 测试一级缓存
+     * 运行时参数
+     * 1) 相同会话
+     * 2） SQL语句相同，参数相同
+     * 3） 相同的statementid
+     * 4) 分页参数相同
+     *
+     * 操作与配置项
+     * 1） 手动清空缓存（提交、回滚）
+     * 2） 未配置flushCache=true
+     * 3) 未执行update
+     * 4） 缓存作用域不是STATEMENT
+     * @throws SQLException
+     */
+    @Test
+    public void firstCacheTest() throws SQLException {
+
+        SqlSession sqlSession = factory.openSession(true);
+
+        UserMapper mapper = sqlSession.getMapper(UserMapper.class);
+
+        UserVO result = mapper.findUserByUserCode("1");
+        UserVO result1 = mapper.findUserByUserCode("1");
+
+
+
+        log.info("查询结果： {}", result == result1);
+
+    }
+
+
+
+
 }
