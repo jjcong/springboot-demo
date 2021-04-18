@@ -114,11 +114,25 @@
 
 
     <!-- 增加用户 -->
-    <insert id="addUser" parameterType="com.jincong.springboot.domain.User">
+    <insert id="addUser" useGeneratedKeys="true"  keyProperty="id">
 
         INSERT INTO t_user
             (user_code, user_name, password, create_time)
-        values (#{userId}, #{userName}, #{password}, #{createTime})
+        values (#{userCode}, #{userName}, #{password}, #{createTime})
+    </insert>
+
+    <insert id="batchInsertUser" useGeneratedKeys="true" keyProperty="id">
+        insert into t_user
+            (user_code, user_name, password, create_time)
+            values
+        <foreach collection="list" item="item" index="index" separator=",">
+            (
+             #{item.userCode},
+             #{item.userName},
+             #{item.password},
+             #{item.createTime}
+            )
+        </foreach>
     </insert>
 
     <!-- 批量删除用户 -->

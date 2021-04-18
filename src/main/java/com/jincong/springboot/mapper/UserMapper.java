@@ -21,7 +21,17 @@ public interface UserMapper {
 
 
 
+    // 此处无需加@Param注解
     int addUser(User user);
+
+
+    /**
+     * 批量插入用户
+     * 注：此处不能加@Param注解，否则会得不到自动生成的主键
+     * @param userList
+     * @return
+     */
+    int batchInsertUser(List<User> userList);
 
     int delBatchUser(int[] ids);
 
@@ -35,7 +45,7 @@ public interface UserMapper {
      * @param userIds  用户Id
      * @return   用户列表，如果没有则返回空集合
      */
-    List<User> findUserByUserNameAndIds( String userName,List<Integer> userIds);
+    List<User> findUserByUserNameAndIds(String userName,List<Integer> userIds);
 
 
 

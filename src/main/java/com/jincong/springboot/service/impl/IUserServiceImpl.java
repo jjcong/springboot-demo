@@ -1,5 +1,6 @@
 package com.jincong.springboot.service.impl;
 
+import cn.hutool.core.collection.CollectionUtil;
 import com.alibaba.fastjson.JSON;
 import com.jincong.springboot.domain.User;
 import com.jincong.springboot.handler.MyEvent;
@@ -18,7 +19,6 @@ import tk.mybatis.mapper.entity.Example;
 import tk.mybatis.mapper.weekend.Weekend;
 import tk.mybatis.mapper.weekend.WeekendCriteria;
 
-import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import javax.validation.constraints.NotNull;
 import java.util.*;
@@ -38,7 +38,11 @@ public class IUserServiceImpl implements IUserService {
     private ApplicationContext applicationContext;
 
 
-    @PostConstruct
+    /**
+     *  PostConstruct注解使该方法在程序启动时自动运行
+     * @return
+     */
+    //@PostConstruct
     @Override
     public List<User> findAllUser() {
 
@@ -75,13 +79,6 @@ public class IUserServiceImpl implements IUserService {
         List<HouseDTO> houseDTOList = JSON.parseArray(hounseStr, HouseDTO.class);
         List<CatDTO> catDTO = houseDTOList.get(0).getCats();
 
-        catDTO.forEach(System.out::println);
-
-        for (CatDTO cat : catDTO) {
-            System.out.println(cat);
-        }
-        System.out.println(catDTO);
-        System.out.println(houseDTO);
 
         List<String> list1 = Arrays.asList("语文", "数学", "英语", "物理");
         List<String> list2 = Arrays.asList("苹果", "香蕉", "菠萝", "橘子");
@@ -161,9 +158,20 @@ public class IUserServiceImpl implements IUserService {
         //user.setCreateTime(new Date());
         //user.setLastUpdateTime(new Date());
 
+        return userMapper.addUser(user1);
 
-        return newUserMapper.insert(user1);
 
+        //return newUserMapper.insert(user1);
+
+    }
+
+    @Override
+    public int batchInsert(List<User> userList) {
+
+        if (CollectionUtil.isEmpty(userList)) {
+            return -1;
+        }
+        return userMapper.batchInsertUser(userList);
     }
 
     @Override

@@ -170,7 +170,6 @@ public class UserController {
 
     @PostMapping("/addUser")
     public boolean addUser(@Validated @RequestBody QueryUserVO userVO) {
-
         User newUser = new User();
         newUser.setUserName(userVO.getUserName());
         newUser.setPassword(userVO.getPassword());
@@ -179,7 +178,32 @@ public class UserController {
         newUser.setCreateTime(new Date());
         newUser.setLastUpdateTime(new Date());
 
-        return userService.addUser(newUser) > 0;
+        int i = userService.addUser(newUser);
+
+        log.info("User={}", newUser);
+
+        return i > 0;
+    }
+
+    @PostMapping("/batchInsertUser")
+    public boolean batchInsertUser(@Validated @RequestBody QueryUserVO userVO) {
+
+        List<User> toInsertList = new ArrayList<>();
+
+
+
+        for (int i = 0; i < 5; i++) {
+            User user = User.builder().userName(i + "Alice").password(UUID.randomUUID().toString())
+                    .createTime(new Date()).lastUpdateTime(new Date()).build();
+            toInsertList.add(user);
+        }
+
+        userService.batchInsert(toInsertList);
+
+        log.info("userList= {}", toInsertList);
+
+
+        return  true;
     }
 
     @PostMapping("/listUserByCondition")

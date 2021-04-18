@@ -4,6 +4,7 @@ import com.jincong.springboot.domain.User;
 import com.jincong.springboot.mapper.NewUserMapper;
 import com.jincong.springboot.mapper.UserMapper;
 import com.jincong.springboot.utils.ListUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,7 @@ import java.util.List;
 
 @SpringBootTest(classes = SpringbootApplication.class)
 @RunWith(SpringRunner.class)
+@Slf4j
 public class MockTest {
 
 
@@ -81,6 +83,23 @@ public class MockTest {
         }
 
         System.out.println("result = " + result);
+
+    }
+
+    @Test
+    public void testJoiner() {
+
+        List<Integer> tempList = new ArrayList<>();
+        List<Integer> listB = Arrays.asList(1);
+        List<Integer> listC = Arrays.asList(1,2);
+        List<Integer> listD = Arrays.asList(1,2,3);
+
+
+        List<String> strList = Arrays.asList("A", "B", "C");
+
+
+        log.info("strList={}", String.join(",", strList));
+
 
     }
 

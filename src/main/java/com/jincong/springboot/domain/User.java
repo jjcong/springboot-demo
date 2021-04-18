@@ -2,6 +2,8 @@ package com.jincong.springboot.domain;
 
 import com.alibaba.fastjson.annotation.JSONField;
 import com.jincong.springboot.config.SexEnum;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -11,6 +13,8 @@ import java.util.Date;
 @Data
 @NoArgsConstructor
 @Table(name = "t_user")
+@Builder
+@AllArgsConstructor
 public class User {
 
     // @Id表示该字段对应数据库表的主键id

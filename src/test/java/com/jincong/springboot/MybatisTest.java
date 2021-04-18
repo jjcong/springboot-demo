@@ -370,7 +370,7 @@ public class MybatisTest {
      * 运行时参数
      * 1) 相同会话
      * 2） SQL语句相同，参数相同
-     * 3） 相同的statementid
+     * 3） 相同的statementId
      * 4) 分页参数相同
      *
      * 操作与配置项
@@ -390,13 +390,8 @@ public class MybatisTest {
         UserVO result = mapper.findUserByUserCode("1");
         UserVO result1 = mapper.findUserByUserCode("1");
 
-
-
         log.info("查询结果： {}", result == result1);
 
     }
-
-
-
 
 }

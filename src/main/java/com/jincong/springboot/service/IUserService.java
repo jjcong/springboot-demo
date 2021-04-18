@@ -25,6 +25,8 @@ public interface IUserService {
 
     int addUser(User user);
 
+    int batchInsert(List<User> userList);
+
     int delBatchUser(int[] ids);
 
     int updateUser(User user);
