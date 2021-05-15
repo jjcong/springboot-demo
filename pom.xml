@@ -224,6 +224,13 @@
             <artifactId>spring-boot-starter-cache</artifactId>
         </dependency>
 
+        <!-- 引入自定义starter -->
+        <dependency>
+            <groupId>com.jincong</groupId>
+            <artifactId>hello-spring-boot-starter</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+
     </dependencies>
 
 
