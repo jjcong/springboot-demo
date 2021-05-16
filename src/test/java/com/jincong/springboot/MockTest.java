@@ -12,9 +12,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import tk.mybatis.mapper.entity.Example;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 @SpringBootTest(classes = SpringbootApplication.class)
 @RunWith(SpringRunner.class)
@@ -101,6 +99,27 @@ public class MockTest {
         log.info("strList={}", String.join(",", strList));
 
 
+    }
+
+
+    @Test
+    public void testOptional() {
+        User user = null;
+
+        String s = Optional.ofNullable(user)
+                .map(User::getUserName)
+                .orElse("DEFAULT");
+
+        Optional.ofNullable(user).ifPresent(User::getUserName);
+
+
+        User user1 = Optional.ofNullable(user).filter(u -> Objects.equals("Alice", u.getUserName()))
+                .orElseGet(() -> {
+                    User temp = new User();
+                    temp.setUserName("Alice");
+                    return temp;
+                });
+        log.info("result={}", s);
     }
 
 
