@@ -6,6 +6,7 @@ import com.jincong.springboot.result.BaseResult;
 import com.jincong.springboot.service.IUserService;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.support.SendResult;
@@ -54,19 +55,20 @@ public class KafkaController {
         return new BaseResult<>(allUser, "生产成功！！！");
     }
 
-
- /*   @ApiOperation(value = "Kafka消费消息")
+/*
+    @ApiOperation(value = "Kafka消费消息")
     @GetMapping("/consumeMsg")
-    @KafkaListener(topics = "TEST-TOPIC")
+    @KafkaListener(topics = "TEST-TOPIC")*/
     public BaseResult consumeMsg(ConsumerRecord record) {
 
-        log.info("消费者开始消费---------");
+   /*     log.info("消费者开始消费---------");
         log.info("参数为: {}", record);
 
         List list1 = JSONObject.parseObject(String.valueOf(record.value()), List.class);
 
         //List<User> userList = JSON.parseArray(String.valueOf(record.value()), User.class);
 
+        int result = 100 / 0;
 
 
         System.out.println(list1);
@@ -77,10 +79,10 @@ public class KafkaController {
         record.value();
 
 
-        log.info("消费者消费结束---------");
+        log.info("消费者消费结束---------");*/
 
         return new BaseResult();
 
-    }*/
+    }
 
 }

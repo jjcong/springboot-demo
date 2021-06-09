@@ -94,10 +94,6 @@ public class UserController {
 
         List<User> userList = userService.findAllUser();
 
-        String str = null;
-        System.out.println(str.length());
-
-
         List<User> distinctUser = userList.stream()
                 .collect(Collectors.collectingAndThen(
                         Collectors.toCollection(
@@ -107,7 +103,7 @@ public class UserController {
 
         userList.stream().collect(Collectors.toMap(User::getUserCode, Function.identity(), (former, latter) -> latter));
 
-//        userList = new ArrayList<>();
+        //userList = new ArrayList<>();
         Map<String, User> maps = userList.stream()
                 .collect(Collectors.toMap(User::getUserCode, Function.identity(), (o1, o2) -> o2));
         Map<Integer, User> maps1 = userList.stream()
