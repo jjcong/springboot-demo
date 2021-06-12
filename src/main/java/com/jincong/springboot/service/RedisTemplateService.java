@@ -6,6 +6,8 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import java.util.concurrent.TimeUnit;
+
 /**
  * redis服务公共放方法
  *
@@ -31,6 +33,28 @@ public class RedisTemplateService {
 
             stringRedisTemplate.opsForValue().set(key, val);
             return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    public <T> boolean setIfAbsent(String key, T value, long timeout, TimeUnit timeUnit) {
+
+        try {
+
+            //任意类型转换成String
+            String val = beanToString(value);
+
+            if (StringUtils.isEmpty(val)) {
+                return false;
+            }
+            Boolean aBoolean = stringRedisTemplate.opsForValue().setIfAbsent(key, val, timeout, timeUnit);
+            if (aBoolean != null) {
+                return aBoolean;
+            } else {
+                return false;
+            }
+
         } catch (Exception e) {
             return false;
         }

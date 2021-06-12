@@ -21,6 +21,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
@@ -126,7 +127,7 @@ public class UserController {
 
     @ApiOperation(value = "根据用户名称获取用户列表")
     @GetMapping(value = "/findUserByUserName")
-    @Cacheable(value = "user", key = "targetClass + methodName +#p0")
+    @Cacheable(value = "user", key = "targetClass + '::' +  methodName + '::'+ #p0")
     public List<User> findUserByUserName(@RequestParam @ApiParam(value = "用户名称") String userName) {
 
         return userService.findUserByUserName(userName);
@@ -135,7 +136,7 @@ public class UserController {
 
     @ApiOperation(value = "根据用户名编号获取用户列表")
     @GetMapping(value = "/findUserByUserCode")
-    //@Cacheable(value = "user", key = "methodName + '::' + #p0")
+    @CachePut(value = "user", key = "methodName + '::' + #p0", condition = "#result.getSex().equals('1')")
     public UserVO findUserByUserCode(@RequestParam(value = "userCode", defaultValue = "1", required = false) @ApiParam(value = "用户编码") String userCode) {
 
         //UserVO userVO1 = userMapper.annotationFindUserByUserCode(userCode);

@@ -1,6 +1,7 @@
 package com.jincong.springboot.test;
 
 import redis.clients.jedis.Jedis;
+import redis.clients.jedis.params.SetParams;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -23,7 +24,9 @@ public class RedisWithReentrantLock {
     }
 
     private boolean _lock(String key) {
-        return jedis.set(key, "", "nx", "ex", 5L) != null;
+
+         SetParams params = SetParams.setParams().nx().px(5);
+        return jedis.set(key, "", params) != null;
     }
 
     private void _unlock(String key) {
