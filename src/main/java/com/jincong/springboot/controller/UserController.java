@@ -7,6 +7,8 @@ import com.alibaba.excel.support.ExcelTypeEnum;
 import com.alibaba.excel.write.builder.ExcelWriterBuilder;
 import com.alibaba.excel.write.metadata.WriteSheet;
 import com.jincong.springboot.config.MyAnnotation;
+import com.jincong.springboot.config.RedisCacheExpire;
+import com.jincong.springboot.config.TimeType;
 import com.jincong.springboot.domain.User;
 import com.jincong.springboot.mapper.UserMapper;
 import com.jincong.springboot.pojo.OrderDTO;
@@ -130,6 +132,7 @@ public class UserController {
     @ApiOperation(value = "根据用户名称获取用户列表")
     @GetMapping(value = "/findUserByUserName")
     @Cacheable(value = "user", key = "targetClass + '::' +  methodName + '::'+ #p0")
+    @RedisCacheExpire(value = 30L, type = TimeType.SECONDS)
     public List<User> findUserByUserName(@RequestParam @ApiParam(value = "用户名称") String userName) {
 
         return userService.findUserByUserName(userName);

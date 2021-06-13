@@ -89,7 +89,7 @@ public class RedisConfig extends JCacheConfigurerSupport {
                 // 设置键的过期时间,默认不失效
                 .entryTtl(Duration.ofSeconds(60 * 60 * 24))
                 .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(redisTemplate.getValueSerializer()));
-        return new RedisCacheManager(redisCacheWriter, redisCacheConfiguration);
+        return new RedisExpireManager(redisCacheWriter, redisCacheConfiguration);
     }
 
 
