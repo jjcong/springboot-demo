@@ -21,8 +21,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.util.StopWatch;
@@ -136,7 +138,7 @@ public class UserController {
 
     @ApiOperation(value = "根据用户名编号获取用户列表")
     @GetMapping(value = "/findUserByUserCode")
-    @CachePut(value = "user", key = "methodName + '::' + #p0", condition = "#result.getSex().equals('1')")
+    @CachePut(value = {"user", "person"}, key = "methodName + '::' + #p0", condition = "#result.getSex().equals('1')")
     public UserVO findUserByUserCode(@RequestParam(value = "userCode", defaultValue = "1", required = false) @ApiParam(value = "用户编码") String userCode) {
 
         //UserVO userVO1 = userMapper.annotationFindUserByUserCode(userCode);
@@ -149,7 +151,8 @@ public class UserController {
 
     @ApiOperation(value = "根据用户Id称获取用户信息")
     @GetMapping("/findUser/{code}")
-    public BaseResult findUserById(@PathVariable @ApiParam(value = "用户id") Integer code) {
+    @CacheEvict(value = "user", key = "methodName + '::' + #p0")
+    public BaseResult findUserById(@PathVariable @ApiParam(value = "用户编号") Integer code) {
         //匹配/findUser/{id]的restful风格 url
         //如果希望自动匹配，则必须保证url中的参数名称与Controller方法中的参数保持一致，
         //否则，需要手动设置value保证参数一致
@@ -157,6 +160,15 @@ public class UserController {
     }
 
     @GetMapping("/findUser")
+    @Caching (
+            cacheable = {
+                    @Cacheable(value = "user", key = "#id")
+            },
+            put = {
+                    @CachePut(value = "user", key = "#id"),
+                    @CachePut(value = "person", key = "#id")
+            }
+    )
     public BaseResult findUserById1(@RequestParam Integer id) {
         // 匹配/findUser？id=1 风格url，通常用于表单提交
         //如果希望自动匹配，则必须保证url中的参数名称与Controller方法中的参数保持一致，
