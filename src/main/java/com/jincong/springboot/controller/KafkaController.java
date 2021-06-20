@@ -9,7 +9,6 @@ import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.support.SendResult;
 import org.springframework.util.concurrent.ListenableFuture;
@@ -59,7 +58,7 @@ public class KafkaController {
 
     @ApiOperation(value = "Kafka消费消息")
     @GetMapping("/consumeMsg")
-    @KafkaListener(topics = "TEST-TOPIC")
+    //@KafkaListener(topics = "TEST-TOPIC")
     public BaseResult consumeMsg(ConsumerRecord record) {
 
         log.info("消费者开始消费---------");
