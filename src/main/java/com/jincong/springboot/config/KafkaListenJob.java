@@ -31,8 +31,6 @@ public class KafkaListenJob implements Runnable {
                 ConsumerRecords<String, String> records = KafkaConfig.kafkaConsumer.poll(Duration.ofSeconds(1));
                 for (ConsumerRecord<String, String> record : records) {
                     kafkaConsumerListener.listen(record);
-
-
                 }
             }
         } catch (Exception e) {

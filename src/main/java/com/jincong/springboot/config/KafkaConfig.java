@@ -41,6 +41,7 @@ public class KafkaConfig {
 
     @Bean
     public void initConfig() {
+        // kafka开关
         if ("N".equals(myKafkaProperties.getEnable())) {
             return;
         }
@@ -51,11 +52,10 @@ public class KafkaConfig {
         prop.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, myKafkaProperties.getBroker());
         prop.put(ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG, true);
         prop.put(ConsumerConfig.GROUP_ID_CONFIG, myKafkaProperties.getGroupId());
-        //prop.put(ConsumerConfig.CLIENT_ID_CONFIG, myKafkaProperties.getClient());
+        prop.put(ConsumerConfig.CLIENT_ID_CONFIG, myKafkaProperties.getClient());
 
         kafkaConsumer= new KafkaConsumer<>(prop);
         kafkaConsumer.subscribe(Collections.singletonList(myKafkaProperties.getTopic()));
-
         KafkaListenJob kafkaListenJob = new KafkaListenJob(kafkaConsumerListener);
 
         Thread thread = new Thread(kafkaListenJob);
