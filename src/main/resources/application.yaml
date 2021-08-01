@@ -7,6 +7,8 @@ spring:
 
   # 数据库配置
   datasource:
+    # connectionTimeout=3000 连接层超时时间
+    # socketTimeout=5000 应用层连接超时时间
     url: jdbc:mysql://127.0.0.1:3306/test?useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&useSSL=false&serverTimezone=Asia/Shanghai
     username: root
     password: Jincong@163.com
