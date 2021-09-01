@@ -1,7 +1,5 @@
 package com.jincong.springboot.test.lifecycle.bean;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 /**
@@ -13,7 +11,7 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class Cat {
-
+/*
     @Value("miaomiao")
     private String name;
 
@@ -39,5 +37,5 @@ public class Cat {
 
     public void setMaster(Person master) {
         this.master = master;
-    }
+    }*/
 }

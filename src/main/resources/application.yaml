@@ -9,14 +9,14 @@ spring:
   datasource:
     # connectionTimeout=3000 连接层超时时间
     # socketTimeout=5000 应用层连接超时时间
-    url: jdbc:mysql://127.0.0.1:3306/test?useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&useSSL=false&serverTimezone=Asia/Shanghai
+    url: jdbc:mysql://1.117.208.226:3306/test?useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&useSSL=false&serverTimezone=Asia/Shanghai
     username: root
     password: Jincong@163.com
     type: com.alibaba.druid.pool.DruidDataSource
 
   # redis配置
   redis:
-    host: 127.0.0.1
+    host: 1.117.208.226
     port: 6379
     password: jincong
     timeout: 2000
@@ -36,7 +36,7 @@ spring:
 
   # kafka配置
   kafka:
-    bootstrap-servers: localhost:9092
+    bootstrap-servers: 1.117.208.226:9092
     consumer:
       group-id: jincong
       auto-offset-reset: earliest
@@ -62,10 +62,10 @@ jc:
 
 my:
  kafka:
-   broker: localhost:9092
+   broker: 1.117.208.226:9092
    topic: TEST-TOPIC
    groupId: jincong1993
    client: bigger
-   enable: N
+   enable: Y
 
 

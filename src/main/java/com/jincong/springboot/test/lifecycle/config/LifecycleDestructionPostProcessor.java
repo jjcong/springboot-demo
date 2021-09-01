@@ -15,7 +15,7 @@ public class LifecycleDestructionPostProcessor implements DestructionAwareBeanPo
     public void postProcessBeforeDestruction(Object bean, String beanName) throws BeansException {
         if (bean instanceof Cat) {
             Cat cat = (Cat) bean;
-            System.out.println(cat.getName() + "被放走了 ......");
+            //System.out.println(cat.getName() + "被放走了 ......");
         }
     }
 }
