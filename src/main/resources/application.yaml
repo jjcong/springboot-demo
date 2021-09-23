@@ -66,6 +66,6 @@ my:
    topic: TEST-TOPIC
    groupId: jincong1993
    client: bigger
-   enable: Y
+   enable: N
 
 
