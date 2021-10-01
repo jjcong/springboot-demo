@@ -64,6 +64,7 @@ public class UserController {
     @Autowired
     IUserService userService;
 
+
     @Autowired
     RedisTemplateService redisTemplateService;
 
@@ -104,6 +105,7 @@ public class UserController {
                         Collectors.toCollection(
                                 () -> new TreeSet<>(Comparator.comparing(o -> o.getUserName() + o.getUserCode()))),
                         ArrayList::new));
+
 
 
         userList.stream().collect(Collectors.toMap(User::getUserCode, Function.identity(), (former, latter) -> latter));

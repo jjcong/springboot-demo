@@ -12,6 +12,10 @@ import java.util.concurrent.Future;
  */
 public interface IUserService {
 
+    /**
+     * 获取全部用户
+     * @return
+     */
     List<User> findAllUser();
 
     List<User> findUserByUserName(String userName);
