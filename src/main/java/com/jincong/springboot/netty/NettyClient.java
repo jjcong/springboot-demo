@@ -18,6 +18,17 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Slf4j
 public class NettyClient {
+
+    /**
+     * 服务器地址
+     */
+    public static final String INET_HOST = "127.0.0.1";
+
+    /**
+     * 服务器端口号
+     */
+    public static final int INET_PORT = 6668;
+
     public static void main(String[] args) throws InterruptedException {
         // 客户端事件组
         EventLoopGroup group = new NioEventLoopGroup();
@@ -32,7 +43,7 @@ public class NettyClient {
                         }
                     });
             log.info("客户端 就绪 .................");
-            ChannelFuture channelFuture = bootstrap.connect("127.0.0.1", 6668).sync();
+            ChannelFuture channelFuture = bootstrap.connect(INET_HOST, INET_PORT).sync();
             // 监听通道的关闭事件
             channelFuture.channel().closeFuture().sync();
 
