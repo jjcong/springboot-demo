@@ -30,6 +30,7 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter {
     public void channelRead(ChannelHandlerContext ctx, Object msg) {
         log.info("服务器读取线程， channel={}", ctx.channel());
         Channel channel = ctx.channel();
+        // pipeline可以理解为一个责任链模式
         ChannelPipeline pipeline = channel.pipeline();
 
         // 将msg转为ByteBuf。注意，此处时Netty自带的ByteBuf而不是NIO的ByteBuffer

@@ -107,7 +107,6 @@ public class UserController {
                         ArrayList::new));
 
 
-
         userList.stream().collect(Collectors.toMap(User::getUserCode, Function.identity(), (former, latter) -> latter));
 
         //userList = new ArrayList<>();
@@ -117,7 +116,7 @@ public class UserController {
                 .collect(Collectors.toMap(User::getId, Function.identity(), (o1, o2) -> o1, TreeMap::new));
 
 
-//        Map<String, List<User>> userMap = userList.stream().collect(Collectors.groupingBy(User::getSex));
+       // Map<String, List<User>> userMap = userList.stream().collect(Collectors.groupingBy(User::getSex));
         //查询指定姓名的用户
         List<User> resultList = userList.stream().filter(user -> "786张无忌".equalsIgnoreCase(user.getUserName()))
                 .collect(Collectors.toList());
@@ -165,7 +164,7 @@ public class UserController {
     }
 
     @GetMapping("/findUser")
-    @Caching (
+    @Caching(
             cacheable = {
                     @Cacheable(value = "user", key = "#id")
             },
@@ -205,7 +204,6 @@ public class UserController {
         List<User> toInsertList = new ArrayList<>();
 
 
-
         for (int i = 0; i < 5; i++) {
             User user = User.builder().userName(i + "Alice").password(UUID.randomUUID().toString())
                     .createTime(new Date()).lastUpdateTime(new Date()).build();
@@ -217,7 +215,7 @@ public class UserController {
         log.info("userList= {}", toInsertList);
 
 
-        return  true;
+        return true;
     }
 
     @PostMapping("/listUserByCondition")
@@ -340,8 +338,7 @@ public class UserController {
 
 
 
-/*
-        Class accoutServiceClass = Class.forName("com.jincong.springboot.service.impl.AccoutServiceImpl");
+       /* Class accoutServiceClass = Class.forName("com.jincong.springboot.service.impl.AccoutServiceImpl");
 
         AccoutServiceImpl reflectServcie = (AccoutServiceImpl) accoutServiceClass.newInstance();*/
 

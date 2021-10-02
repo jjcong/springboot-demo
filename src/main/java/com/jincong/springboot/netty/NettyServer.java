@@ -34,7 +34,7 @@ public class NettyServer {
             bootstrap.group(bossGroup, workerGroup)
                     // 设置服务器的通道实现
                     .channel(NioServerSocketChannel.class)
-                    // 设置线程队列得到额连接数量
+                    // 设置线程队列得到的连接数量
                     .option(ChannelOption.SO_BACKLOG, 128)
                     // 设置连接状态为长连接
                     .childOption(ChannelOption.SO_KEEPALIVE, true)
@@ -42,7 +42,7 @@ public class NettyServer {
                     .childHandler(new ChannelInitializer<SocketChannel>() {
 
                         @Override
-                        protected void initChannel(SocketChannel socketChannel) throws Exception {
+                        protected void initChannel(SocketChannel socketChannel) {
                             socketChannel.pipeline().addLast(new NettyServerHandler());
                         }
                     });
