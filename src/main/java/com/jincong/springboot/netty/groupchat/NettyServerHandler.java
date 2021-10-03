@@ -1,4 +1,4 @@
-package com.jincong.springboot.netty;
+package com.jincong.springboot.netty.groupchat;
 
 import io.netty.buffer.Unpooled;
 import io.netty.channel.Channel;

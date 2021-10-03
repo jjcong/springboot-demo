@@ -1,4 +1,4 @@
-package com.jincong.springboot.netty;
+package com.jincong.springboot.netty.groupchat;
 
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.ChannelFuture;
@@ -11,8 +11,6 @@ import io.netty.channel.socket.nio.NioSocketChannel;
 import io.netty.handler.codec.string.StringDecoder;
 import io.netty.handler.codec.string.StringEncoder;
 import lombok.extern.slf4j.Slf4j;
-
-import java.util.Scanner;
 
 /**
  * NettyClient
@@ -57,10 +55,16 @@ public class NettyClient {
             log.info("=============== {} 客户端启动 ===============", channelFuture.channel().localAddress());
 
             // 客户端输入内容
-            Scanner scanner = new Scanner(System.in);
+       /*     Scanner scanner = new Scanner(System.in);
             while (scanner.hasNextLine()) {
                 String string = scanner.nextLine();
                 channelFuture.channel().writeAndFlush(string);
+            }*/
+
+
+            // 测试粘包拆包现象
+            for (int i = 0; i < 200; i++) {
+                channelFuture.channel().writeAndFlush("Hello， 中国");
             }
             // 监听通道的关闭事件
             channelFuture.channel().closeFuture().sync();

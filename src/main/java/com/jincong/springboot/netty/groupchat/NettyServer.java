@@ -1,4 +1,4 @@
-package com.jincong.springboot.netty;
+package com.jincong.springboot.netty.groupchat;
 
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
@@ -53,6 +53,7 @@ public class NettyServer {
                         protected void initChannel(SocketChannel socketChannel) {
                             // pipeline相当于一个处理器链，可动态增减handler
                             ChannelPipeline pipeline = socketChannel.pipeline();
+
                             // 解码器
                             pipeline.addLast("decoder", new StringDecoder());
                             // 编码器

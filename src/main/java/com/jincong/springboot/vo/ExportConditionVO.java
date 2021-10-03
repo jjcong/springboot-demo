@@ -4,7 +4,7 @@ import cn.hutool.core.date.DateTime;
 import lombok.Data;
 
 @Data
-public class ExportConditionVO {
+public class  ExportConditionVO {
 
 
     Long lastBatchMaxId;
