@@ -53,8 +53,11 @@ public class NettyServer {
                         protected void initChannel(SocketChannel socketChannel) {
                             // pipeline相当于一个处理器链，可动态增减handler
                             ChannelPipeline pipeline = socketChannel.pipeline();
+                            // 解码器
                             pipeline.addLast("decoder", new StringDecoder());
+                            // 编码器
                             pipeline.addLast("encoder", new StringEncoder());
+                            // 服务端业务处理器
                             pipeline.addLast(new NettyServerHandler());
                         }
                     });

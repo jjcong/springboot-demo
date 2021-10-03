@@ -40,7 +40,7 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter {
         Channel channel = ctx.channel();
         channelGroup.writeAndFlush("【客户端】" + channel.remoteAddress() + "上线了 " + simpleDateFormat.format(new Date()) + "\n");
         channelGroup.add(channel);
-        log.info("客户端 {} 上线了 \n", ctx.channel().remoteAddress());
+        log.info("客户端 {} 上线了 \n", ctx.channel().remoteAddress() );
         System.out.println();
 
         // ctx.fireChannelActive();
