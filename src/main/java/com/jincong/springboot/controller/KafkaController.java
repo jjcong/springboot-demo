@@ -44,13 +44,22 @@ public class KafkaController {
 
         List<User> allUser = userService.findAllUser();
 
-        ListenableFuture<SendResult<String, String>> sendResultListenableFuture = kafkaTemplate.send("TEST-TOPIC", JSON.toJSONString(allUser));
+        allUser.forEach(user -> {
+            ListenableFuture<SendResult<String, String>> sendResultListenableFuture = kafkaTemplate.send("TEST-TOPIC", JSON.toJSONString(user));
+            SendResult<String, String> stringStringSendResult;
+            try {
+                stringStringSendResult = sendResultListenableFuture.get();
+                log.info("成功发送消息，Topic = 【{}】, Partition = 【{}】, offset = 【{}】",
+                        stringStringSendResult.getRecordMetadata().topic(),
+                        stringStringSendResult.getRecordMetadata().partition(),
+                        stringStringSendResult.getRecordMetadata().offset());
+            } catch (InterruptedException | ExecutionException e) {
+                e.printStackTrace();
+            }
 
-        SendResult<String, String> stringStringSendResult = sendResultListenableFuture.get();
-        log.info("成功发送消息，Topic = 【{}】, Partition = 【{}】, offset = 【{}】",
-                stringStringSendResult.getRecordMetadata().topic(),
-                stringStringSendResult.getRecordMetadata().partition(),
-                stringStringSendResult.getRecordMetadata().offset());
+        });
+
+
 
 
         return new BaseResult<>(allUser, "生产成功！！！");
