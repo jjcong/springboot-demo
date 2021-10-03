@@ -4,9 +4,12 @@ import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelOption;
+import io.netty.channel.ChannelPipeline;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
+import io.netty.handler.codec.string.StringDecoder;
+import io.netty.handler.codec.string.StringEncoder;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -19,6 +22,11 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Slf4j
 public class NettyServer {
+
+    /**
+     * 服务器端口号
+     */
+    public static final int INET_PORT = 6668;
 
     public static void main(String[] args) throws InterruptedException {
 
@@ -44,13 +52,17 @@ public class NettyServer {
                         @Override
                         protected void initChannel(SocketChannel socketChannel) {
                             // pipeline相当于一个处理器链，可动态增减handler
-                            socketChannel.pipeline().addLast(new NettyServerHandler());
+                            ChannelPipeline pipeline = socketChannel.pipeline();
+                            pipeline.addLast("decoder", new StringDecoder());
+                            pipeline.addLast("encoder", new StringEncoder());
+                            pipeline.addLast(new NettyServerHandler());
                         }
                     });
 
-            log.info(">>>>>>>>>>>>>>服务器 is  ready <<<<<<<<<<<<<<<<<<<<<<");
+            log.info(">>>>>>>>>>>>>> 服务器 is ready <<<<<<<<<<<<<<<<<<<<<<");
             // 绑定服务器的端口，异步获取结果
-            ChannelFuture future = bootstrap.bind(6668).sync();
+            // sync是等待异步操作的结果，然后才会执行下一步
+            ChannelFuture future = bootstrap.bind(INET_PORT).sync();
 
             // 监听关闭通道事件
             future.channel().closeFuture().sync();
