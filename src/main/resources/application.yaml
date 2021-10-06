@@ -53,9 +53,16 @@ spring:
 
 # mybatis配置
 mybatis:
+#   configuration:
+#     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
   type-aliases-package: com.jincong.springboot.domain
   mapper-locations: classpath:mapper/*.xml
   type-handlers-package: com.jincong.springboot.config
+
+
+logging:
+    level:
+      com.jincong.springboot.mapper: DEBUG
 
 # 自定义注解
 jc:

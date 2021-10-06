@@ -1,5 +1,6 @@
 package com.jincong.springboot.controller;
 
+import com.jincong.springboot.service.impl.CommonServiceImpl;
 import com.jincong.springboot.test.DistributeLockWithRedis;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +35,9 @@ public class DemoController {
 
     @Autowired
     private DistributeLockWithRedis redisLock;
+
+    @Autowired
+    private CommonServiceImpl commonService;
 
 
 
@@ -75,6 +79,13 @@ public class DemoController {
         log.info("最终结果， count= {}", Arrays.toString(count));
 
         return "";
+
+    }
+
+
+    @GetMapping("/testTransaction")
+    public void testTransaction() {
+        commonService.transfer(1001, 1002, 100);
 
     }
 
