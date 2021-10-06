@@ -9,7 +9,8 @@ spring:
   datasource:
     # connectionTimeout=3000 连接层超时时间
     # socketTimeout=5000 应用层连接超时时间
-    url: jdbc:mysql://1.117.208.226:3306/test?useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&useSSL=false&serverTimezone=Asia/Shanghai
+#     url: jdbc:mysql://1.117.208.226:3306/test?useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&useSSL=false&serverTimezone=Asia/Shanghai
+    url: jdbc:mysql://127.0.0.1:3306/test?useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&useSSL=false&serverTimezone=Asia/Shanghai
     username: root
     password: Jincong@163.com
     type: com.alibaba.druid.pool.DruidDataSource
