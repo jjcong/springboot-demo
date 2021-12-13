@@ -100,6 +100,9 @@ public class UserController {
 
         List<User> userList = userService.findAllUser();
 
+        // PartitionUtil.partitionHandle(2, userList, user -> userService.batchInsert(user));
+
+
         List<User> distinctUser = userList.stream()
                 .collect(Collectors.collectingAndThen(
                         Collectors.toCollection(

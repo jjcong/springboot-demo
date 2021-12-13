@@ -47,7 +47,6 @@ public class DemoController {
 
     }
 
-
     @GetMapping("/redis")
     public String redis() {
         final int[] count = {0};

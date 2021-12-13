@@ -131,7 +131,7 @@
              #{item.userCode},
              #{item.userName},
              #{item.password},
-             #{item.createTime}
+             now()
             )
         </foreach>
     </insert>
