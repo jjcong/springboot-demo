@@ -1,8 +1,10 @@
 package com.jincong.springboot;
 
+import com.jincong.springboot.config.SubClassFactory;
 import com.jincong.springboot.domain.User;
 import com.jincong.springboot.mapper.NewUserMapper;
 import com.jincong.springboot.mapper.UserMapper;
+import com.jincong.springboot.service.Parent;
 import com.jincong.springboot.utils.ListUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
@@ -122,5 +124,15 @@ public class MockTest {
         log.info("result={}", s);
     }
 
+
+
+    @Test
+    public void testSubClass() {
+        Parent parent = SubClassFactory.getMap("son");
+        parent.say();
+
+
+
+    }
 
 }
