@@ -50,7 +50,7 @@ spring:
     producer:
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.apache.kafka.common.serialization.StringSerializer
-
+      retries: 0
 
 # mybatis配置
 mybatis:

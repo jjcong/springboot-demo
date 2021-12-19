@@ -229,6 +229,14 @@
         </dependency>
 
 
+        <!-- 引入自定义RPC组件 -->
+        <dependency>
+            <groupId>cn.bugstack.middleware</groupId>
+            <artifactId>rpc-spring-boot-starter</artifactId>
+            <version>1.0.0-SNAPSHOT</version>
+        </dependency>
+
+
         <!-- 加入自定义Properties依赖包 -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
