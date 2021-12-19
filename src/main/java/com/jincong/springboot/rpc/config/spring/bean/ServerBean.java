@@ -1,9 +1,9 @@
 package com.jincong.springboot.rpc.config.spring.bean;
 
-import cn.bugstack.middleware.rpc.config.ServerConfig;
-import cn.bugstack.middleware.rpc.domain.LocalServerInfo;
-import cn.bugstack.middleware.rpc.network.server.ServerSocket;
-import cn.bugstack.middleware.rpc.registry.RedisRegistryCenter;
+import com.jincong.springboot.rpc.config.spring.ServerConfig;
+import com.jincong.springboot.rpc.domain.domain.LocalServerInfo;
+import com.jincong.springboot.rpc.network.server.ServerSocket;
+import com.jincong.springboot.rpc.registry.RedisRegistryCenter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;

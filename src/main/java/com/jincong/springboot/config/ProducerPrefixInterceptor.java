@@ -48,7 +48,7 @@ public class ProducerPrefixInterceptor implements ProducerInterceptor<String, St
 
 
     /**
-     * 消息在应答之前或消息发送失败时执行
+     * 消息在应答之前或消息发送失败时执行, metadata 与metadata 互斥，只会有一个不为null
      * @param metadata
      * @param exception
      */
@@ -57,6 +57,8 @@ public class ProducerPrefixInterceptor implements ProducerInterceptor<String, St
 
         if (Objects.isNull(exception)) {
             sendSuccess++;
+        } else {
+            sendFailure++;
         }
 
     }

@@ -3,6 +3,8 @@ package com.jincong.springboot.config;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
+import org.apache.kafka.common.serialization.StringDeserializer;
+import org.apache.kafka.common.serialization.StringSerializer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -47,8 +49,8 @@ public class KafkaConfig {
         }
 
         Properties prop = new Properties();
-        prop.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, "org.apache.kafka.common.serialization.StringDeserializer");
-        prop.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, "org.apache.kafka.common.serialization.StringDeserializer");
+        prop.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringSerializer.class.getCanonicalName());
+        prop.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class.getCanonicalName());
         prop.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, myKafkaProperties.getBroker());
         prop.put(ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG, true);
         prop.put(ConsumerConfig.GROUP_ID_CONFIG, myKafkaProperties.getGroupId());

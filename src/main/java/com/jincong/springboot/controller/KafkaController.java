@@ -40,7 +40,7 @@ public class KafkaController {
 
     @ApiOperation(value = "Kafka发送消息")
     @GetMapping("/sendMsg")
-    public BaseResult sendMsg() throws ExecutionException, InterruptedException {
+    public BaseResult sendMsg() {
 
         List<User> allUser = userService.findAllUser();
 
