@@ -6,6 +6,7 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -38,6 +39,35 @@ public class RedisTemplateService {
         }
     }
 
+
+
+    public  boolean addZset(String key, String value , Double score) {
+
+        try {
+
+            //任意类型转换成String
+            String val = beanToString(value);
+
+            if (StringUtils.isEmpty(val)) {
+                return false;
+            }
+
+            stringRedisTemplate.opsForZSet().add(key, value, score);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+
+    public Set<String> range(String key, double min, double max) {
+        return stringRedisTemplate.opsForZSet().rangeByScore(key, min, max);
+    }
+
+
+    public Long deleteZset(String key, Object... values) {
+        return stringRedisTemplate.opsForZSet().remove(key, values);
+    }
     public <T> boolean setIfAbsent(String key, T value, long timeout, TimeUnit timeUnit) {
 
         try {

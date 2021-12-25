@@ -44,6 +44,10 @@ spring:
     bootstrap-servers: 1.117.208.226:9092
     consumer:
       group-id: jincong
+      #  当新加入的消费者从队列的何处开始消费
+      #  earliest-从队列头部开始消费
+      #  latest-从队列尾部开始消费
+      #  none-抛异常
       auto-offset-reset: earliest
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
       value-deserializer: org.apache.kafka.common.serialization.StringDeserializer

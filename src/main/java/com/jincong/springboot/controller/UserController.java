@@ -15,6 +15,7 @@ import com.jincong.springboot.pojo.OrderDTO;
 import com.jincong.springboot.pojo.TOrder;
 import com.jincong.springboot.result.BaseResult;
 import com.jincong.springboot.service.*;
+import com.jincong.springboot.test.delaytask.MyZSetTask;
 import com.jincong.springboot.vo.QueryUserVO;
 import com.jincong.springboot.vo.UserVO;
 import io.swagger.annotations.ApiOperation;
@@ -27,7 +28,6 @@ import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.Caching;
-import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.util.StopWatch;
 import org.springframework.util.StringUtils;
@@ -67,9 +67,6 @@ public class UserController {
 
     @Autowired
     RedisTemplateService redisTemplateService;
-
-    @Autowired
-    StringRedisTemplate stringRedisTemplate;
 
     @Autowired
     JobService jobService;
@@ -429,6 +426,22 @@ public class UserController {
         } else {
             log.info("库存已经被清空了---------");
         }
+
+    }
+
+
+
+    @RequestMapping("/testDelayTask")
+    public void testDelayTask() {
+
+        MyZSetTask zSetTask = new MyZSetTask(redisTemplateService);
+        zSetTask.addDelayTasks(5000L);
+        zSetTask.addDelayTasks(10000L);
+        zSetTask.addDelayTasks(15000L);
+        zSetTask.addDelayTasks(20000L);
+        zSetTask.addDelayTasks(25000L);
+        zSetTask.addDelayTasks(30000L);
+        zSetTask.listenDelayLoop();
 
     }
 
