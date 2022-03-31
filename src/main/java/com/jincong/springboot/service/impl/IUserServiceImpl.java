@@ -8,6 +8,9 @@ import com.jincong.springboot.mapper.NewUserMapper;
 import com.jincong.springboot.mapper.UserMapper;
 import com.jincong.springboot.service.IUserService;
 import com.jincong.springboot.vo.*;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.cxf.endpoint.Client;
+import org.apache.cxf.jaxws.endpoint.dynamic.JaxWsDynamicClientFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
@@ -26,6 +29,7 @@ import java.util.concurrent.Future;
 import java.util.stream.Collectors;
 
 @Service("userService1")
+@Slf4j
 public class IUserServiceImpl implements IUserService {
 
     @Autowired
@@ -279,4 +283,26 @@ public class IUserServiceImpl implements IUserService {
     public boolean existData() {
         return false;
     }
+
+    @Override
+    public Object[] webService(String param) {
+
+
+        String methodName = "findUserByUserName";
+        String wsdlUrl = "http://localhost:8080/IUserService?wsdl";
+        //动态调用的客户端工厂类
+        JaxWsDynamicClientFactory factory = JaxWsDynamicClientFactory.newInstance();
+        final Client client = factory.createClient(wsdlUrl);
+        Object[] result = null;
+        try {
+            result = client.invoke(methodName, param);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        log.info("WebService Result: {}", result);
+        return result;
+    }
+
+
 }

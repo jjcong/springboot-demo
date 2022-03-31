@@ -49,4 +49,6 @@ public interface IUserService {
     boolean existData();
 
 
+    Object[] webService(String param);
+
 }

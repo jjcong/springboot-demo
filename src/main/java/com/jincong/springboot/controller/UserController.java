@@ -446,4 +446,15 @@ public class UserController {
     }
 
 
+    @RequestMapping("/testWebService")
+    public BaseResult testDelayTask(@RequestParam("name") String name) {
+
+        Object[] objects = userService.webService(name);
+
+        return new BaseResult<>(objects);
+
+
+    }
+
+
 }
