@@ -127,6 +127,12 @@
             <version>3.5.0</version>
         </dependency>
 
+        <!--spring boot集成quartz-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-quartz</artifactId>
+        </dependency>
+
         <!-- rabbitmq依赖 -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
