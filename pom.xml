@@ -139,6 +139,13 @@
             <artifactId>spring-boot-starter-amqp</artifactId>
         </dependency>
 
+        <!-- 脱敏依赖 -->
+        <dependency>
+            <groupId>com.github.houbb</groupId>
+            <artifactId>sensitive-core</artifactId>
+            <version>0.0.1</version>
+        </dependency>
+
         <dependency>
             <groupId>org.junit.vintage</groupId>
             <artifactId>junit-vintage-engine</artifactId>

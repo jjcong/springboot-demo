@@ -1,6 +1,10 @@
 package com.jincong.springboot.domain;
 
 import com.alibaba.fastjson.annotation.JSONField;
+import com.github.houbb.sensitive.annotation.Sensitive;
+import com.github.houbb.sensitive.core.api.strategory.StrategyCardId;
+import com.github.houbb.sensitive.core.api.strategory.StrategyChineseName;
+import com.github.houbb.sensitive.core.api.strategory.StrategyPassword;
 import com.jincong.springboot.config.SexEnum;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -24,11 +28,15 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "JDBC")
     private Integer id;
 
+
+    @Sensitive(strategy = StrategyCardId.class)
     @Column(name = "user_code")
     private String userCode;
 
+    @Sensitive(strategy = StrategyChineseName.class)
     private String userName;
 
+    @Sensitive(strategy = StrategyPassword.class)
     private String password;
 
     private SexEnum sex;
