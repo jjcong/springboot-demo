@@ -4,6 +4,8 @@ server:
 spring:
   mvc:
     static-path-pattern: /res/**
+  dynamic:
+    true
 
   # 数据库配置
   datasource:

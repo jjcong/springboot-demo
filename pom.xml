@@ -112,7 +112,7 @@
         <dependency>
             <groupId>cn.hutool</groupId>
             <artifactId>hutool-all</artifactId>
-            <version>4.6.1</version>
+            <version>5.7.22</version>
         </dependency>
 
         <!-- cxf Web Service -->
@@ -144,6 +144,19 @@
             <groupId>com.github.houbb</groupId>
             <artifactId>sensitive-core</artifactId>
             <version>0.0.1</version>
+        </dependency>
+
+        <!-- 美团动态线程池依赖 -->
+<!--        <dependency>
+            <groupId>io.github.lyh200</groupId>
+            <artifactId>dynamic-tp-spring-boot-starter-nacos</artifactId>
+            <version>1.0.4</version>
+        </dependency>-->
+
+        <dependency>
+            <groupId>io.seata</groupId>
+            <artifactId>seata-all</artifactId>
+            <version>1.4.0</version>
         </dependency>
 
         <dependency>
