@@ -6,6 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
+import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.*;
 
@@ -32,7 +33,11 @@ public class CompletableFutureTest {
 
 
         //获取用户信息详情
-        allOf();
+        // allOf();
+
+        threadPoolTest();
+
+
 
     }
 
@@ -145,6 +150,61 @@ public class CompletableFutureTest {
         }
         return anInt + "";
     }
+
+
+
+    private static void threadPoolTest() {
+        ExecutorService threadPool1 = new ThreadPoolExecutor(10, 10, 0L, TimeUnit.MILLISECONDS, new ArrayBlockingQueue<>(100));
+        CompletableFuture<String> future1 = CompletableFuture.supplyAsync(() -> {
+            System.out.println("supplyAsync 执行线程：" + Thread.currentThread().getName());
+            //业务操作
+            return "";
+        }, threadPool1);
+//此时，如果future1中的业务操作已经执行完毕并返回，则该thenApply直接由当前main线程执行；否则，将会由执行以上业务操作的threadPool1中的线程执行。
+        future1.thenApply(value -> {
+            System.out.println("thenApply 执行线程：" + Thread.currentThread().getName());
+            return value + "1";
+        });
+//使用ForkJoinPool中的共用线程池CommonPool
+        future1.thenApplyAsync(value -> {
+//do something
+            return value + "1";
+        });
+//使用指定线程池
+        future1.thenApplyAsync(value -> {
+//do something
+            return value + "1";
+        }, threadPool1);
+    }
+
+
+    private String reverse(String str) {
+        if (str == null || str.length() == 0) {
+            return str;
+        }
+        char[] chars = str.toCharArray();
+        int start = 0;
+        int end = chars.length - 1;
+
+        while (start < end) {
+            char c = chars[start];
+            chars[start] = chars[end];
+            chars[end] = c;
+            start++;
+            end--;
+        }
+
+        return Arrays.toString(chars);
+    }
+
+
+
+
+
+
+
+
+
 
 
 }
