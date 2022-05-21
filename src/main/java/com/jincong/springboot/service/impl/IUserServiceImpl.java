@@ -40,6 +40,7 @@ public class IUserServiceImpl implements IUserService {
 
     @Resource
     private ApplicationContext applicationContext;
+    private String remark;
 
 
     /**
@@ -221,7 +222,8 @@ public class IUserServiceImpl implements IUserService {
 
         Example example = new Example(User.class);
         Example.Criteria criteria = example.createCriteria();
-        criteria.andEqualTo("remark", user.getRemark());
+        remark = "remark";
+        criteria.andEqualTo(remark, user.getRemark());
         userWeekend.and(criteria);
 
         return newUserMapper.selectByExample(userWeekend);

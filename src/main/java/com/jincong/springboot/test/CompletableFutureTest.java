@@ -178,11 +178,11 @@ public class CompletableFutureTest {
     }
 
 
-    private String reverse(String str) {
-        if (str == null || str.length() == 0) {
-            return str;
+    private String reverse(String str1) {
+        if (str1 == null || str1.length() == 0) {
+            return str1;
         }
-        char[] chars = str.toCharArray();
+        char[] chars = str1.toCharArray();
         int start = 0;
         int end = chars.length - 1;
 
