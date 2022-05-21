@@ -40,7 +40,6 @@ public class IUserServiceImpl implements IUserService {
 
     @Resource
     private ApplicationContext applicationContext;
-    private String remark;
 
 
     /**
@@ -222,7 +221,7 @@ public class IUserServiceImpl implements IUserService {
 
         Example example = new Example(User.class);
         Example.Criteria criteria = example.createCriteria();
-        remark = "remark";
+        String remark = "remark";
         criteria.andEqualTo(remark, user.getRemark());
         userWeekend.and(criteria);
 

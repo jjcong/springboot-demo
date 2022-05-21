@@ -116,7 +116,7 @@ public class UserController {
                 .collect(Collectors.toMap(User::getId, Function.identity(), (o1, o2) -> o1, TreeMap::new));
 
 
-       // Map<String, List<User>> userMap = userList.stream().collect(Collectors.groupingBy(User::getSex));
+       // Map<String, List<User>> userMap = userList.stream().collect(Collectors.groupingBy(Us er::getSex));
         //查询指定姓名的用户
         List<User> resultList = userList.stream().filter(user -> "786张无忌".equalsIgnoreCase(user.getUserName()))
                 .collect(Collectors.toList());
