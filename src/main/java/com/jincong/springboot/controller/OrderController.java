@@ -87,11 +87,9 @@ public class OrderController {
             List<OrderDTO> orderList = orderService.listOrdersByScrollingPagination(lastBatchMaxId, limit, startTime, endTime);
             if (CollectionUtil.isEmpty(orderList)) {
                 break;
-            } else {
-                lastBatchMaxId = orderList.stream().map(OrderDTO::getId).max(Long::compareTo).orElse(Long.MAX_VALUE);
-                writer.write(orderList, writeSheet);
             }
-
+            lastBatchMaxId = orderList.stream().map(OrderDTO::getId).max(Long::compareTo).orElse(Long.MAX_VALUE);
+            writer.write(orderList, writeSheet);
         }
         log.info("导出数据耗时:{} ms,start:{},end:{}", System.currentTimeMillis() - start, startTime, endTime);
 
