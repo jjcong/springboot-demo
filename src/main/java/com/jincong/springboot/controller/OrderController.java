@@ -112,7 +112,7 @@ public class OrderController {
             order.setAmount(new BigDecimal(new Random().nextInt(1000)));
             order.setPaymentTime(new Date());
             order.setOrderStatus((byte) ((byte) i % 3));
-            orderService.insertOrder(order);
+            orderService.insertOrder(order, "we");
         }
 
         log.info("插入耗时:{} ms,start:{},end:{}", System.currentTimeMillis() - start, start);

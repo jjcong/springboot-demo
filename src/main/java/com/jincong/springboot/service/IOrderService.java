@@ -11,7 +11,7 @@ public interface IOrderService {
     List<OrderDTO> listOrdersByScrollingPagination(long lastBatchMaxId, int limit, DateTime startTime, DateTime endTime);
 
 
-    int insertOrder(TOrder order);
+    int insertOrder(TOrder order, String userId);
 
     int getStockFromDB(Integer id);
 
